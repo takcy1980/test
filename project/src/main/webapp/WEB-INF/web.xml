@@ -4,6 +4,18 @@
         <servlet-name>CustomerLoginServlet</servlet-name>
         <servlet-class>com.pse.fotoz.servlets.customers.CustomerLoginServlet</servlet-class>
     </servlet>
+    
+    <filter>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    
     <servlet-mapping>
         <servlet-name>CustomerLoginServlet</servlet-name>
         <url-pattern>/customer/login</url-pattern>
