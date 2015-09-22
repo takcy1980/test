@@ -38,6 +38,8 @@ public class HibernateSession {
         }
     }
     
+    //DIT IS EEN WIJZIGING
+    
     public static HibernateSession getInstance() throws HibernateException {
         if (!instance.isPresent()) {
             instance = Optional.of(new HibernateSession());
