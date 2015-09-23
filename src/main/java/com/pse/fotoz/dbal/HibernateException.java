@@ -4,4 +4,4 @@ package com.pse.fotoz.dbal;
  *
  * @author Robert
  */
-class HibernateException extends Exception {}
+public class HibernateException extends Exception {}

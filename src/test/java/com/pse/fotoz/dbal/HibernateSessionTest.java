@@ -35,9 +35,7 @@ public class HibernateSessionTest {
     }
 
     @Test
-    public void testHibernateSetup() throws HibernateException {
-        final Session session = HibernateSession.getInstance().newSession();
-        
+    public void testHibernateSetup() throws HibernateException {        
         Photographer photographer = new Photographer();
         photographer.setAddress("Molenaar 24");
         photographer.setCity("Eindhoven");
@@ -45,10 +43,7 @@ public class HibernateSessionTest {
         photographer.setName("Mooie Kiekjes Eindhoven");
         photographer.setPhone("040-9573238");
         
-        session.beginTransaction();
-        session.save(photographer);
-        session.getTransaction().commit();
-        session.close();
+        photographer.persist();
     }
     
 }

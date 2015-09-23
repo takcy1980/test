@@ -12,7 +12,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="photographers")
-public class Photographer {
+public class Photographer implements HibernateEntity {
     
     @Id
     @Column(name="id")
