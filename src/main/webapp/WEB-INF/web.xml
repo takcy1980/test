@@ -1,26 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <servlet>
-        <servlet-name>CustomerLoginServlet</servlet-name>
-        <servlet-class>com.pse.fotoz.servlets.customers.CustomerLoginServlet</servlet-class>
-    </servlet>
-    <filter>
-        <filter-name>UrlRewriteFilter</filter-name>
-        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>UrlRewriteFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
-    </filter-mapping>
-    <servlet-mapping>
-        <servlet-name>CustomerLoginServlet</servlet-name>
-        <url-pattern>/customer/login</url-pattern>
-    </servlet-mapping>
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	
+        <!-- Spring Servlet -->    
+        <servlet>
+		<servlet-name>spring-dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring-config.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+        
+        <!-- Regular JSP Servlet -->
+        <servlet>
+                <servlet-name>jsp</servlet-name>
+                <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+        </servlet>
+
+
+        <!-- Map all requests matching /WEB-INF/views/* to the regular JSP Servlet -->
+        <servlet-mapping>
+                <servlet-name>jsp</servlet-name>
+                <url-pattern>/WEB-INF/views/*</url-pattern>
+        </servlet-mapping>
+
+        <!-- 
+            Otherwise:
+            Map all requests matching /app/* to the Spring Servlet
+        -->
+	<servlet-mapping>
+		<servlet-name>spring-dispatcher</servlet-name>
+		<url-pattern>/app/*</url-pattern>
+	</servlet-mapping>
+
+        <!-- 
+            Otherwise:
+            Try to serve request from webapp directory (excluding WEB-INF)
+            Currently this is only the webapp/assets directory
+        -->
 </web-app>
