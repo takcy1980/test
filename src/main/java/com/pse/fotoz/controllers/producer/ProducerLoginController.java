@@ -1,5 +1,6 @@
 package com.pse.fotoz.controllers.producer;
 
+import com.pse.fotoz.properties.LocaleUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +15,7 @@ public class ProducerLoginController{
             ModelAndView mav = new ModelAndView();
             
             mav.setViewName("producer/login/login.twig");
-            
+            mav.addObject("labels", LocaleUtil.getProperties("en"));
             mav.addObject("page", new Object() {
                 public String lang = "en";
             });
@@ -31,6 +32,8 @@ public class ProducerLoginController{
             ModelAndView mav = new ModelAndView();
             
             mav.setViewName("producer/login/login.twig");            
+            
+            mav.addObject("labels", LocaleUtil.getProperties("en"));
             mav.addObject("page", new Object() {
                 public String lang = "en";
             });

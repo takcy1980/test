@@ -1,5 +1,9 @@
 {% extends "common/bootstrap.twig" %}
 
+{% block title %}
+    <title>{{ labels.producer_login_page_title }}</title>
+{% endblock %}
+
 {% block more_css %}
     <link href="/assets/producer/css/login.css" rel="stylesheet">
 {% endblock %}
@@ -11,18 +15,18 @@
     {% endif %}
     <form class="form-signin" action="/app/producer/login" method="post">
         <h2 class="form-signin-heading">
-            Login:
+            {{ labels.producer_login_login_label }}:
         </h2>
         <label for="login_name" class="sr-only">
-            Loginnaam
+            {{ labels.producer_login_loginname_label }}
         </label>
-        <input type="text" id="login_name" name="login_name" class="form-control" placeholder="Loginnaam" required autofocus>
+        <input type="text" id="login_name" name="login_name" class="form-control" placeholder="{{ labels.producer_login_password_label }}" required autofocus>
         <label for="password" class="sr-only">
-            Wachtwoord
+            {{ labels.producer_login_password_label }}
         </label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Wachtwoord" required>
+        <input type="password" id="password" name="password" class="form-control" placeholder="{{ labels.producer_login_login_button }}" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">
-            Login
+            {{ labels.producer_login_login_button }}
         </button>
     </form>
 </div>
