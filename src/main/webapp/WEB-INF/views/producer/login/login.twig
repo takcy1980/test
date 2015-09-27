@@ -1,0 +1,29 @@
+{% extends "common/bootstrap.twig" %}
+
+{% block more_css %}
+    <link href="/assets/producer/css/login.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+    {% if error is not empty %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    <form class="form-signin" action="/app/producer/login" method="post">
+        <h2 class="form-signin-heading">
+            Login:
+        </h2>
+        <label for="login_name" class="sr-only">
+            Loginnaam
+        </label>
+        <input type="text" id="login_name" name="login_name" class="form-control" placeholder="Loginnaam" required autofocus>
+        <label for="password" class="sr-only">
+            Wachtwoord
+        </label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Wachtwoord" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">
+            Login
+        </button>
+    </form>
+</div>
+{% endblock %}

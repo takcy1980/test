@@ -52,6 +52,12 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>4.2.1.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.mitchellbosecke</groupId>
+            <artifactId>pebble-spring3</artifactId>
+            <version> 1.6.0 </version>
+        </dependency>
+
     </dependencies>
 
     <build>

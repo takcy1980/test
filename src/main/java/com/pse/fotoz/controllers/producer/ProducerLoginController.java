@@ -10,7 +10,33 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProducerLoginController{
  
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView doGet(){ 
-		return new ModelAndView("producer/login/login.jsp");
+	public ModelAndView loadLoginScreen() {
+            ModelAndView mav = new ModelAndView();
+            
+            mav.setViewName("producer/login/login.twig");
+            
+            mav.addObject("page", new Object() {
+                public String lang = "en";
+            });
+            
+            return mav;
+	}
+        
+        /*
+        @Issue 
+        not yet implemented
+         */
+        @RequestMapping(method = RequestMethod.POST)
+	public ModelAndView serviceLoginRequest() {
+            ModelAndView mav = new ModelAndView();
+            
+            mav.setViewName("producer/login/login.twig");            
+            mav.addObject("page", new Object() {
+                public String lang = "en";
+            });
+            mav.addObject("error", 
+                    "The login functionality is not yet implemented.");
+            
+            return mav;
 	}
 }
