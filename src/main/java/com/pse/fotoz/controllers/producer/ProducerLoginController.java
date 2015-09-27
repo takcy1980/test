@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/producer/login")
+@RequestMapping("/producer/panel")
 public class ProducerLoginController{
  
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView doGet(){ 
-		return new ModelAndView("producer/login/login.jsp");
+		return new ModelAndView("producer/login/panel.jsp");
 	}
 }

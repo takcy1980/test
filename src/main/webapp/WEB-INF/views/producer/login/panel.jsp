@@ -13,6 +13,11 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Dit is de loginpagina voor de producent.</h1>
+        <h1>Dit is het panel voor de producent.</h1>
+        <c:url var="logoutUrl" value="/j_spring_security_logout"/>
+        <form action="${logoutUrl}" method="post">
+            <input type="submit" value="Log out" />
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
     </body>
 </html>
