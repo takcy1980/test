@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LanguageController{
  
 	@RequestMapping(value = "/{lang}")
-	public String loadLoginScreen(@PathVariable("lang") String lang, 
+	public String setLanguage(@PathVariable("lang") String lang, 
                 HttpServletRequest request) {
             request.getSession().setAttribute("lang", lang);
             
