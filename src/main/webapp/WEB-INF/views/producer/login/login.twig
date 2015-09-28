@@ -1,11 +1,12 @@
 {% extends "common/bootstrap.twig" %}
 
 {% block title %}
-    <title>{{ labels.producer_login_page_title }}</title>
+    {{ labels.producer_login_page_title }}
 {% endblock %}
 
 {% block more_css %}
-    <link href="/assets/producer/css/login.css" rel="stylesheet">
+    <link href="/assets/common/css/default.css" rel="stylesheet"/>
+    <link href="/assets/producer/css/login.css" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
@@ -30,4 +31,7 @@
         </button>
     </form>
 </div>
+            
+{% include "common/snippets/language_bar.twig" %}
+
 {% endblock %}
