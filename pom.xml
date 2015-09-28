@@ -43,21 +43,38 @@
             <version>5.0.1.Final</version>
         </dependency>
         <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>4.2.1.RELEASE</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>4.2.1.RELEASE</version>
         </dependency>
         <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
-                <version>4.2.1.RELEASE</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>4.2.1.RELEASE</version>
         </dependency>
+<<<<<<< HEAD
         <dependency>
             <groupId>com.mitchellbosecke</groupId>
             <artifactId>pebble-spring3</artifactId>
             <version> 1.6.0 </version>
         </dependency>
 
+=======
+        
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>4.0.2.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>4.0.2.RELEASE</version>
+        </dependency>
+        
+>>>>>>> e769753923cb1526900d8742305b0b8550de3df5
     </dependencies>
 
     <build>

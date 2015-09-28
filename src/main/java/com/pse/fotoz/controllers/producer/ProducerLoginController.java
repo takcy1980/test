@@ -6,10 +6,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/producer/login")
+@RequestMapping("/producer/panel")
 public class ProducerLoginController{
  
 	@RequestMapping(method = RequestMethod.GET)
+<<<<<<< HEAD
 	public ModelAndView loadLoginScreen() {
             ModelAndView mav = new ModelAndView();
             
@@ -38,5 +39,9 @@ public class ProducerLoginController{
                     "The login functionality is not yet implemented.");
             
             return mav;
+=======
+	public ModelAndView doGet(){ 
+		return new ModelAndView("producer/login/panel.jsp");
+>>>>>>> e769753923cb1526900d8742305b0b8550de3df5
 	}
 }

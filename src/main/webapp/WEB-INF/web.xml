@@ -17,6 +17,28 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
         
+        <listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/spring-security.xml
+		</param-value>
+	</context-param>
+
+	<!-- Spring Security -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
         <!-- Regular JSP Servlet -->
         <servlet>
                 <servlet-name>jsp</servlet-name>
@@ -29,7 +51,7 @@
                 <servlet-name>jsp</servlet-name>
                 <url-pattern>/WEB-INF/views/*</url-pattern>
         </servlet-mapping>
-
+  
         <!-- 
             Otherwise:
             Map all requests matching /app/* to the Spring Servlet
@@ -38,10 +60,11 @@
 		<servlet-name>spring-dispatcher</servlet-name>
 		<url-pattern>/app/*</url-pattern>
 	</servlet-mapping>
-
+        
         <!-- 
             Otherwise:
             Try to serve request from webapp directory (excluding WEB-INF)
             Currently this is only the webapp/assets directory
         -->
+
 </web-app>
