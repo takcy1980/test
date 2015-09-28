@@ -6,24 +6,106 @@
 
 {% block body %}
     <div class="container">
-    {% if error is not empty %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
-    <form class="form-signin" action="/app/customers/login" method="post">
-        <h2 class="form-signin-heading">
-            Login:
-        </h2>
-        <label for="login_name" class="sr-only">
-            Loginnaam
-        </label>
-        <input type="text" id="login_name" name="login_name" class="form-control" placeholder="Loginnaam" required autofocus>
-        <label for="password" class="sr-only">
-            Wachtwoord
-        </label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Wachtwoord" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">
-            Login
-        </button>
-    </form>
-</div>
+
+
+
+
+        <div id ="signin"
+             {% if error is not empty %}
+                 <p class="error">{{ error }}</p>
+             {% endif %}
+             <form class="form-signin" action="/app/customers/login" method="post">
+                 <h2 class="form-signin-heading">
+                     Login:
+                 </h2>
+                 <label for="login_name" class="sr-only">
+                     Loginnaam
+                 </label>
+                 <input type="text" id="login_name" name="login_name" class="form-control" placeholder="Loginnaam" required autofocus>
+                 <label for="password" class="sr-only">
+                     Wachtwoord
+                 </label>
+                 <input type="password" id="password" name="password" class="form-control" placeholder="Wachtwoord" required>
+                 <button class="btn btn-lg btn-primary btn-block" type="submit">
+                     Login
+                 </button>
+
+                 <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                     Don't have an account! 
+                     <a href="#" onClick="$('#signin').hide();
+                             $('#signup').show()">
+                         Sign Up Here
+                     </a>
+                 </div>
+
+             </form> 
+
+        </div>
+
+
+
+        <div id ="signup" style="display:none">
+
+            <script>
+                $(document).ready(function () {
+                    $('#signUpForm').bootstrapValidator();
+                });
+            </script>
+
+            <form id="signUpForm" class="form-signup"  action="/app/customers/login" method="post">
+                <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#" onclick="$('#signup').hide();
+                        $('#signin').show();">Sign In</a>
+                </div>
+                <h2 class="form-signin-heading">
+                    Registration:
+                </h2>
+                <label for="customer_name" class="sr-only">
+                    Loginnaam
+                </label>
+                <input type="text" id="customer_name" name="customer_name" class="form-control" placeholder="Klantnaam" required autofocus>
+
+                <label for="customer_adress" class="sr-only">
+                    adres
+                </label>
+                <input type="text" id="customer_adress" name="customer_adress" class="form-control" placeholder="Adres" required autofocus>
+
+                <label for="customer_adress" class="sr-only">
+                    Stad
+                </label>
+                <input type="text" id="customer_city" name="customer_city" class="form-control" placeholder="Stad" required autofocus>
+
+                <label for="customer_phone" class="sr-only">
+                    Telefoon
+                </label>
+                <input type="number" id="customer_phone" name="customer_phone" class="form-control" placeholder="Telefoon" required autofocus>
+
+                <label for="customer_email" class="sr-only">
+                    Email
+                </label>
+                <input type="email" id="customer_email" name="customer_email" class="form-control" placeholder="Email" required autofocus>
+
+                <label for="password" class="sr-only">
+                    Wachtwoord
+                </label>
+                <input type="password"  data-toggle="validator" data-minlength="8" id="inputPassword" name="inputPassword" class="form-control" placeholder="Wachtwoord"
+                       data-bv-identical="true" data-bv-identical-field="passwordConfirm" data-bv-identical-message="The password and its confirm are not the same">
+
+                <label for="password" class="sr-only">
+                    Herhaal Wachtwoord
+                </label>
+                <input type="password" id="passwordConfirm" name="passwordConfirm"  class="form-control" placeholder="Herhaal Wachtwoord" 
+                       data-bv-identical="true" data-bv-identical-field="inputPassword" data-bv-identical-message="The password and its confirm are not the same" >
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                    Register
+                </button>
+            </form>
+        </div>
+
+
+
+    </div>
+
+
 {% endblock %}
+

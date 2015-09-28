@@ -13,7 +13,7 @@ public class CustomerLoginController{
 	public ModelAndView doGet(){ 
 		 ModelAndView mav = new ModelAndView();
             
-            mav.setViewName("customers/login/login.twig");
+           mav.setViewName("customers/login/login.twig");
             
             mav.addObject("page", new Object() {
                 public String lang = "en";

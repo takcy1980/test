@@ -1,5 +1,6 @@
 package com.pse.fotoz.dbal;
 
+import com.pse.fotoz.dbal.entities.Customers;
 import com.pse.fotoz.dbal.entities.Photographer;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -42,6 +43,16 @@ public class HibernateSessionTest {
         photographer.setPhone("040-9573238");
         
         photographer.persist();
+        
+        
+        Customers customer = new Customers();
+        customer.setAddress("Dommelstraat 14");
+        customer.setCity("Eindhoven");
+        customer.setEmail("Pietje.Puk@gmail.com");
+        customer.setName("Pietje Puk");
+        customer.setPhone("0612345678");
+        
+        customer.persist();
     }
     
 }
