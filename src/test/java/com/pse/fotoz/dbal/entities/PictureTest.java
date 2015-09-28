@@ -24,7 +24,7 @@ import org.springframework.util.Assert;
  * @author René
  */
 public class PictureTest {
-
+    private Session session;
     private static final Logger log = Logger.getLogger(ClassName.class.getName());
 
     public PictureTest() {
@@ -39,11 +39,13 @@ public class PictureTest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws HibernateException {
+         session = HibernateSession.getInstance().newSession();
     }
 
     @After
     public void tearDown() {
+        session.close();
     }
 
     @Test
@@ -60,7 +62,7 @@ public class PictureTest {
         Shop shop = new Shop();
         shop.setPhotographer(photographer);
         shop.setLogin("winkel1");
-        shop.setPassword("123");
+        shop.setPasswordHash("123");
 
         shop.persist();
 
@@ -87,7 +89,7 @@ public class PictureTest {
         pic2.setCensored(false);
 
         pic2.persist();
-        Session session = HibernateSession.getInstance().newSession();
+       
          //session.beginTransaction();
 
         Shop shopFromDB = (Shop) session.load(Shop.class, shop.getId());
@@ -97,8 +99,7 @@ public class PictureTest {
 
         Picture picFromDB = (Picture) shopFromDB.getPictures().iterator().next();
         log.log(Level.INFO, picFromDB.getName());
-        Assert.isTrue(picFromDB.getName().equals("plaatje1.jpg"));
-  
+        Assert.isTrue(picFromDB.getName().startsWith("plaatje"));
         
     }
 

@@ -5,6 +5,8 @@
  */
 package com.pse.fotoz.dbal.entities;
 
+import com.pse.fotoz.dbal.HibernateException;
+import com.pse.fotoz.dbal.HibernateSession;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -16,35 +18,44 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import com.pse.fotoz.helpers.encryption.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javassist.bytecode.stackmap.TypeData;
+import org.hibernate.Session;
+
 /**
  *
  * @author René
  */
 @Entity
-@Table(name="shops")
-public class Shop implements HibernateEntity{
-   
+@Table(name = "shops")
+public class Shop implements HibernateEntity {
+
+
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Photographer photographer;
-    
+
     @Basic
-    @Column(name="login")
+    @Column(name = "login")
     private String login;
-    
+
     //TODO: hashen wellicht handig
     @Basic
-    @Column(name="password")
-    private String password;
+    @Column(name = "passwordHash")
+    private String passwordHash;
 
-    @OneToMany(mappedBy="shop")
+    @OneToMany(mappedBy = "shop")
     private Set<Picture> pictures;
-    
+
     public int getId() {
         return id;
     }
@@ -52,8 +63,6 @@ public class Shop implements HibernateEntity{
     public void setId(int id) {
         this.id = id;
     }
-
-
 
     public String getLogin() {
         return login;
@@ -63,12 +72,47 @@ public class Shop implements HibernateEntity{
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
+    /**
+     * Sets the password hash value in the database
+     *
+     * @param passwordHash Hash value, do not store a plain password
+     */
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    /**
+     * Sets the password in the database as a hash
+     *
+     * @param password the plain password that will be stored as a hash
+     */
     public void setPassword(String password) {
-        this.password = password;
+        try {
+            this.passwordHash = PasswordHash.createHash(password);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            Logger.getLogger(Shop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    /**
+     * Validates a password 
+     * @param password the password to be verified
+     * @return true if the password matches the stored password
+     */
+    public boolean validatePassword(String password) {
+        boolean returnBool = false;
+        try {
+            if(!passwordHash.isEmpty()){
+               returnBool = PasswordHash.validatePassword(password, passwordHash);
+            }
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            Logger.getLogger(Shop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return returnBool;
     }
 
     public Photographer getPhotographer() {
@@ -82,6 +126,16 @@ public class Shop implements HibernateEntity{
     public Set<Picture> getPictures() {
         return pictures;
     }
-    
-    
+
+    public static Shop getShopByID(int id){
+      Shop returnShop = null;  
+        try {
+            Session session = HibernateSession.getInstance().newSession();
+            returnShop = (Shop)session.load(Shop.class, id);
+        } catch (HibernateException ex) {
+            Logger.getLogger(Shop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      return returnShop;
+    }
 }
+
