@@ -11,6 +11,14 @@ public class CustomerLoginController{
  
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView doGet(){ 
-		return new ModelAndView("customers/login/login.jsp");
+		 ModelAndView mav = new ModelAndView();
+            
+            mav.setViewName("customers/login/login.twig");
+            
+            mav.addObject("page", new Object() {
+                public String lang = "en";
+            });
+            
+            return mav;
 	}
 }
