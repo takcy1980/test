@@ -13,6 +13,10 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Dit is de loginpagina voor de fotografen.</h1>
+        <h1>Dit is de beveiligde pagina voor de fotograaf.</h1>
+        <c:url var="logoutUrl" value="/logout_photograph"/>
+        <form action="${logoutUrl}" method="post">
+            <input type="submit" value="Log out" />
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </body>
 </html>
