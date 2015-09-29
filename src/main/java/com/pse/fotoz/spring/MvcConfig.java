@@ -21,7 +21,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @ComponentScan(basePackages = { 
     "com.pse.fotoz.controllers.producer", 
     "com.pse.fotoz.controllers.customers", 
-    "com.pse.fotoz.controllers.photographers" 
+    "com.pse.fotoz.controllers.photographers",
+    "com.pse.fotoz.controllers.common",
 })
 @EnableWebMvc
 public class MvcConfig extends WebMvcConfigurerAdapter {
@@ -42,7 +43,10 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         Disables template caching, should be removed in a production environment
         */
         engine.setTemplateCache(null);
-        
+        /* @Issue
+        Should be false in a production environment
+        */
+        engine.setStrictVariables(true);
         return engine;
     }
 
