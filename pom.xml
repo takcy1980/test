@@ -66,6 +66,12 @@
             <version>4.0.2.RELEASE</version>
         </dependency>
         
+        <dependency>
+            <groupId>com.mitchellbosecke</groupId>
+            <artifactId>pebble-spring3</artifactId>
+            <version> 1.6.0 </version>
+        </dependency>
+
     </dependencies>
 
     <build>
