@@ -7,7 +7,12 @@ package com.pse.fotoz.dbal.entities;
 
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.HibernateSession;
+import com.pse.fotoz.helpers.encryption.PasswordHash;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,11 +23,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import com.pse.fotoz.helpers.encryption.*;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.hibernate.Session;
 
 /**
@@ -44,7 +44,7 @@ public class Shop implements HibernateEntity {
     private Photographer photographer;
 
     @Basic
-    @Column(name = "login")
+    @Column(name = "login", unique = true)
     private String login;
 
     //TODO: hashen wellicht handig

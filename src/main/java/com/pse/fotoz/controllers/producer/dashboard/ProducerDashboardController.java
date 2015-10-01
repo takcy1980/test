@@ -24,7 +24,7 @@ public class ProducerDashboardController {
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
-            public String uri = "/producer/dashboard"; 
+            public String uri = "/producer/dashboard";
             public String redirect = request.getRequestURL().toString();
         });
         mav.setViewName("producer/dashboard/index.twig");

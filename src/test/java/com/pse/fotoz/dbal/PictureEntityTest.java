@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pse.fotoz.dbal.entities;
+package com.pse.fotoz.dbal;
 
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.HibernateSession;
+import com.pse.fotoz.dbal.entities.Photographer;
+import com.pse.fotoz.dbal.entities.Picture;
+import com.pse.fotoz.dbal.entities.Shop;
 import java.math.BigDecimal;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javassist.bytecode.stackmap.TypeData.ClassName;
 import org.hibernate.Session;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,31 +21,29 @@ import org.springframework.util.Assert;
 
 /**
  *
- * @author René
+ * @author Robert
  */
-public class PictureTest {
-    private Session session;
-    private static final Logger log = Logger.getLogger(ClassName.class.getName());
-
-    public PictureTest() {
+public class PictureEntityTest {
+    private static Session session;
+    
+    public PictureEntityTest() {        
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
     }
-
+    
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass() throws HibernateException {
+        session = HibernateSession.getInstance().newSession();
     }
-
+    
     @Before
-    public void setUp() throws HibernateException {
-         session = HibernateSession.getInstance().newSession();
+    public void setUp() {
     }
-
+    
     @After
     public void tearDown() {
-        session.close();
     }
 
     @Test
@@ -89,8 +87,6 @@ public class PictureTest {
         pic2.setApproved(Picture.Approved.PENDING);
 
         pic2.persist();
-       
-         //session.beginTransaction();
 
         Shop shopFromDB = session.load(Shop.class, shop.getId());
 
@@ -98,9 +94,7 @@ public class PictureTest {
         Assert.isTrue(shopFromDB.getPictures().size() == 2);
 
         Picture picFromDB = (Picture) shopFromDB.getPictures().iterator().next();
-        log.log(Level.INFO, picFromDB.getName());
-        Assert.isTrue(picFromDB.getName().startsWith("plaatje"));
         
+        Assert.isTrue(picFromDB.getName().startsWith("plaatje"));
     }
-
 }
