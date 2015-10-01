@@ -1,6 +1,5 @@
 package com.pse.fotoz.dbal;
 
-import java.io.File;
 import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,10 +12,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
  *
  * @author Robert
  */
-public class HibernateSession {
-    private final static File CONFIG_FILE = 
-            new File("src/main/resources/hibernate/hibernate.cfg.xml");
-    
+public class HibernateSession {    
     private static Optional<HibernateSession> instance = Optional.empty();
     
     private final StandardServiceRegistry registry;
@@ -24,7 +20,7 @@ public class HibernateSession {
     
     private HibernateSession() throws HibernateException {
         this.registry = new StandardServiceRegistryBuilder().
-			configure(CONFIG_FILE).
+			configure().
 			build();
         
         try {
