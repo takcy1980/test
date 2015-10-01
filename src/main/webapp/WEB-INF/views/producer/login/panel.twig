@@ -1,0 +1,21 @@
+{% extends "common/bootstrap.twig" %}
+
+{% block title %}
+    {{ labels.producer_login_page_title }}
+{% endblock %}
+
+{% block more_css %}
+    <link href="/assets/common/css/default.css" rel="stylesheet"/>
+    <link href="/assets/producer/css/login.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        
+        <h1>Dit is de beveiligde producer panel pagina</h1>
+
+    </div>
+            
+{% include "common/snippets/language_bar.twig" %}
+
+{% endblock %}

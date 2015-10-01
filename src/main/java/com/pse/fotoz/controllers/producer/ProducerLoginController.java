@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/producer/login")
+@RequestMapping(value={"/producer/login/login", "/producer/login/panel"})
 public class ProducerLoginController {
  
 	@RequestMapping(method = RequestMethod.GET)
@@ -32,8 +32,10 @@ public class ProducerLoginController {
                         getAttribute("lang").toString();
                 public String redirect = request.getRequestURL().toString();
             });            
-            
-            mav.setViewName("producer/login/login.twig"); 
+           
+            String viewName = request.getRequestURI();
+            viewName = viewName.substring(4) + ".twig";
+            mav.setViewName(viewName); 
             
             return mav;
 	}
@@ -46,7 +48,7 @@ public class ProducerLoginController {
 	public ModelAndView serviceLoginRequest() {
             ModelAndView mav = new ModelAndView();
             
-            mav.setViewName("producer/login/login.twig");            
+            mav.setViewName("producer/login/panel.twig");            
             
             mav.addObject("labels", LocaleUtil.getProperties("en"));
             mav.addObject("page", new Object() {
