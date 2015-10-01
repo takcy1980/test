@@ -62,7 +62,8 @@ public class Picture implements HibernateEntity{
     @Basic
     @Column(name = "censored")
     private boolean censored;
-
+    
+    private boolean URI;
 
     public int getId() {
         return id;
@@ -136,5 +137,8 @@ public class Picture implements HibernateEntity{
         this.censored = censored;
     }
 
-
+    public String getURI() {
+        return "/assets/common/img/" + this.name;
+                
+    }
 }

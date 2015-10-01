@@ -92,8 +92,8 @@ public class PictureTest {
        
          //session.beginTransaction();
 
-        Shop shopFromDB = (Shop) session.load(Shop.class, shop.getId());
-
+       // Shop shopFromDB = (Shop) session.load(Shop.class, shop.getId());
+        Shop shopFromDB = Shop.getShopByID(shop.getId());
         Assert.notNull(shopFromDB.getPictures());
         Assert.isTrue(shopFromDB.getPictures().size() == 2);
 
