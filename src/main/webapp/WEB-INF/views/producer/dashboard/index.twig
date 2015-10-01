@@ -1,0 +1,68 @@
+{% extends "common/bootstrap.twig" %}
+
+{% block title %}
+    {{ labels.producer_dashboard_index_page_title }}
+{% endblock %}
+
+{% block more_css %}
+    <link href="/assets/common/css/default.css" rel="stylesheet"/>
+    <link href="/assets/common/css/bootstrap/sb-admin/sb-admin.css" rel="stylesheet"/>
+    <link href="/assets/common/css/bootstrap/sb-admin/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="/assets/producer/css/dashboard.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/app/producer/dashboard">{{ labels.producer_dashboard_index_page_title }}</a>
+            </div>
+            
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li {% if page.uri equals "/producer/dashboard" %}  class="active" {% endif %} >
+                        <a href="/app/producer/dashboard"><i class="fa fa-fw fa-dashboard"></i> {{ labels.producer_dashboard_index_item_dashboard }}</a>
+                    </li>
+                    <li {% if page.uri equals "/producer/dashboard/submissions" %}  class="active" {% endif %} >
+                        <a href="/app/producer/dashboard/submissions"><i class="fa fa-fw fa-bar-chart-o"></i> {{ labels.producer_dashboard_index_item_submissions }}</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            {{ labels.producer_dashboard_index_item_dashboard }}
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                {{ labels.producer_dashboard_index_body_message }}
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    
+    <div class="spread language-bar-container">
+    {% include "common/snippets/language_bar.twig" %}
+    </div>
+{% endblock %}

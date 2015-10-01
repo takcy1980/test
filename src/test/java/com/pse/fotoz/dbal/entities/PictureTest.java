@@ -74,7 +74,7 @@ public class PictureTest {
         pic1.setDescription("kei mooi");
         pic1.setPrice(new BigDecimal(10.75));
         pic1.setHidden(false);
-        pic1.setCensored(false);
+        pic1.setApproved(Picture.Approved.PENDING);
 
         pic1.persist();
 
@@ -86,13 +86,13 @@ public class PictureTest {
         pic2.setDescription("kei mooi");
         pic2.setPrice(new BigDecimal(10.75));
         pic2.setHidden(false);
-        pic2.setCensored(false);
+        pic2.setApproved(Picture.Approved.PENDING);
 
         pic2.persist();
        
          //session.beginTransaction();
 
-        Shop shopFromDB = (Shop) session.load(Shop.class, shop.getId());
+        Shop shopFromDB = session.load(Shop.class, shop.getId());
 
         Assert.notNull(shopFromDB.getPictures());
         Assert.isTrue(shopFromDB.getPictures().size() == 2);

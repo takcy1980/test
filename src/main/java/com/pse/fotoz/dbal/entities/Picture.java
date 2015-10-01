@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,9 +61,9 @@ public class Picture implements HibernateEntity{
     @Column(name = "hidden")
     private boolean hidden;
 
-    @Basic
-    @Column(name = "censored")
-    private boolean censored;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "approved")
+    private Approved approved;
 
 
     public int getId() {
@@ -128,13 +130,15 @@ public class Picture implements HibernateEntity{
         this.hidden = hidden;
     }
 
-    public boolean isCensored() {
-        return censored;
+    public Approved getApproved() {
+        return approved;
     }
 
-    public void setCensored(boolean censored) {
-        this.censored = censored;
+    public void setApproved(Approved approved) {
+        this.approved = approved;
     }
-
-
+    
+    public static enum Approved {
+        YES, NO, PENDING
+    }
 }
