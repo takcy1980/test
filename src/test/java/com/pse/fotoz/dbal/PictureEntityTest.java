@@ -11,6 +11,7 @@ import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.Shop;
 import java.math.BigDecimal;
+import java.util.Date;
 import org.hibernate.Session;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -68,33 +69,28 @@ public class PictureEntityTest {
         pic1.setShop(shop);
         pic1.setWidth(500);
         pic1.setHeight(400);
-        pic1.setName("plaatje1.jpg");
-        pic1.setDescription("kei mooi");
+        pic1.setFileName("weiland.jpg");
+        pic1.setDescription("Weiland gelegen in Zuidlimburg. Zonnig plaatje "
+                + "met veel vee.");
         pic1.setPrice(new BigDecimal(10.75));
         pic1.setHidden(false);
         pic1.setApproved(Picture.Approved.PENDING);
+        pic1.setSubmissionDate(new Date());
+        pic1.setTitle("Weiland in mei.");
 
         pic1.persist();
 
-        Picture pic2 = new Picture();
-        pic2.setShop(shop);
-        pic2.setWidth(600);
-        pic2.setHeight(400);
-        pic2.setName("plaatje2.jpg");
-        pic2.setDescription("kei mooi");
-        pic2.setPrice(new BigDecimal(10.75));
-        pic2.setHidden(false);
-        pic2.setApproved(Picture.Approved.PENDING);
-
-        pic2.persist();
-
-        Shop shopFromDB = session.load(Shop.class, shop.getId());
+        Shop shopFromDB = HibernateEntityHelper.all(Shop.class).
+                stream().
+                filter(s -> s.getLogin().equals("winkel1")).
+                findAny().
+                get();
 
         Assert.notNull(shopFromDB.getPictures());
-        Assert.isTrue(shopFromDB.getPictures().size() == 2);
+        Assert.isTrue(shopFromDB.getPictures().size() == 1);
 
         Picture picFromDB = (Picture) shopFromDB.getPictures().iterator().next();
         
-        Assert.isTrue(picFromDB.getName().startsWith("plaatje"));
+        Assert.isTrue(picFromDB.getFileName().equals("weiland.jpg"));
     }
 }

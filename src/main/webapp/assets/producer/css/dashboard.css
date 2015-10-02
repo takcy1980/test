@@ -1,1 +1,3 @@
 .language-bar-container {position: fixed; bottom: 0; z-index: 10000;}
+
+.submitted-photos-table td img {width: 100%; max-width: 150px; max-height: 100px;}

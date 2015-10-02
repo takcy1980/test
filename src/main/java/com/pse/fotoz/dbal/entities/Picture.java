@@ -6,6 +6,7 @@
 package com.pse.fotoz.dbal.entities;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -46,9 +49,13 @@ public class Picture implements HibernateEntity{
     private int height;
 
     @Basic
-    @Column(name = "name")
-    private String name;
+    @Column(name = "filename")
+    private String fileName;
 
+    @Basic
+    @Column(name = "title")
+    private String title;
+    
     @Basic
     @Column(name = "description")
     private String description;
@@ -65,6 +72,9 @@ public class Picture implements HibernateEntity{
     @Column(name = "approved")
     private Approved approved;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "submission_date")
+    private Date submissionDate;
 
     public int getId() {
         return id;
@@ -98,12 +108,12 @@ public class Picture implements HibernateEntity{
         this.height = height;
     }
 
-    public String getName() {
-        return name;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getDescription() {
@@ -136,6 +146,22 @@ public class Picture implements HibernateEntity{
 
     public void setApproved(Approved approved) {
         this.approved = approved;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Date getSubmissionDate() {
+        return submissionDate;
+    }
+
+    public void setSubmissionDate(Date submissionDate) {
+        this.submissionDate = submissionDate;
     }
     
     public static enum Approved {

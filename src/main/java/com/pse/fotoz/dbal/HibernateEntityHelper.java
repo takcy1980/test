@@ -1,5 +1,6 @@
 package com.pse.fotoz.dbal;
 
+import com.pse.fotoz.dbal.entities.HibernateEntity;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -12,7 +13,7 @@ import org.hibernate.Session;
  */
 public class HibernateEntityHelper {
     
-    public static <T> List<T> all(Class<T> c) {        
+    public static <T extends HibernateEntity> List<T> all(Class<T> c) {        
         try {
             Session session = HibernateSession.getInstance().newSession();
             return session.createCriteria(c).list();
