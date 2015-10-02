@@ -30,7 +30,10 @@
                         <thead>
                             <tr>
                                 <th>
-                                    {{ labels.producer_dashboard_submissions_table_shop }}
+                                    {{ labels.producer_dashboard_submissions_table_date }}                                    
+                                </th>
+                                <th>
+                                    {{ labels.producer_dashboard_submissions_table_shop }}                                    
                                 </th>
                                 <th>
                                     {{ labels.producer_dashboard_submissions_table_picture }}
@@ -39,24 +42,34 @@
                                     {{ labels.producer_dashboard_submissions_table_title }}
                                 </th>
                                 <th>
-                                    {{ labels.producer_dashboard_submissions_table_date }}
+                                    {{ labels.producer_dashboard_submissions_table_approve_reject }}
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for picture in pictures %}
-                                <tr>                        
+                                <tr>                                    
+                                    <td>
+                                        {{ picture.submissionDate | date("dd-MM-yyyy") }}
+                                    </td>
                                     <td>
                                         {{ picture.shop.photographer.name }}
                                     </td>
                                     <td>
-                                        <img src="/assets/shops/{{ picture.shop.login }}/{{ picture.fileName }}"/>
+                                        <a class="fancybox" href="/assets/shops/{{ picture.shop.login }}/{{ picture.fileName }}">
+                                            <img src="/assets/shops/{{ picture.shop.login }}/{{ picture.fileName }}"/>
+                                        </a>
                                     </td>
                                     <td>
                                         {{ picture.title }}
                                     </td>
                                     <td>
-                                        {{ picture.submissionDate | date("dd-MM-yyyy") }}
+                                        <a class="handler approve-handler inline-block pointer" picture_id="{{ picture.id }}">
+                                            <i class="fa fa-check"></i>
+                                        </a>
+                                        <a class="handler reject-handler inline-block pointer" picture_id="{{ picture.id }}">
+                                            <i class="fa fa-ban"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             {% endfor %}
