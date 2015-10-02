@@ -6,6 +6,7 @@ import com.pse.fotoz.properties.LocaleUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,13 +49,9 @@ public class PhotographersPhotosController {
     
     private  List<Picture> getPictureList(){
         List<Picture> returnList = new ArrayList<>();
-//        for (int i=0; i<5; i++){
-//            Picture pic = new Picture();
-//            pic.setName("dddd");
-//            returnList.add(pic);
-//       
-//    }
         Shop s  = Shop.getShopByID(2);
+        Set<Picture> pics = s.getPictures();
+                
         for(Picture p: s.getPictures()){
             returnList.add(p);
         }

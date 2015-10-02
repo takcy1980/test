@@ -63,7 +63,7 @@ public class Picture implements HibernateEntity{
     @Column(name = "censored")
     private boolean censored;
     
-    private boolean URI;
+
 
     public int getId() {
         return id;
