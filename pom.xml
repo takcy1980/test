@@ -78,8 +78,13 @@
                 <artifactId>json</artifactId>
                 <version>20150729</version>
         </dependency>
-
-
+        
+        <!-- Commons configuration -->
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.8</version>
+        </dependency>
     </dependencies>
 
     <build>
