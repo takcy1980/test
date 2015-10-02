@@ -1,0 +1,12 @@
+.language-bar-container {position: fixed; bottom: 0; z-index: 10000;}
+
+.fancybox-overlay {z-index: 10000 !important;}
+
+.submitted-photos-table td a.fancybox img {width: 100%; max-width: 150px; max-height: 100px;}
+
+.handler .fa-check {font-size: 60px; color: #098D39;}
+.handler .fa-ban {font-size: 20px; color: #961010;}
+.handler.reject-handler {position: relative; left: 40px; bottom: 10px;}
+
+.inline-block {display: inline-block;}
+.pointer {cursor: pointer;}
