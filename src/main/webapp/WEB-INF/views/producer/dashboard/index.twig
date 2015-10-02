@@ -9,6 +9,17 @@
     <link href="/assets/common/css/bootstrap/sb-admin/sb-admin.css" rel="stylesheet"/>
     <link href="/assets/common/css/bootstrap/sb-admin/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="/assets/producer/css/dashboard.css" rel="stylesheet"/>
+    
+    <link rel="stylesheet" href="/assets/common/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+{% endblock %}
+
+{% block more_js %}
+    <script type="text/javascript" src="/assets/common/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+    <script type="text/javascript">
+	$(document).ready(function() {
+		$(".fancybox").fancybox();
+	});
+    </script>
 {% endblock %}
 
 {% block body %}
