@@ -71,7 +71,12 @@
             <artifactId>pebble-spring3</artifactId>
             <version> 1.6.0 </version>
         </dependency>
-
+        <!-- Commons configuration -->
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.8</version>
+        </dependency>
     </dependencies>
 
     <build>
