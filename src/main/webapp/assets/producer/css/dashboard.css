@@ -10,3 +10,5 @@
 
 .inline-block {display: inline-block;}
 .pointer {cursor: pointer;}
+
+.btn-default {background-color: #333; color: #FFF;}
