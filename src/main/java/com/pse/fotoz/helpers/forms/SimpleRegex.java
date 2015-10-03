@@ -1,6 +1,5 @@
 package com.pse.fotoz.helpers.forms;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**

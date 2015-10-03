@@ -1,7 +1,6 @@
 package com.pse.fotoz.helpers.forms;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
-import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Shop;
 import java.text.MessageFormat;
 import java.util.ArrayList;

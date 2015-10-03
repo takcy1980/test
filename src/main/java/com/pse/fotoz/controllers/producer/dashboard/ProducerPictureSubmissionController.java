@@ -7,8 +7,6 @@ import com.pse.fotoz.helpers.forms.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONException;

@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
-import org.apache.commons.configuration.reloading.*;
+import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 
 /**
  *
