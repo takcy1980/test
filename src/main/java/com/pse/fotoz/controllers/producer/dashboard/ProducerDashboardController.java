@@ -8,13 +8,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
+ * Controller handling the display of the main dashboard for producers.
  * @author Robert
  */
 @Controller
 @RequestMapping("/producer/dashboard")
 public class ProducerDashboardController {
 
+    /**
+     * Displays the main dashboard for producers.
+     * @param request
+     * @return 
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView displayDashboard(HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().

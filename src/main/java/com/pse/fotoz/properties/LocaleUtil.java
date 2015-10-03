@@ -7,11 +7,16 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- *
+ * Utility class deriving properties and locale specifications.
  * @author Robert
  */
 public class LocaleUtil {
     
+    /**
+     * 
+     * @param request
+     * @return 
+     */
     public static Map<String, String> getProperties(HttpServletRequest request) 
     {
         try {
@@ -24,6 +29,11 @@ public class LocaleUtil {
         }
     }
     
+    /**
+     * Obtains properties for a given language.
+     * @param lang One of the supported languages "en" or "nl"
+     * @return Map containing key-value pairs as stored in the properties file.
+     */
     public static Map<String, String> getProperties(String lang) {
         
         final String propertiesFile;
@@ -49,6 +59,11 @@ public class LocaleUtil {
                 Collectors.toMap(k -> k, k -> bundle.getString(k)));
     }
     
+    /**
+     * Builds the appropriate Locale from the given language.
+     * @param lang One of the supported languages "en" or "nl"
+     * @return Locale corresponding to the given language.
+     */
     public static Locale getLocale(String lang) {
         switch (lang.toLowerCase()) {
             case "en":

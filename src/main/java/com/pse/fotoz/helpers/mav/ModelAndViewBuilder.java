@@ -6,12 +6,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
+ * Builder class for populating a ModelAndView with recurring basic attributes.
  * @author Robert
  */
 public class ModelAndViewBuilder {
     private final ModelAndView blueprint = new ModelAndView();
     
+    /**
+     * Adds properties to ModelAndView
+     * @param request The HttpServetRequest to determine properties from
+     * @return this
+     */
     public ModelAndViewBuilder withProperties(
             HttpServletRequest request) {
         Map<String, String> labels;
@@ -30,10 +35,18 @@ public class ModelAndViewBuilder {
         return this;
     }
     
+    /**
+     * Returns the built ModelAndView.
+     * @return The result of the building procedure.
+     */
     public ModelAndView build() {
         return blueprint;
     }
     
+    /**
+     * Gives a blank builder.
+     * @return Empty builder.
+     */
     public static ModelAndViewBuilder empty() {
         return new ModelAndViewBuilder();
     }
