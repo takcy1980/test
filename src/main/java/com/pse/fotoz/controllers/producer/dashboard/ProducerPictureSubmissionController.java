@@ -3,7 +3,7 @@ package com.pse.fotoz.controllers.producer.dashboard;
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.Picture;
-import com.pse.fotoz.helpers.ajax.PersistenceFacade;
+import com.pse.fotoz.helpers.forms.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import java.io.IOException;
 import java.util.List;

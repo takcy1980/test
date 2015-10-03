@@ -3,7 +3,9 @@ package com.pse.fotoz.controllers.producer.dashboard;
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.Shop;
-import com.pse.fotoz.helpers.ajax.PersistenceFacade;
+import com.pse.fotoz.helpers.forms.InputValidator;
+import com.pse.fotoz.helpers.forms.InputValidator.ValidationResult;
+import com.pse.fotoz.helpers.forms.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.properties.LocaleUtil;
 import java.util.ArrayList;
@@ -80,15 +82,16 @@ public class ProducerShopsController {
                     build();
         
         try {
-            PersistenceFacade.addShop(login, password, name, address, 
-                    city, email, phone);
+            ValidationResult result = PersistenceFacade.addShop(login, password, 
+                    name, address, city, email, phone, 
+                    LocaleUtil.getProperties(request));
             
-            mav.setViewName("producer/dashboard/shops_new_success.twig");
-        } catch (IllegalArgumentException ex) {
-            errors.add(LocaleUtil.getProperties(request).
-                    get("ERROR_PRODUCER_NEWSHOP_LOGINALREADYEXISTS"));
-            
-            mav.setViewName("producer/dashboard/shops_new.twig");
+            if (result.status() == InputValidator.ValidationStatus.OK) {
+                mav.setViewName("producer/dashboard/shops_new_success.twig");
+            } else {
+                errors.addAll(result.errors());
+                mav.setViewName("producer/dashboard/shops_new.twig");
+            }
         } catch (HibernateException ex) {
             Logger.getLogger(ProducerShopsController.class.getName()).
                     log(Level.SEVERE, null, ex);

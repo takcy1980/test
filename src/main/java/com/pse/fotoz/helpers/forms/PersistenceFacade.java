@@ -1,10 +1,12 @@
-package com.pse.fotoz.helpers.ajax;
+package com.pse.fotoz.helpers.forms;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.Shop;
+import com.pse.fotoz.helpers.forms.InputValidator.ValidationResult;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -40,31 +42,37 @@ public class PersistenceFacade {
         }
     }
     
-    public static void addShop(String login, String password, String name, 
-            String address, String city, String email, String phone) 
-            throws IllegalArgumentException, HibernateException {
+    public static ValidationResult addShop(String login, String password, 
+            String name, String address, String city, String email, 
+            String phone, Map<String, String> properties) 
+            throws HibernateException {
         
-        if (HibernateEntityHelper.find(Shop.class, "login", login).stream().
-                findAny().isPresent()) {
-            throw new IllegalArgumentException("A shop with that login already"
-                    + " exists.");
-        } else {
-            Photographer phtgrpr = new Photographer();
-            Shop shop = new Shop();
-            
-            phtgrpr.setAddress(address);
-            phtgrpr.setCity(city);
-            phtgrpr.setEmail(email);
-            phtgrpr.setName(name);
-            phtgrpr.setPhone(phone);
-            
+        Photographer phtgrpr = new Photographer();
+        Shop shop = new Shop();
+
+        phtgrpr.setAddress(address);
+        phtgrpr.setCity(city);
+        phtgrpr.setEmail(email);
+        phtgrpr.setName(name);
+        phtgrpr.setPhone(phone);
+
+        ValidationResult pResult = new PhotographerValidator(properties).
+                validate(phtgrpr);            
+
+        shop.setLogin(login);
+        shop.setPassword(password);
+
+        ValidationResult sResult = new ShopValidator(properties).
+                validate(shop);
+        
+        ValidationResult composed = pResult.compose(pResult, sResult);
+        
+        if (composed.status() == InputValidator.ValidationStatus.OK) {
             phtgrpr.persist();
-            
-            shop.setLogin(login);
-            shop.setPassword(password);
             shop.setPhotographer(phtgrpr);
-            
             shop.persist();
         }
+
+        return composed;
     }
 }
