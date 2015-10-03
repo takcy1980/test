@@ -13,16 +13,29 @@
         <intercept-url pattern="/app/producer/dashboard**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/app/photographers/shop**" access="hasRole('ROLE_PHOTOGRAPHER')" />
         <intercept-url pattern="/app/customers/shop**" access="hasRole('ROLE_CUSTOMER')" />
-        <logout logout-success-url="/logout"/>
+        <logout logout-url="/logoutuser" logout-success-url="/app/logout"/>
+        <csrf disabled="true"/>
     </http>
     	
     <authentication-manager alias="authenticationManager">
-        <authentication-provider ref="authenticationProvider" />
+        <authentication-provider ref="authenticationProviderCustomers" />
+        <authentication-provider ref="authenticationProviderPhotographers" />
+        <authentication-provider ref="authenticationProviderProducer" />
     </authentication-manager>
         
     <beans:bean 
-        id="authenticationProvider" 
-        class="com.pse.fotoz.helpers.Authentication.LoginProvider">
+        id="authenticationProviderProducer" 
+        class="com.pse.fotoz.helpers.Authentication.LoginProviderProducer">
     </beans:bean> 
+    
+    <beans:bean 
+        id="authenticationProviderPhotographers" 
+        class="com.pse.fotoz.helpers.Authentication.LoginProviderPhotographers">
+    </beans:bean>
+    
+    <beans:bean 
+        id="authenticationProviderCustomers" 
+        class="com.pse.fotoz.helpers.Authentication.LoginProviderCustomers">
+    </beans:bean>  
 
 </beans:beans>

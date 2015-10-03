@@ -13,30 +13,19 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LoginProvider implements AuthenticationProvider {
+public class LoginProviderPhotographers implements AuthenticationProvider {
  
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
-        if (name.equals("admin") && password.equals("system")) {
-            List<GrantedAuthority> grantedAuths = new ArrayList();
-            grantedAuths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            Authentication auth = new UsernamePasswordAuthenticationToken(name, password, grantedAuths);
-            return auth;
-        }
-        else if(name.equals("fotograaf") && password.equals("system")){
+        if (name.equals("fotograaf") && password.equals("fotograaf")) {
             List<GrantedAuthority> grantedAuths = new ArrayList();
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_PHOTOGRAPHER"));
             Authentication auth = new UsernamePasswordAuthenticationToken(name, password, grantedAuths);
             return auth;
         }
-        else if(name.equals("klant") && password.equals("system")){
-            List<GrantedAuthority> grantedAuths = new ArrayList();
-            grantedAuths.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
-            Authentication auth = new UsernamePasswordAuthenticationToken(name, password, grantedAuths);
-            return auth;
-        } else {
+        else {
             return null;
         }
     }

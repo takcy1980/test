@@ -8,12 +8,17 @@ package com.pse.fotoz.dbal;
 import com.pse.fotoz.dbal.entities.Customers;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
+import com.pse.fotoz.dbal.entities.ProducerAccounts;
 import com.pse.fotoz.dbal.entities.Shop;
+import com.pse.fotoz.helpers.encryption.PasswordHash;
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
 import org.hibernate.Session;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -48,6 +53,16 @@ public class PictureEntityTest {
 
     @Test
     public void TestPersistence() throws HibernateException {
+        ProducerAccounts pAccount = new ProducerAccounts();
+        pAccount.setLogin("admin");
+        try{
+            pAccount.setPassword(PasswordHash.createHash("adminpass"));
+        } catch(NoSuchAlgorithmException | InvalidKeySpecException e){
+            fail("wachtwoord niet gehasht");
+        }
+        pAccount.setRole("ROLE_ADMIN");
+        pAccount.persist();
+        
         Customers customer = new Customers();
         customer.setAddress("dorpstraat 1");
         customer.setCity("Tilburg");
