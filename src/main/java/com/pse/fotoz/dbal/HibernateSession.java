@@ -9,7 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 
 /**
- *
+ * Class setting up and providing a session with Hibernate.
  * @author Robert
  */
 public class HibernateSession {    
@@ -18,6 +18,10 @@ public class HibernateSession {
     private final StandardServiceRegistry registry;
     private final SessionFactory sessionFactory;
     
+    /**
+     * Configures a basic Hibernate SessionFactory.
+     * @throws HibernateException 
+     */
     private HibernateSession() throws HibernateException {
         this.registry = new StandardServiceRegistryBuilder().
 			configure().
@@ -34,6 +38,12 @@ public class HibernateSession {
         }
     }
     
+    /**
+     * Returns the singleton instance of this class.
+     * @return Singleton instance of this class
+     * @throws HibernateException if an error occured setting up the Hibernate
+     * session
+     */
     public static HibernateSession getInstance() throws HibernateException {
         if (!instance.isPresent()) {
             instance = Optional.of(new HibernateSession());
@@ -42,6 +52,10 @@ public class HibernateSession {
         return instance.get();
     }
     
+    /**
+     * Starts and returns a new Hibernate session.
+     * @return New Hibernate session.
+     */
     public Session newSession() {
         return sessionFactory.openSession();
     }
