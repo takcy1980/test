@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <general>
+        <urlprefix>/app</urlprefix>
+    </general>
+    <fileupload>
+        <maxfilesizeinkb>10000</maxfilesizeinkb>
+        <maxmultipartsizeinkb>50000</maxmultipartsizeinkb>
+        <extensionwhitelist>jpg,jpeg,png</extensionwhitelist>           
+    </fileupload>
+</config>

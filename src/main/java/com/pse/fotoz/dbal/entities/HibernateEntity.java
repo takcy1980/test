@@ -14,7 +14,7 @@ public interface HibernateEntity {
         final Session session = HibernateSession.getInstance().newSession();
         
         session.beginTransaction();
-        session.save(this);
+        session.saveOrUpdate(this);
         session.getTransaction().commit();
         session.close();
     }
