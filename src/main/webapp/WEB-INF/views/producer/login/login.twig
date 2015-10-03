@@ -29,6 +29,7 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">
             {{ labels.producer_login_login_button }}
         </button>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
 </div>
             
