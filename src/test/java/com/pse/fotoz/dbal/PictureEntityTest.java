@@ -5,6 +5,8 @@
  */
 package com.pse.fotoz.dbal;
 
+import com.pse.fotoz.dbal.entities.Customer_accounts;
+import com.pse.fotoz.dbal.entities.Customers;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.Shop;
@@ -55,6 +57,22 @@ public class PictureEntityTest {
         photographer.setPhone("040-9573238");
 
         photographer.persist();
+        
+        Customers customer = new Customers();
+        customer.setAddress("dommel 24");
+        customer.setCity("Eindhoven");
+        customer.setEmail("info@klant.nl");
+        customer.setName("Pietje");
+        customer.setPhone("040-9573238");
+        
+        customer.persist();
+        
+        Customer_accounts account = new Customer_accounts();
+        account.setCustomer(customer);
+        account.setLogin("tarki");
+        account.setPasswordHash("12345");
+        
+        account.persist();
 
         Shop shop = new Shop();
         shop.setPhotographer(photographer);
