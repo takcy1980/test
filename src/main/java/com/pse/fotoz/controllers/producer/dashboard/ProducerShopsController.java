@@ -19,13 +19,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
+ * Controller handling the display and addition of shops for the producer.
  * @author Robert
  */
 @Controller
 @RequestMapping("/producer/dashboard/shops")
 public class ProducerShopsController {
-
+    
+    /**
+     * Displays all active shops to the producer.
+     * @param request
+     * @return 
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView displayShops(HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -46,6 +51,11 @@ public class ProducerShopsController {
         return mav;
     }
     
+    /**
+     * Displays a form to add new shops to the system to the producer.
+     * @param request
+     * @return 
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/new")
     public ModelAndView provideNewShopForm(HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -63,6 +73,11 @@ public class ProducerShopsController {
         return mav;
     }
     
+    /**
+     * Handles a request to add a new shop to the system by the producer.
+     * @param request
+     * @return 
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/new")
     public ModelAndView handleNewShopForm(HttpServletRequest request) {
         String login = request.getParameter("login");

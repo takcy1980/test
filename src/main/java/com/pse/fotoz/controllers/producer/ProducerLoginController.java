@@ -8,10 +8,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Controller handling the login functionality for the producer.
+ * @author Robert
+ */
 @Controller
 @RequestMapping("/producer/login")
 public class ProducerLoginController {
  
+    /**
+     * Loads the login screen for producers.
+     * @param request
+     * @return 
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView loadLoginScreen(HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -32,6 +41,11 @@ public class ProducerLoginController {
     /*
     @Issue 
     not yet implemented
+     */
+    /**
+     * Services a login request from the client.
+     * NYI
+     * @return 
      */
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView serviceLoginRequest() {

@@ -19,13 +19,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
+ * Controller displaying and handling of picture submissions to the producer.
  * @author Robert
  */
 @Controller
 @RequestMapping("/producer/dashboard/submissions")
 public class ProducerPictureSubmissionController {
 
+    /**
+     * Displays an overview of submitted pictures to the producer.
+     * @param request
+     * @return 
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView displaySubmissions(HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -53,8 +58,14 @@ public class ProducerPictureSubmissionController {
         return mav;
     }
     
+    /**
+     * Handles an ajax call to either approve or reject a submitted picture.
+     * @param request
+     * @return 
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/ajax")
-    public ResponseEntity<String> handleApproveRejectRequest(HttpServletRequest request) {        
+    public ResponseEntity<String> handleApproveRejectRequest(
+            HttpServletRequest request) {        
             JSONObject json;
             
             try {
@@ -69,14 +80,15 @@ public class ProducerPictureSubmissionController {
                         body("corrupt form data");
             }
             
-            
             try {                
                 switch(json.getString("option")) {
                     case "approve":
-                        PersistenceFacade.approvePicture(json.getInt("picture_id"));
+                        PersistenceFacade.approvePicture(
+                                json.getInt("picture_id"));
                         break;
                     case "reject":
-                        PersistenceFacade.rejectPicture(json.getInt("picture_id"));
+                        PersistenceFacade.rejectPicture(
+                                json.getInt("picture_id"));
                         break;
                     default:
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).

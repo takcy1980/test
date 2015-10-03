@@ -10,10 +10,18 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- *
+ * Facade abstracting the handling of common user actions.
  * @author Robert
  */
 public class PersistenceFacade {
+    /**
+     * Approves a specific picture.
+     * @param pictureId The identity of the picture
+     * @throws HibernateException If an error occured attempting to persist the
+     * modified entity
+     * @throws IllegalArgumentException If no picture with given identity 
+     * exists.
+     */
     public static void approvePicture(int pictureId) throws 
             HibernateException, IllegalArgumentException {
         Optional<Picture> picture = 
@@ -28,6 +36,14 @@ public class PersistenceFacade {
         }
     }
     
+    /**
+     * Rejects a specific picture.
+     * @param pictureId The identity of the picture
+     * @throws HibernateException If an error occured attempting to persist the
+     * modified entity
+     * @throws IllegalArgumentException If no picture with given identity 
+     * exists.
+     */
     public static void rejectPicture(int pictureId) throws 
             HibernateException, IllegalArgumentException {
         Optional<Picture> picture = 
@@ -42,6 +58,22 @@ public class PersistenceFacade {
         }
     }
     
+    /**
+     * Adds a new shop to the system.
+     * @param login Login of the shop
+     * @param password Password of the shop
+     * @param name Name of the shop's owner
+     * @param address Address of the shop's owner
+     * @param city City of the shop's owner
+     * @param email Email address of the shop's owner
+     * @param phone Phone number of the shop's owner
+     * @param properties Properties file containing the error messages that can
+     * be generated.
+     * @return ValidationResult that is either OK if no illegal input was 
+     * detected, or NOK if there was.
+     * @throws HibernateException If a persistence error occured regardless 
+     * of a correct input.
+     */
     public static ValidationResult addShop(String login, String password, 
             String name, String address, String city, String email, 
             String phone, Map<String, String> properties) 

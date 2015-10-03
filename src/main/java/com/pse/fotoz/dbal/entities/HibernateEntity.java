@@ -5,11 +5,18 @@ import com.pse.fotoz.dbal.HibernateSession;
 import org.hibernate.Session;
 
 /**
- *
+ * Basic annotation interface for denoting entities that are persisted through
+ * Hibernate.
  * @author Robert
  */
 public interface HibernateEntity {
     
+    /**
+     * Persists this entity.
+     * Either inserts a new entity or updates an existing entity.
+     * @throws HibernateException If an error occured attempting to persist the
+     * entity
+     */
     public default void persist() throws HibernateException {
         final Session session = HibernateSession.getInstance().newSession();
         
@@ -19,6 +26,12 @@ public interface HibernateEntity {
         session.close();
     }
     
+    /**
+     * Deletes this entity.
+     * Removed this entity from the database.
+     * @throws HibernateException If an error occured attempting to delete the
+     * entity
+     */
     public default void delete() throws HibernateException {
         final Session session = HibernateSession.getInstance().newSession();
         

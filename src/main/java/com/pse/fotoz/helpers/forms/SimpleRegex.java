@@ -3,7 +3,8 @@ package com.pse.fotoz.helpers.forms;
 import java.util.regex.Pattern;
 
 /**
- *
+ * Class simplifying regex applications.
+ * Because Java doesn't.
  * @author Robert
  */
 public class SimpleRegex {
