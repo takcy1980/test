@@ -3,7 +3,7 @@ package com.pse.fotoz.controllers.producer.dashboard;
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.Picture;
-import com.pse.fotoz.helpers.ajax.AjaxHelper;
+import com.pse.fotoz.helpers.ajax.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import java.io.IOException;
 import java.util.List;
@@ -63,7 +63,7 @@ public class ProducerPictureSubmissionController {
                 String data = request.getReader().lines().
                         reduce("", (s1, s2) -> s1 + s2);
                 
-                json = new JSONObject(data);System.out.println(json);System.out.println(data);
+                json = new JSONObject(data);
                 json.getString("option");
                 json.getString("picture_id");
             } catch (IOException | JSONException ex) {
@@ -75,10 +75,10 @@ public class ProducerPictureSubmissionController {
             try {                
                 switch(json.getString("option")) {
                     case "approve":
-                        AjaxHelper.approvePicture(json.getInt("picture_id"));
+                        PersistenceFacade.approvePicture(json.getInt("picture_id"));
                         break;
                     case "reject":
-                        AjaxHelper.rejectPicture(json.getInt("picture_id"));
+                        PersistenceFacade.rejectPicture(json.getInt("picture_id"));
                         break;
                     default:
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).

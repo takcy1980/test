@@ -1,9 +1,16 @@
 package com.pse.fotoz.controllers.producer.dashboard;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
+import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.Shop;
+import com.pse.fotoz.helpers.ajax.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
+import com.pse.fotoz.properties.LocaleUtil;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
@@ -44,13 +51,7 @@ public class ProducerShopsController {
         ModelAndView mav = ModelAndViewBuilder.empty().
                     withProperties(request).
                     build();
-
-        List<String> existingShopLogins = 
-                HibernateEntityHelper.all(Shop.class).stream().
-                map(s -> s.getLogin()).
-                collect(Collectors.toList());
         
-        mav.addObject("existing_shop_logins", existingShopLogins);
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
@@ -58,6 +59,55 @@ public class ProducerShopsController {
             public String redirect = request.getRequestURL().toString();
         });
         mav.setViewName("producer/dashboard/shops_new.twig");
+
+        return mav;
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/new")
+    public ModelAndView handleNewShopForm(HttpServletRequest request) {
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        String address = request.getParameter("address");
+        String city = request.getParameter("city");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        
+        List<String> errors = new ArrayList<>();
+        
+        ModelAndView mav = ModelAndViewBuilder.empty().
+                    withProperties(request).
+                    build();
+        
+        try {
+            PersistenceFacade.addShop(login, password, name, address, 
+                    city, email, phone);
+            
+            mav.setViewName("producer/dashboard/shops_new_success.twig");
+        } catch (IllegalArgumentException ex) {
+            errors.add(LocaleUtil.getProperties(request).
+                    get("ERROR_PRODUCER_NEWSHOP_LOGINALREADYEXISTS"));
+            
+            mav.setViewName("producer/dashboard/shops_new.twig");
+        } catch (HibernateException ex) {
+            Logger.getLogger(ProducerShopsController.class.getName()).
+                    log(Level.SEVERE, null, ex);
+            errors.add(LocaleUtil.getProperties(request).
+                    get("ERROR_INTERNALDATABASEERROR"));
+            
+            mav.setViewName("producer/dashboard/shops_new.twig");
+        }
+        
+        
+        mav.addObject("errors", errors);
+        
+        mav.addObject("page", new Object() {
+            public String lang = request.getSession().
+                    getAttribute("lang").toString();
+            public String uri = "/producer/dashboard/shops";
+            public String redirect = request.getRequestURL().toString();
+        });
+        
 
         return mav;
     }
