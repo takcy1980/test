@@ -1,6 +1,6 @@
 /*
  */
-package com.pse.fotoz.dbal;
+package com.pse.fotoz.helpers.Authentication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,13 @@ public class LoginProvider implements AuthenticationProvider {
         }
         else if(name.equals("fotograaf") && password.equals("system")){
             List<GrantedAuthority> grantedAuths = new ArrayList();
-            grantedAuths.add(new SimpleGrantedAuthority("ROLE_PHOTO"));
+            grantedAuths.add(new SimpleGrantedAuthority("ROLE_PHOTOGRAPHER"));
+            Authentication auth = new UsernamePasswordAuthenticationToken(name, password, grantedAuths);
+            return auth;
+        }
+        else if(name.equals("klant") && password.equals("system")){
+            List<GrantedAuthority> grantedAuths = new ArrayList();
+            grantedAuths.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
             Authentication auth = new UsernamePasswordAuthenticationToken(name, password, grantedAuths);
             return auth;
         } else {

@@ -1,4 +1,4 @@
-package com.pse.fotoz.controllers.photographers;
+package com.pse.fotoz.controllers.customers.shop;
 
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.properties.LocaleUtil;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/photographers/login")
-public class PhotographersLoginController{
+@RequestMapping("customers/test")
+public class CustomerShopController1 {
  
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView loadLoginScreen(HttpServletRequest request) {
@@ -24,7 +24,7 @@ public class PhotographersLoginController{
             public String redirect = request.getRequestURL().toString();
         });            
 
-        mav.setViewName("photographers/login/login.twig");
+        mav.setViewName("customers/shop/test.twig");
 
         return mav;
     }
@@ -37,7 +37,7 @@ public class PhotographersLoginController{
     public ModelAndView serviceLoginRequest() {
         ModelAndView mav = new ModelAndView();
 
-        mav.setViewName("photographers/login/login.twig");            
+        mav.setViewName("customers/shop/test.twig");            
 
         mav.addObject("labels", LocaleUtil.getProperties("en"));
         mav.addObject("page", new Object() {

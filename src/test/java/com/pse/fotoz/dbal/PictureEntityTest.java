@@ -5,8 +5,7 @@
  */
 package com.pse.fotoz.dbal;
 
-import com.pse.fotoz.dbal.HibernateException;
-import com.pse.fotoz.dbal.HibernateSession;
+import com.pse.fotoz.dbal.entities.Customers;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.Shop;
@@ -49,6 +48,14 @@ public class PictureEntityTest {
 
     @Test
     public void TestPersistence() throws HibernateException {
+        Customers customer = new Customers();
+        customer.setAddress("dorpstraat 1");
+        customer.setCity("Tilburg");
+        customer.setEmail("henk@henk.nl");
+        customer.setName("Henk Henken");
+        customer.setPhone("077-455998");
+        customer.persist();
+        
         Photographer photographer = new Photographer();
         photographer.setAddress("Molenaar 24");
         photographer.setCity("Eindhoven");
