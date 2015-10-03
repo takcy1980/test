@@ -18,6 +18,7 @@
             username-parameter="login_name"
             password-parameter="password" />
         <logout logout-url="/logout_producer" logout-success-url="/app/producer/login/panel" />
+        <csrf disabled="true"/>
                 
         <!--
         <intercept-url pattern="/app/photographers/login**" access="hasRole('ROLE_PHOTO')" />
