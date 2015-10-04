@@ -24,6 +24,10 @@ import java.util.Map;
 public class PhotographerValidator implements InputValidator<Photographer> {
     private final Map<String, String> properties;
 
+    /**
+     * Creates a validator with properties containing used error messages.
+     * @param properties properties containing used error messages
+     */
     public PhotographerValidator(Map<String, String> properties) {
         this.properties = properties;
     }

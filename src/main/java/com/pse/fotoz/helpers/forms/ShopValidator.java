@@ -29,6 +29,10 @@ import java.util.Map;
 public class ShopValidator implements InputValidator<Shop> {
     private final Map<String, String> properties;
 
+    /**
+     * Creates a validator with properties containing used error messages.
+     * @param properties properties containing used error messages
+     */
     public ShopValidator(Map<String, String> properties) {
         this.properties = properties;
     }

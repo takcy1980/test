@@ -5,8 +5,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- *
+ * Interface describing behaviour for validating a certain input type.
  * @author Robert
+ * @param <T> The type this validator validates over
  */
 public interface InputValidator<T> {
     /**
@@ -24,8 +25,18 @@ public interface InputValidator<T> {
      * The result is NOK iff it has at least one error.
      */
     public interface ValidationResult {
+        /**
+         * The status of this result.
+         * Is either OK or NOK.
+         * @return Whether this result was succesful or not
+         */
         public abstract ValidationStatus status();
         
+        /**
+         * The list of errors from validation.
+         * This is only non-empty if the validation failed.
+         * @return A list of errors that arose from attempting the validation.
+         */
         public abstract List<String> errors();
         
         /**
@@ -36,7 +47,8 @@ public interface InputValidator<T> {
          * Note that this can contain duplicate errors.
          * @param r1 the first ValidationResult
          * @param r2 the second ValidationResult
-         * @return 
+         * @return ValidationResult with errors from both r1 and r2 included and
+         * the aggregate status
          */
         public default ValidationResult compose(ValidationResult r1, 
                 ValidationResult r2) {
@@ -62,7 +74,7 @@ public interface InputValidator<T> {
     /**
      * Returns whether a string is empty or null.
      * @param string
-     * @return 
+     * @return string == null || string.length() == 0
      */
     default boolean isEmpty(String string) {
         return string == null || string.length() == 0;
