@@ -1,0 +1,24 @@
+{% extends "common/bootstrap.twig" %}
+
+{% block title %}
+    {{ labels.logout_page_title }}
+{% endblock %}
+
+{% block more_css %}
+    <link href="/assets/common/css/default.css" rel="stylesheet"/>
+    <link href="/assets/common/css/bootstrap/sb-admin/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="/assets/logout/css/logout.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+    
+        <div class="logout-message">          
+            <i class="fa fa-thumbs-up"></i><h2>{{ labels.logout_page_message }}</h2>
+        </div>
+
+    </div>
+            
+{% include "common/snippets/language_bar.twig" %}
+
+{% endblock %}
