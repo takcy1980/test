@@ -9,12 +9,17 @@ import com.pse.fotoz.dbal.entities.Customer_accounts;
 import com.pse.fotoz.dbal.entities.Customers;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
+import com.pse.fotoz.dbal.entities.ProducerAccounts;
 import com.pse.fotoz.dbal.entities.Shop;
+import com.pse.fotoz.helpers.encryption.PasswordHash;
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
 import org.hibernate.Session;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -49,6 +54,31 @@ public class PictureEntityTest {
 
     @Test
     public void TestPersistence() throws HibernateException {
+        ProducerAccounts pAccount = new ProducerAccounts();
+        pAccount.setLogin("admin");
+        try{
+            pAccount.setPassword(PasswordHash.createHash("adminpass"));
+        } catch(NoSuchAlgorithmException | InvalidKeySpecException e){
+            fail("wachtwoord niet gehasht");
+        }
+        pAccount.setRole("ROLE_ADMIN");
+        pAccount.persist();
+        
+        Customers customer = new Customers();
+        customer.setAddress("dorpstraat 1");
+        customer.setCity("Tilburg");
+        customer.setEmail("henk@henk.nl");
+        customer.setName("Henk Henken");
+        customer.setPhone("077-455998");
+        customer.persist();
+        
+                
+        Customer_accounts account = new Customer_accounts();
+        account.setCustomer(customer);
+        account.setLogin("tarki");
+        account.setPasswordHash("12345");
+        account.persist();
+        
         Photographer photographer = new Photographer();
         photographer.setAddress("Molenaar 24");
         photographer.setCity("Eindhoven");
@@ -58,21 +88,7 @@ public class PictureEntityTest {
 
         photographer.persist();
         
-        Customers customer = new Customers();
-        customer.setAddress("dommel 24");
-        customer.setCity("Eindhoven");
-        customer.setEmail("info@klant.nl");
-        customer.setName("Pietje");
-        customer.setPhone("040-9573238");
-        
-        customer.persist();
-        
-        Customer_accounts account = new Customer_accounts();
-        account.setCustomer(customer);
-        account.setLogin("tarki");
-        account.setPasswordHash("12345");
-        
-        account.persist();
+
         
         Shop shop = new Shop();
         shop.setPhotographer(photographer);
