@@ -45,6 +45,9 @@
                     <li {% if page.uri equals "/producer/dashboard/submissions" %}  class="active" {% endif %} >
                         <a href="/app/producer/dashboard/submissions"><i class="fa fa-fw fa-picture-o"></i> {{ labels.producer_dashboard_index_item_submissions }}</a>
                     </li>
+                    <li {% if page.uri equals "/producer/dashboard/products" %}  class="active" {% endif %} >
+                        <a href="/app/producer/dashboard/products"><i class="fa fa-coffee"></i> {{ labels.producer_dashboard_index_item_products }}</a>
+                    </li>
                     <li>    
                         <a href="/logout"><i class="fa fa-sign-out"></i> {{ labels.producer_dashboard_index_item_logout }}</a>
                     </li>
