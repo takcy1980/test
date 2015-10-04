@@ -160,7 +160,7 @@ public class CustomerLoginController {
             errors.add(LocaleUtil.getProperties(request).
                     get("ERROR_INTERNALDATABASEERROR"));
 
-            mav.setViewName("producer/dashboard/shops_new.twig");
+            mav.setViewName("customers/login/register.twig");
         }
 
         mav.addObject("errors", errors);
