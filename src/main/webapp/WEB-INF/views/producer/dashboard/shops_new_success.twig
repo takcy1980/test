@@ -1,0 +1,24 @@
+{% extends "producer/dashboard/index.twig" %}
+
+{% block heading %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{ labels.producer_dashboard_index_item_shops }}
+            </h1>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <p>
+                {{ labels.producer_dashboard_shops_new_success_body_message1 }}
+                <a href="/app/producer/dashboard/shops">
+                    {{ labels.producer_dashboard_shops_new_success_body_message2 }}
+                </a>
+            </p>
+        </div>
+    </div>
+{% endblock %}

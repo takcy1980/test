@@ -39,8 +39,11 @@
                     <li {% if page.uri equals "/producer/dashboard" %}  class="active" {% endif %} >
                         <a href="/app/producer/dashboard"><i class="fa fa-fw fa-dashboard"></i> {{ labels.producer_dashboard_index_item_dashboard }}</a>
                     </li>
+                    <li {% if page.uri equals "/producer/dashboard/shops" %}  class="active" {% endif %} >
+                        <a href="/app/producer/dashboard/shops"><i class="fa fa-fw fa-shopping-cart"></i> {{ labels.producer_dashboard_index_item_shops }}</a>
+                    </li>
                     <li {% if page.uri equals "/producer/dashboard/submissions" %}  class="active" {% endif %} >
-                        <a href="/app/producer/dashboard/submissions"><i class="fa fa-fw fa-bar-chart-o"></i> {{ labels.producer_dashboard_index_item_submissions }}</a>
+                        <a href="/app/producer/dashboard/submissions"><i class="fa fa-fw fa-picture-o"></i> {{ labels.producer_dashboard_index_item_submissions }}</a>
                     </li>
                     <li>    
                         <a href="/logout"><i class="fa fa-sign-out"></i> {{ labels.producer_dashboard_index_item_logout }}</a>

@@ -4,12 +4,25 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
  * @author Robert
  */
 public class LocaleUtil {
+    
+    public static Map<String, String> getProperties(HttpServletRequest request) 
+    {
+        try {
+            String lang = request.getSession().getAttribute("lang").toString();
+            return getProperties(lang);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            request.getSession().setAttribute("lang", "nl");
+            String lang = request.getSession().getAttribute("lang").toString();
+            return getProperties(lang);
+        }
+    }
     
     public static Map<String, String> getProperties(String lang) {
         
