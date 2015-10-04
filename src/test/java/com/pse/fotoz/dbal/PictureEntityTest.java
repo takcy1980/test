@@ -5,6 +5,7 @@
  */
 package com.pse.fotoz.dbal;
 
+import com.pse.fotoz.dbal.entities.Customers;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.ProducerAccounts;
