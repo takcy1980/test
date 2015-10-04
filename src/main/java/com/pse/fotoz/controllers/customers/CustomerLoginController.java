@@ -5,12 +5,18 @@ import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.Customer_accounts;
 import com.pse.fotoz.dbal.entities.Shop;
+import com.pse.fotoz.helpers.encryption.PasswordHash;
 import com.pse.fotoz.helpers.forms.InputValidator;
 import com.pse.fotoz.helpers.forms.InputValidator.ValidationResult;
 import com.pse.fotoz.helpers.forms.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.properties.LocaleUtil;
+import static java.nio.file.Files.list;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import static java.util.Collections.list;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -26,7 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/customers/login")
 public class CustomerLoginController {
 
-    Customer_accounts accounts;
+    
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView loadLoginScreen(HttpServletRequest request) {
@@ -83,19 +89,32 @@ public class CustomerLoginController {
 
         String name = request.getParameter("login");
         String password = request.getParameter("password");
+        
+        List<Customer_accounts> list = HibernateEntityHelper.all(Customer_accounts.class);
+        
+        boolean login = false;
+        
+        for(Customer_accounts cus : list)
+        {
+           if (cus.validatePassword(password)&& cus.getLogin().equals(name)) {
+               
+                System.err.println("Test");
+                login = true;
+                mav.setViewName("customers/login/loginSession.twig");
+            }
+        }
 
         // mav.setViewName("producer/login/login.twig");
         mav.addObject("labels", LocaleUtil.getProperties("en"));
         mav.addObject("page", new Object() {
             public String lang = "en";
         });
-
-        if (password.equals("admin")) {
-
-            mav.setViewName("customers/login/loginSession.twig");
-        } else {
-            mav.setViewName("common/error/505.jsp");
-        }
+        
+         if(!login)
+         {
+                mav.setViewName("common/error/505.jsp");
+         }
+            
 
         return mav;
     }
