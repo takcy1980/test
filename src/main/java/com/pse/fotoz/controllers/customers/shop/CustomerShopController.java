@@ -1,4 +1,4 @@
-package com.pse.fotoz.controllers.producer;
+package com.pse.fotoz.controllers.customers.shop;
 
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.properties.LocaleUtil;
@@ -8,19 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * Controller handling the login functionality for the producer.
- * @author Robert
- */
 @Controller
-@RequestMapping("producer/login")
-public class ProducerLoginController {
+@RequestMapping("customers/shop")
+public class CustomerShopController {
  
-    /**
-     * Loads the login screen for producers.
-     * @param request
-     * @return 
-     */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView loadLoginScreen(HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -33,7 +24,7 @@ public class ProducerLoginController {
             public String redirect = request.getRequestURL().toString();
         });            
 
-        mav.setViewName("producer/login/login.twig");
+        mav.setViewName("customers/shop/index.twig");
 
         return mav;
     }
@@ -42,16 +33,11 @@ public class ProducerLoginController {
     @Issue 
     not yet implemented
      */
-    /**
-     * Services a login request from the client.
-     * NYI
-     * @return 
-     */
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView serviceLoginRequest() {
         ModelAndView mav = new ModelAndView();
 
-        mav.setViewName("producer/login/login.twig");            
+        mav.setViewName("customers/shop/index.twig");            
 
         mav.addObject("labels", LocaleUtil.getProperties("en"));
         mav.addObject("page", new Object() {

@@ -13,6 +13,8 @@
     <mapping class="com.pse.fotoz.dbal.entities.Photographer" />
     <mapping class="com.pse.fotoz.dbal.entities.Shop" />
     <mapping class="com.pse.fotoz.dbal.entities.Picture" />
-            
+    <mapping class="com.pse.fotoz.dbal.entities.Customers" /> 
+    <mapping class="com.pse.fotoz.dbal.entities.ProducerAccounts" />
+           
   </session-factory>
 </hibernate-configuration>
