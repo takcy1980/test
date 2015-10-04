@@ -73,7 +73,7 @@ public class PictureEntityTest {
         account.setPasswordHash("12345");
         
         account.persist();
-
+        
         Shop shop = new Shop();
         shop.setPhotographer(photographer);
         shop.setLogin("winkel1");
