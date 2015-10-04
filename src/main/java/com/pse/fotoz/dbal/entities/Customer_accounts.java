@@ -5,6 +5,11 @@
  */
 package com.pse.fotoz.dbal.entities;
 
+import com.pse.fotoz.helpers.encryption.PasswordHash;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +24,7 @@ import javax.persistence.Table;
  * @author 310054544
  */
 @Entity
-@Table(name="customer_accounts")
+@Table(name = "customer_accounts")
 public class Customer_accounts implements HibernateEntity {
 
     @Id
@@ -68,9 +73,29 @@ public class Customer_accounts implements HibernateEntity {
     }
 
     public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+        try {
+            this.passwordHash = PasswordHash.createHash(passwordHash);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            Logger.getLogger(Shop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+        /**
+     * Validates a password 
+     * @param password the password to be verified
+     * @return true if the password matches the stored password
+     */
+    public boolean validatePassword(String password) {
+        boolean returnBool = false;
+        try {
+            if(!passwordHash.isEmpty()){
+               returnBool = PasswordHash.validatePassword(password, passwordHash);
+            }
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            Logger.getLogger(Shop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return returnBool;
     }
 
-    
-    
 }
