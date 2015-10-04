@@ -9,6 +9,7 @@ import com.pse.fotoz.dbal.entities.Customers;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.ProducerAccounts;
+import com.pse.fotoz.dbal.entities.ProductType;
 import com.pse.fotoz.dbal.entities.Shop;
 import com.pse.fotoz.helpers.encryption.PasswordHash;
 import java.math.BigDecimal;
@@ -84,9 +85,18 @@ public class PictureEntityTest {
         shop.setPhotographer(photographer);
         shop.setLogin("winkel1");
         shop.setPasswordHash("123");
-
         shop.persist();
 
+        ProductType product = new ProductType();
+        product.setName("mok");
+        product.setDescription("Grote mok, wit van kleur");
+        product.setPrice(new BigDecimal(9.95));
+        product.setStock(15);
+        product.setFilename("mok.jpg");
+        product.setHeight(452);
+        product.setWidth(500);
+        product.persist();
+        
         Picture pic1 = new Picture();
         pic1.setShop(shop);
         pic1.setWidth(500);
