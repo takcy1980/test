@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- *
+ * Basic Spring configuration, integrating Pebble.
  * @author Robert
  */
 @Configuration
@@ -23,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
     "com.pse.fotoz.controllers.customers", 
     "com.pse.fotoz.controllers.photographers",
     "com.pse.fotoz.controllers.common",
+    "com.pse.fotoz.controllers.logout",
 })
 @EnableWebMvc
 public class MvcConfig extends WebMvcConfigurerAdapter {

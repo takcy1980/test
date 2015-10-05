@@ -1,6 +1,6 @@
 /*
  */
-package com.pse.fotoz.controllers.producer;
+package com.pse.fotoz.helpers.Authentication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,18 +13,19 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class LoginProviderPhotographers implements AuthenticationProvider {
  
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
-        if (name.equals("admin") && password.equals("system")) {
+        if (name.equals("fotograaf") && password.equals("fotograaf")) {
             List<GrantedAuthority> grantedAuths = new ArrayList();
-            grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
+            grantedAuths.add(new SimpleGrantedAuthority("ROLE_PHOTOGRAPHER"));
             Authentication auth = new UsernamePasswordAuthenticationToken(name, password, grantedAuths);
             return auth;
-        } else {
+        }
+        else {
             return null;
         }
     }
