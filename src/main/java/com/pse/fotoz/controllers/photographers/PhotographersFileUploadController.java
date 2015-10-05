@@ -66,7 +66,7 @@ public class PhotographersFileUploadController {
 
         String returnMessage;
         ServletContext context = request.getServletContext();
-        String appPath = context.getRealPath(ConfigurationHelper.getShopAssetLocation());
+        String appPath = context.getRealPath(ConfigurationHelper.getShopAssetLocation());//dit bepaald de folder waar opgeslagen wordt
         String name = "";
 
         if (!file.isEmpty()) {
