@@ -1,0 +1,58 @@
+{% extends "common/bootstrap.twig" %}
+
+{% block title %}
+    lala
+{% endblock %}
+
+{% block more_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js"></script>
+{% endblock %} 
+
+{% block more_css %}
+    <link href="/assets/common/css/default.css" rel="stylesheet"/>
+    <link href="/assets/photographers/css/dropzone_photographer.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>DropzoneJS Upload Example - http://www.dropzonejs.com/</h3>  
+            </div>
+        </div><!--/row-->
+        <hr>
+        <div> 
+            <form action="/app/photographers/upload" class="dropzone" drop-zone="" id="file-dropzone" modelAttribute="uploadForm" ></form>
+        </div>
+    </div>
+        <script>
+
+
+
+            // instantiate the uploader
+            $('#file-dropzone').dropzone({
+                url: "/app/photographers/upload",
+                maxFilesize: 100,
+                paramName: "uploadfile",
+                maxThumbnailFilesize: 5,
+                init: function () {
+
+                    this.on('success', function (file, json) {
+                    });
+
+                    this.on('addedfile', function (file) {
+
+                    });
+
+                    this.on('drop', function (file) {
+                        alert('file');
+                    });
+                }
+            });
+
+
+            $(document).ready(function () {
+            });
+        </script>
+
+    {% endblock %}

@@ -47,7 +47,6 @@ public class Shop implements HibernateEntity {
     @Column(name = "login", unique = true)
     private String login;
 
-    //TODO: hashen wellicht handig
     @Basic
     @Column(name = "passwordHash")
     private String passwordHash;
