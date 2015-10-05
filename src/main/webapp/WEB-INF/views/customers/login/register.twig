@@ -6,7 +6,7 @@
 
 {% block more_css %}
     <link href="/assets/common/css/default.css" rel="stylesheet"/>
-    <link href="/assets/producer/css/login.css" rel="stylesheet"/>
+   <link href="/assets/customers/css/register.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -22,7 +22,7 @@
         {% endif %}
 
         <form class="form-signup" method="post" role="form">
-            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="/app/customers/login">Sign In</a>
+            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="/app/customers/login">{{labels.customer_register_signin_label}}</a>
             </div>
             <h2 class="form-signup-heading">
                 {{ labels.customer_register_register_label }}:
@@ -73,6 +73,7 @@
                 {{ labels.customer_register_register_button }}
             </button>
         </form>
+            <BR><BR> 
     </div>
 
     {% include "common/snippets/language_bar.twig" %}

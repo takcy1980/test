@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Validates a Photographer entity.
+ * Validates a Customer entity.
  * Validator checks whether:
  * <ol>
  * <li>
