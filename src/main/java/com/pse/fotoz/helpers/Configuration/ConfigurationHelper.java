@@ -30,4 +30,14 @@ public class ConfigurationHelper {
     public static String[] getExtensionwhitelist() {
         return ConfigurationManager.config.getStringArray("fileupload.extensionwhitelist");
     }
+    
+    //------filelocations-------
+    
+        public static String getGeneralAssetLocation() {
+        return ConfigurationManager.config.getString("filelocations.generalassetlocation");
+    }
+        
+                public static String getShopAssetLocation() {
+        return ConfigurationManager.config.getString("filelocations.savelocationshops");
+    }
 }
