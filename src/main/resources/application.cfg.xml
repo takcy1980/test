@@ -11,5 +11,6 @@
     <filelocations>
         <generalassetlocation>assets/</generalassetlocation>
         <savelocationshops>assets/shops</savelocationshops>
+        <savelocationproducttype>assets/products/img</savelocationproducttype>
     </filelocations>
 </config>

@@ -33,11 +33,15 @@ public class ConfigurationHelper {
     
     //------filelocations-------
     
-        public static String getGeneralAssetLocation() {
+    public static String getGeneralAssetLocation() {
         return ConfigurationManager.config.getString("filelocations.generalassetlocation");
     }
         
-                public static String getShopAssetLocation() {
+    public static String getShopAssetLocation() {
         return ConfigurationManager.config.getString("filelocations.savelocationshops");
+    }
+                
+    public static String getProductTypeAssetLocation() {
+        return ConfigurationManager.config.getString("filelocations.savelocationproducttype");
     }
 }
