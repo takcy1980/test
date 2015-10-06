@@ -1,0 +1,30 @@
+{% extends "common/bootstrap.twig" %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block more_js %}
+
+{% endblock %} 
+
+{% block more_css %}
+    <link href="/assets/common/css/default.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <br>
+            
+        <div id="actions" class="row">
+            <form method="POST" enctype="multipart/form-data"
+                  action="/app/photographers/upload">
+                File to upload: <input type="file" name="file"><br /> <br /> <input type="submit"
+                    value="Upload"> Klik hier om de upload te starten!
+            </form>
+        </div>
+        {% include "common/snippets/language_bar.twig" %}
+    </div>
+
+
+{% endblock %}

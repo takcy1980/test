@@ -13,7 +13,7 @@
     <mapping class="com.pse.fotoz.dbal.entities.Photographer" />
     <mapping class="com.pse.fotoz.dbal.entities.Shop" />
     <mapping class="com.pse.fotoz.dbal.entities.Picture" />
-    <mapping class="com.pse.fotoz.dbal.entities.Customers" /> 
+    <mapping class="com.pse.fotoz.dbal.entities.Customer_accounts"/>
     <mapping class="com.pse.fotoz.dbal.entities.ProducerAccounts" />
     <mapping class="com.pse.fotoz.dbal.entities.ProductType" />
            

@@ -1,0 +1,21 @@
+{% extends "common/bootstrap.twig" %}
+
+{% block title %}
+    {{ labels.customer_register_page_title }}
+{% endblock %}
+
+{% block more_css %}
+    <link href="/assets/common/css/default.css" rel="stylesheet"/>
+    <link href="/assets/producer/css/login.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    
+            <p>
+                Succesvol nieuwe klant toegevoegd
+                <a href="/app/customers/login/">
+                    ga terug naar login pagina
+                </a>
+            </p>
+    
+{% endblock %}
