@@ -167,4 +167,8 @@ public class Picture implements HibernateEntity{
     public static enum Approved {
         YES, NO, PENDING
     }
+    public String getURI() {
+        return "/assets/common/img/" + this.fileName;
+                
+    }
 }

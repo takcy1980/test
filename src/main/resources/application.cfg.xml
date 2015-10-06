@@ -8,4 +8,8 @@
         <maxmultipartsizeinkb>50000</maxmultipartsizeinkb>
         <extensionwhitelist>jpg,jpeg,png</extensionwhitelist>           
     </fileupload>
+    <filelocations>
+        <generalassetlocation>assets/</generalassetlocation>
+        <savelocationshops>assets/shops</savelocationshops>
+    </filelocations>
 </config>
