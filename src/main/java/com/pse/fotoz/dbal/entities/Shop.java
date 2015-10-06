@@ -5,6 +5,7 @@
  */
 package com.pse.fotoz.dbal.entities;
 
+import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.HibernateSession;
 import com.pse.fotoz.helpers.encryption.PasswordHash;
@@ -32,7 +33,6 @@ import org.hibernate.Session;
 @Entity
 @Table(name = "shops")
 public class Shop implements HibernateEntity {
-
 
     @Id
     @Column(name = "id")
@@ -97,16 +97,18 @@ public class Shop implements HibernateEntity {
         }
 
     }
+
     /**
-     * Validates a password 
+     * Validates a password
+     *
      * @param password the password to be verified
      * @return true if the password matches the stored password
      */
     public boolean validatePassword(String password) {
         boolean returnBool = false;
         try {
-            if(!passwordHash.isEmpty()){
-               returnBool = PasswordHash.validatePassword(password, passwordHash);
+            if (!passwordHash.isEmpty()) {
+                returnBool = PasswordHash.validatePassword(password, passwordHash);
             }
         } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
             Logger.getLogger(Shop.class.getName()).log(Level.SEVERE, null, ex);
@@ -126,15 +128,26 @@ public class Shop implements HibernateEntity {
         return pictures;
     }
 
-    public static Shop getShopByID(int id){
-      Shop returnShop = null;  
+    public static Shop getShopByID(int id) {
+        Shop returnShop = null;
         try {
             Session session = HibernateSession.getInstance().newSession();
-            returnShop = (Shop)session.load(Shop.class, id);
+            returnShop = (Shop) session.load(Shop.class, id);
         } catch (HibernateException ex) {
             Logger.getLogger(Shop.class.getName()).log(Level.SEVERE, null, ex);
         }
-      return returnShop;
+        return returnShop;
+    }
+
+    public static Shop getShopByLogin(String login) {
+        Shop returnShop = null;
+        
+        returnShop = HibernateEntityHelper.all(Shop.class).
+                stream().
+                filter(s -> s.getLogin().equals(login)).
+                findAny().
+                get();
+
+        return returnShop;
     }
 }
-
