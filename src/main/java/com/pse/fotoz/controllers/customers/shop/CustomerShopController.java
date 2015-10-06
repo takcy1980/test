@@ -21,6 +21,7 @@ public class CustomerShopController {
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
+            public String uri = "/customers/shop";
             public String redirect = request.getRequestURL().toString();
         });            
 
