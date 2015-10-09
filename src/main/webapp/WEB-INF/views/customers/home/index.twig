@@ -7,6 +7,7 @@
 {% block more_css %}
     <link href="/assets/common/css/default.css" rel="stylesheet"/>
 
+    <link href="/assets/common/css/bootstrap/sb-admin/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
 
     <link href="/assets/customers/css/shop-homepage.css" rel="stylesheet">
 {% endblock %}
@@ -17,35 +18,27 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
 
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-                <a class="navbar-brand" href="/app/producer/dashboard">Producer Login</a>
-            </div>
-            
-           
+
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="/app/customers/shop">Customer Login</a>
-                    </li>
-                    <li>
-                        <a href="/app/customers/login/new">Customer Register</a>
-                    </li>
-                    <li>
-                        <a href="/app/photographers/shop/">Photographer Login</a>
-                    </li>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/app/customers/login/new"><i class="fa fa-sign-in"></i> Sign Up</a></li>
+                    <li><a href="/app/customers/shop"><i class="fa fa-user"></i> Login</a></li>
                 </ul>
             </div>
-            
-            
+
+
+
+
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
@@ -57,13 +50,16 @@
         <div class="row">
 
             <div class="col-md-3">
-                <p class="lead">Shop Name</p>
+                <p class="lead">Fotoz Fotoproducent</p>
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Category 1</a>
-                    <a href="#" class="list-group-item">Category 2</a>
-                    <a href="#" class="list-group-item">Category 3</a>
+                    <a href="#" class="list-group-item">Fotos Afdrukken</a>
+                    <a href="#" class="list-group-item">Fotos in Lijst</a>
+                    <a href="#" class="list-group-item">Fotos op producten</a>
                 </div>
             </div>
+
+
+       
 
             <div class="col-md-9">
 
@@ -97,9 +93,8 @@
                     </div>
 
                 </div>
-
-                <div class="row">
-
+                
+           
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
                             <img src="http://placehold.it/320x150" alt="">
@@ -252,6 +247,7 @@
                 <div class="col-lg-12">
                     <p>Copyright &copy; Fotoz</p>
                 </div>
+
             </div>
         </footer>
 
@@ -259,5 +255,35 @@
     <!-- /.container -->
 
     {% include "common/snippets/language_bar.twig" %}
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-collapse" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+
+
+
+            </div>
+
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/app/producer/dashboard">Producer Login</a>
+                    </li>
+
+                    <li>
+                        <a href="/app/photographers/shop/">Photographer Login</a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
 
 {% endblock %}
