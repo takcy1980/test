@@ -1,17 +1,25 @@
-package com.pse.fotoz.controllers.logout;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.pse.fotoz.controllers.customers;
 
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
-import com.pse.fotoz.properties.LocaleUtil;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ *
+ * @author 310054544
+ */
 @Controller
-@RequestMapping("logout")
-public class LogoutController {
- 
+@RequestMapping("/")
+public class HomeController {
+    
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView loadLoginScreen(HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -24,28 +32,9 @@ public class LogoutController {
             public String redirect = request.getRequestURL().toString();
         });            
 
-        mav.setViewName("home/index.twig");
+        mav.setViewName("customers/home/index.twig");
 
         return mav;
     }
-
-    /*
-    @Issue 
-    not yet implemented
-     */
-    @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView serviceLoginRequest() {
-        ModelAndView mav = new ModelAndView();
-
-        mav.setViewName("photographers/shop/index.twig");            
-
-        mav.addObject("labels", LocaleUtil.getProperties("en"));
-        mav.addObject("page", new Object() {
-            public String lang = "en";
-        });
-        mav.addObject("error", 
-                "The login functionality is not yet implemented.");
-
-        return mav;
-    }
+    
 }
