@@ -53,7 +53,7 @@ public class Shop implements HibernateEntity {
     private String passwordHash;
 
     @OneToMany(mappedBy = "shop")
-    private Set<Picture> pictures;
+    private Set<PictureSession> sessions;
 
     public int getId() {
         return id;
@@ -124,8 +124,8 @@ public class Shop implements HibernateEntity {
         this.photographer = photographer;
     }
 
-    public Set<Picture> getPictures() {
-        return pictures;
+    public Set<PictureSession> getSessions() {
+        return sessions;
     }
 
     public static Shop getShopByID(int id) {

@@ -77,8 +77,10 @@ public class PhotographersFileUploadController {
         if (!file.isEmpty()) {
             try {
                 name = file.getOriginalFilename();
-                Shop shop = getCurrentSHop();
-                if (saveUpload(file, name, description, shop)) {
+                //@Issue vindt de juiste foto sessie
+                PictureSession session = null;
+                Shop shop = session.getShop();
+                if (saveUpload(file, name, description, session)) {
                     File folder = new File(appPath + "\\" + shop.getLogin());
                     folder.mkdir(); //maak folder als niet bestaat
                     file.transferTo(new File(appPath + "\\" + shop.getLogin() + "\\" + name));
@@ -100,12 +102,12 @@ public class PhotographersFileUploadController {
     }
 
     //TODO: width en height afleiden
-    private boolean saveUpload(MultipartFile file, String title, String description, Shop shop) {
+    private boolean saveUpload(MultipartFile file, String title, String description, PictureSession session) {
         boolean returnVal = false;
         try {
 
             Picture pic1 = new Picture();
-            pic1.setShop(shop);
+            pic1.setSession(session);
             //pic1.setWidth(500);
             //pic1.setHeight(400);
             pic1.setFileName("weiland.jpg");

@@ -1,4 +1,4 @@
-package com.pse.fotoz.controllers.logout;
+package com.pse.fotoz.controllers.common;
 
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.properties.LocaleUtil;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("logout")
+@RequestMapping("/logout")
 public class LogoutController {
  
     @RequestMapping(method = RequestMethod.GET)
@@ -24,7 +24,7 @@ public class LogoutController {
             public String redirect = request.getRequestURL().toString();
         });            
 
-        mav.setViewName("logout/logout.twig");
+        mav.setViewName("customers/home/index.twig");
 
         return mav;
     }
