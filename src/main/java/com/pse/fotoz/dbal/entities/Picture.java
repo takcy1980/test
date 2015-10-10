@@ -37,8 +37,8 @@ public class Picture implements HibernateEntity{
     //TODO:pictures_high_res
     
     @ManyToOne
-    @JoinColumn(name = "shop_id", nullable=false)
-    private Shop shop;
+    @JoinColumn(name = "picture_session_id", nullable=false)
+    private PictureSession session;
 
     @Basic
     @Column(name = "width")
@@ -84,12 +84,12 @@ public class Picture implements HibernateEntity{
         this.id = id;
     }
 
-    public Shop getShop() {
-        return shop;
+    public PictureSession getSession() {
+        return session;
     }
 
-    public void setShop(Shop shop) {
-        this.shop = shop;
+    public void setSession(PictureSession session) {
+        this.session = session;
     }
 
     public int getWidth() {
