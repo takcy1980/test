@@ -44,10 +44,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
          Disables template caching, should be removed in a production environment
          */
         engine.setTemplateCache(null);
-        /* @Issue
-         Should be false in a production environment
-         */
-        engine.setStrictVariables(true);
+        
         return engine;
     }
 

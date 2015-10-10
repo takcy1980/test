@@ -17,7 +17,7 @@ import org.junit.runners.Suite;
  * @author Robert
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({com.pse.fotoz.dbal.PictureEntityTest.class})
+@Suite.SuiteClasses({})
 public class IntegrationTests {
 
     @BeforeClass
