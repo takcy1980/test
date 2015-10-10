@@ -11,6 +11,7 @@ import com.pse.fotoz.dbal.HibernateSession;
 import com.pse.fotoz.helpers.encryption.PasswordHash;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -149,5 +150,21 @@ public class Shop implements HibernateEntity {
                 get();
 
         return returnShop;
+    }
+    
+    public Picture showcasePicture() {
+        Optional<Picture> result = sessions.stream().
+                filter(session -> 
+                        session.isPublic()).
+                filter(session -> session.getPictures().stream().
+                        anyMatch(picture -> !picture.isHidden())).
+                map(session -> session.getPictures().iterator().next()).
+                findAny();
+        
+        if (result.isPresent()) {
+            return result.get();
+        } else {
+            return null;
+        }
     }
 }
