@@ -78,7 +78,7 @@ public class ProducerProductsController {
     }
     
     //TODO: extensie checken, checken voor dubbel, localisatie, errormeldingen
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, value = "/new")
     @ResponseBody
     public ModelAndView handleFileUpload(
         @RequestParam("file") MultipartFile file, HttpServletRequest request) {
@@ -128,71 +128,5 @@ public class ProducerProductsController {
         mav.setViewName("producer/dashboard/products.twig");
 
         return mav;
-    }
-    
-    /**
-     * Handles a request to add a new product to the system by the producer.
-     * @param request
-     * @return 
-     */
-    @RequestMapping(method = RequestMethod.POST, value = "/new")
-    public ModelAndView handleNewProductForm(HttpServletRequest request) {
-        String name = request.getParameter("name");
-
-        
-        
-        
-        
-        
-//        String login = request.getParameter("login");
-//        String password = request.getParameter("password");
-//        String name = request.getParameter("name");
-//        String address = request.getParameter("address");
-//        String city = request.getParameter("city");
-//        String email = request.getParameter("email");
-//        String phone = request.getParameter("phone");
-//        
-//        List<String> errors = new ArrayList<>();
-//        
-//        ModelAndView mav = ModelAndViewBuilder.empty().
-//                    withProperties(request).
-//                    build();
-//        
-//        try {
-//            InputValidator.ValidationResult result = PersistenceFacade.addShop(login, password, 
-//                    name, address, city, email, phone, 
-//                    LocaleUtil.getProperties(request));
-//            
-//            if (result.status() == InputValidator.ValidationStatus.OK) {
-//                mav.setViewName("producer/dashboard/shops_new_success.twig");
-//            } else {
-//                errors.addAll(result.errors());
-//                mav.setViewName("producer/dashboard/shops_new.twig");
-//            }
-//        } catch (HibernateException ex) {
-//            Logger.getLogger(ProducerShopsController.class.getName()).
-//                    log(Level.SEVERE, null, ex);
-//            errors.add(LocaleUtil.getProperties(request).
-//                    get("ERROR_INTERNALDATABASEERROR"));
-//            
-//            mav.setViewName("producer/dashboard/shops_new.twig");
-//        }
-//        
-//        
-//        mav.addObject("errors", errors);
-//        
-//        mav.addObject("page", new Object() {
-//            public String lang = request.getSession().
-//                    getAttribute("lang").toString();
-//            public String uri = "/producer/dashboard/shops";
-//            public String redirect = request.getRequestURL().toString();
-//        });
-        
-        ModelAndView mav = ModelAndViewBuilder.empty().
-                    withProperties(request).
-                    build();
-        mav.setViewName("producer/dashboard/products.twig");
-        return mav;
-    }
-    
+    }    
 }
