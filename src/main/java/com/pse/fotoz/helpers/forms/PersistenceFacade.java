@@ -6,10 +6,17 @@ import com.pse.fotoz.dbal.entities.Customer_accounts;
 import com.pse.fotoz.dbal.entities.Customers;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
+import com.pse.fotoz.dbal.entities.ProductType;
 import com.pse.fotoz.dbal.entities.Shop;
+import com.pse.fotoz.helpers.Configuration.ConfigurationHelper;
 import com.pse.fotoz.helpers.forms.InputValidator.ValidationResult;
+import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
+import java.io.File;
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Optional;
+import javax.servlet.ServletContext;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Facade abstracting the handling of common user actions.
@@ -162,4 +169,39 @@ public class PersistenceFacade {
 
         return composed;
     }
+    
+    public static ValidationResult addProductType(String name, String description,
+            BigDecimal price, int stock, String filename, int height, int width, 
+            Map<String, String> properties)
+            throws HibernateException {
+
+            ProductType pt = new ProductType();
+            pt.setName(name);
+            pt.setDescription(description);
+            pt.setPrice(price);
+            pt.setStock(stock);
+            pt.setFilename(filename);
+            pt.setHeight(height);
+            pt.setWidth(width); 
+
+            ValidationResult result = new ProductTypeValidator(properties).
+            validate(pt);
+
+            if(result.status() == InputValidator.ValidationStatus.OK) {
+                pt.persist();
+            }
+
+            return result;
+    }
+    
+    public static ValidationResult checkNumeric(Map<String, String> numbers, 
+            Map<String, String> properties)
+            throws HibernateException {
+
+            ValidationResult result = new NumericValidator(properties).
+            validate(numbers);
+
+            return result;
+    }
+    
 }
