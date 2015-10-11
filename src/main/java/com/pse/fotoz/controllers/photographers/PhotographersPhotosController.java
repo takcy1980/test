@@ -43,21 +43,9 @@ public class PhotographersPhotosController {
                     getAttribute("lang").toString();
             public String redirect = request.getRequestURL().toString();
         });
-        mav.addObject("pictures", getPictureList());
+        //@Issue removed "meaningless" pictures
+        //Has to be done through picture sessions
         return mav;
-    }
-    
-    private  List<Picture> getPictureList(){
-        List<Picture> returnList = new ArrayList<>();
-        Shop s  = Shop.getShopByID(2);
-        Set<Picture> pics = s.getPictures();
-                
-        for(Picture p: s.getPictures()){
-            returnList.add(p);
-        }
-            
-  
-        return returnList;
     }
     
 }

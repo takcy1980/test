@@ -16,12 +16,14 @@
     <div class="container">
         <br>
             
-        <div id="actions" class="row">
-            <form method="POST" enctype="multipart/form-data"
-                  action="/app/photographers/upload">
-                File to upload: <input type="file" name="file"><br /> <br /> <input type="submit"
-                    value="Upload"> Klik hier om de upload te starten!
-            </form>
+        <div id="actions">
+            	<form method="POST" enctype="multipart/form-data"
+		action="/app/photographers/upload">
+		File to upload: <input type="file" name="file"><br /> Name: <input
+                    type="text" name="name"><br/>Omschrijving: <input
+			type="text" name="description"><br /> <br /> <input type="submit"
+			value="Upload"> Klik hier om de upload te starten!
+	</form>
         </div>
         {% include "common/snippets/language_bar.twig" %}
     </div>
