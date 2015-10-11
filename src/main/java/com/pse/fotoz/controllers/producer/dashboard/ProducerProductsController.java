@@ -91,14 +91,14 @@ public class ProducerProductsController {
             try {
                 filename = file.getOriginalFilename();
                 String totalname = appPath + "\\" + filename;
-                file.transferTo(new File(totalname));
+                file.transferTo(new File(totalname));                
                 
                 ProductType t = new ProductType();
                 t.setName(request.getParameter("name"));
                 t.setDescription(request.getParameter("description"));
                 t.setPrice(new BigDecimal(request.getParameter("price")));
                 t.setStock(new Integer(request.getParameter("stock")));
-                t.setFilename(totalname);
+                t.setFilename(filename);
                 t.setHeight(new Integer(request.getParameter("height")));
                 t.setWidth(new Integer(request.getParameter("width")));
                 
