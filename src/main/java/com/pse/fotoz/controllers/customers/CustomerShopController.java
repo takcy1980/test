@@ -1,4 +1,4 @@
-package com.pse.fotoz.controllers.customers.shop;
+package com.pse.fotoz.controllers.customers;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.entities.Shop;
