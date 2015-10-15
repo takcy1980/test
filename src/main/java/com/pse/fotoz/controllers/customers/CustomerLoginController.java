@@ -3,7 +3,7 @@ package com.pse.fotoz.controllers.customers;
 import com.pse.fotoz.controllers.producer.dashboard.ProducerShopsController;
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
-import com.pse.fotoz.dbal.entities.Customer_accounts;
+import com.pse.fotoz.dbal.entities.CustomerAccount;
 import com.pse.fotoz.dbal.entities.Shop;
 import com.pse.fotoz.helpers.encryption.PasswordHash;
 import com.pse.fotoz.helpers.forms.InputValidator;
@@ -90,11 +90,11 @@ public class CustomerLoginController {
         String name = request.getParameter("login");
         String password = request.getParameter("password");
         
-        List<Customer_accounts> list = HibernateEntityHelper.all(Customer_accounts.class);
+        List<CustomerAccount> list = HibernateEntityHelper.all(CustomerAccount.class);
         
         boolean login = false;
         
-        for(Customer_accounts cus : list)
+        for(CustomerAccount cus : list)
         {
            if (cus.validatePassword(password)&& cus.getLogin().equals(name)) {
                
