@@ -27,7 +27,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "customer_accounts")
-public class Customer_accounts implements HibernateEntity {
+public class CustomerAccount implements HibernateEntity {
 
     @Id
     @Column(name = "id")
@@ -36,7 +36,7 @@ public class Customer_accounts implements HibernateEntity {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private Customers customer;
+    private Customer customer;
 
     @Basic
     @Column(name = "login", unique = true)
@@ -51,7 +51,7 @@ public class Customer_accounts implements HibernateEntity {
         return id;
     }
 
-    public Customers getCustomer() {
+    public Customer getCustomer() {
         return customer;
     }
 
@@ -67,7 +67,7 @@ public class Customer_accounts implements HibernateEntity {
         this.id = id;
     }
 
-    public void setCustomer(Customers customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 

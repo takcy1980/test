@@ -1,7 +1,7 @@
 package com.pse.fotoz.helpers.forms;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
-import com.pse.fotoz.dbal.entities.Customer_accounts;
+import com.pse.fotoz.dbal.entities.CustomerAccount;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author Robert
  */
-public class CustomerAccountValidator implements InputValidator<Customer_accounts> {
+public class CustomerAccountValidator implements InputValidator<CustomerAccount> {
 
     private final Map<String, String> properties;
 
@@ -40,11 +40,10 @@ public class CustomerAccountValidator implements InputValidator<Customer_account
     }
 
     @Override
-    public ValidationResult validate(Customer_accounts acc) {
+    public ValidationResult validate(CustomerAccount acc) {
         final List<String> errors = new ArrayList<>();
 
-        if (HibernateEntityHelper.find(
-                Customer_accounts.class, "login", acc.getLogin()).
+        if (HibernateEntityHelper.find(CustomerAccount.class, "login", acc.getLogin()).
                 stream().findAny().isPresent()) {
             errors.add(properties.
                     get("ERROR_PRODUCER_NEWSHOP_LOGINALREADYEXISTS"));

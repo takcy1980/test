@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="customers")
-public class Customers implements HibernateEntity{
+public class Customer implements HibernateEntity {
     
     @Id
     @Column(name="id")
