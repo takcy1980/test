@@ -54,8 +54,8 @@ TRUNCATE TABLE `pictures`;
 
 INSERT INTO `pictures` (`id`, `approved`, `description`, `filename`, `height`, `hidden`, `price`, `submission_date`, `title`, `width`, `picture_session_id`) VALUES
 (1, 'YES', '', '582752.jpg', 1, b'0', '1.00', '2015-10-09 00:00:00', '', 1, 4),
-(2, 'YES', '', '58714.jpg', 1, b'0', '1.00', '2015-10-09 00:00:00', '', 1, 1),
-(3, 'YES', '', '58794.jpg', 1, b'0', '1.00', '2015-10-09 00:00:00', '', 1, 1),
+(2, 'YES', 'Genomen tijdens een mooie zonsval.', '58714.jpg', 1, b'0', '1.00', '2015-10-09 00:00:00', 'Kiekje aan het water', 1, 1),
+(3, 'YES', 'Mooi totaalbeeld.', '58794.jpg', 1, b'0', '1.00', '2015-10-09 00:00:00', 'Helicopterfoto', 1, 1),
 (4, 'YES', '', '582014.jpg', 1, b'0', '1.00', '2015-10-09 00:00:00', '', 1, 5);
 
 --
