@@ -3,7 +3,7 @@
 package com.pse.fotoz.helpers.Authentication;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
-import com.pse.fotoz.dbal.entities.ProducerAccounts;
+import com.pse.fotoz.dbal.entities.ProducerAccount;
 import com.pse.fotoz.helpers.encryption.PasswordHash;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -27,12 +27,12 @@ public class LoginProviderProducer implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
         Authentication auth = null;
 
-        Iterator<ProducerAccounts> accounts = HibernateEntityHelper.all(ProducerAccounts.class).
+        Iterator<ProducerAccount> accounts = HibernateEntityHelper.all(ProducerAccount.class).
                 stream().
                 filter(a -> a.getLogin().equals(name)).iterator();
         
         while(accounts.hasNext()){
-            ProducerAccounts account = accounts.next();
+            ProducerAccount account = accounts.next();
             Boolean check = false;
             try{
                 check = PasswordHash.validatePassword(password, account.getPassword());
