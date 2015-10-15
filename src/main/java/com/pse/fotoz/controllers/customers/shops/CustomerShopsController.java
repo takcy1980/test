@@ -4,9 +4,11 @@ import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.entities.Shop;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import java.util.List;
+import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,11 +24,10 @@ public class CustomerShopsController {
                     build();
         
         //find all shops that have at least one public session, of which there
-        //is at least one non-hidden picture.
+        //exists at least one non-hidden picture.
         List<Shop> shops = HibernateEntityHelper.all(Shop.class).stream().
                 filter(shop -> shop.getSessions().stream().
-                        anyMatch(session -> 
-                                session.isPublic() && 
+                        anyMatch(session -> session.isPublic() && 
                                         session.getPictures().stream().
                                                 anyMatch(picture -> 
                                                         !picture.isHidden()))).
@@ -42,8 +43,36 @@ public class CustomerShopsController {
             public String redirect = request.getRequestURL().toString();
         });            
 
-        mav.setViewName("customers/shops.twig");
+        mav.setViewName("customers/shops/index.twig");
 
         return mav;
+    }
+    
+    @RequestMapping(value = "/{shop}", method = RequestMethod.GET)
+    public ModelAndView displayShopDetail(@PathVariable("shop") String shopid, 
+            HttpServletRequest request) {
+        ModelAndView mav = ModelAndViewBuilder.empty().
+                    withProperties(request).
+                    build();
+        
+        mav.addObject("page", new Object() {
+                public String lang = request.getSession().
+                        getAttribute("lang").toString();
+                public String uri = "/customers/shops/";
+                public String redirect = request.getRequestURL().toString();
+            });
+        
+        mav.setViewName("customers/shops/shop_detail.twig");
+        
+        Optional<Shop> shop = HibernateEntityHelper.find(Shop.class, 
+                "login", shopid).stream()
+                .findAny();
+        
+        if (!shop.isPresent()) {
+            return new ModelAndView("redirect:/customers/shops/");
+        } else {
+            mav.addObject("shop", shop.get());
+            return mav;
+        }
     }
 }
