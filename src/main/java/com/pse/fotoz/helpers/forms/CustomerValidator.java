@@ -1,6 +1,6 @@
 package com.pse.fotoz.helpers.forms;
 
-import com.pse.fotoz.dbal.entities.Customers;
+import com.pse.fotoz.dbal.entities.Customer;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.Map;
  * Does NOT check whether the photographer exists
  * @author Robert
  */
-public class CustomerValidator implements InputValidator<Customers> {
+public class CustomerValidator implements InputValidator<Customer> {
     private final Map<String, String> properties;
 
     /**
@@ -33,7 +33,7 @@ public class CustomerValidator implements InputValidator<Customers> {
     }
     
     @Override
-    public ValidationResult validate(Customers cus) {
+    public ValidationResult validate(Customer cus) {
         final List<String> errors = new ArrayList<>();
         
         if (isEmpty(cus.getAddress())) {
