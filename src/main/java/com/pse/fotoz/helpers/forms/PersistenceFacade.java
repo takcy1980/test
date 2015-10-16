@@ -2,8 +2,8 @@ package com.pse.fotoz.helpers.forms;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
-import com.pse.fotoz.dbal.entities.Customer_accounts;
-import com.pse.fotoz.dbal.entities.Customers;
+import com.pse.fotoz.dbal.entities.CustomerAccount;
+import com.pse.fotoz.dbal.entities.Customer;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.Shop;
@@ -133,8 +133,8 @@ public class PersistenceFacade {
             String phone, Map<String, String> properties)
             throws HibernateException {
 
-        Customers cus = new Customers();
-        Customer_accounts account = new Customer_accounts();
+        Customer cus = new Customer();
+        CustomerAccount account = new CustomerAccount();
 
         cus.setName(name);
         cus.setAddress(address);
