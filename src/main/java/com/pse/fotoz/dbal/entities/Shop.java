@@ -151,20 +151,4 @@ public class Shop implements HibernateEntity {
 
         return returnShop;
     }
-    
-    public Picture showcasePicture() {
-        Optional<Picture> result = sessions.stream().
-                filter(session -> 
-                        session.isPublic()).
-                filter(session -> session.getPictures().stream().
-                        anyMatch(picture -> !picture.isHidden())).
-                map(session -> session.getPictures().iterator().next()).
-                findAny();
-        
-        if (result.isPresent()) {
-            return result.get();
-        } else {
-            return null;
-        }
-    }
 }

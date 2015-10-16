@@ -4,10 +4,12 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -47,6 +49,9 @@ public class PictureSession implements HibernateEntity {
     @Basic
     @Column(name="public")
     private boolean isPublic;
+    
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permittedSessions")
+    private Set<CustomerAccount> permittedAccounts;
     
     public int getId() {
         return id;
@@ -103,6 +108,12 @@ public class PictureSession implements HibernateEntity {
     public void setIsPublic(boolean isPublic) {
         this.isPublic = isPublic;
     }
-    
-    
+
+    public Set<CustomerAccount> getPermittedAccounts() {
+        return permittedAccounts;
+    }
+
+    public void setPermittedAccounts(Set<CustomerAccount> permittedAccounts) {
+        this.permittedAccounts = permittedAccounts;
+    }
 }

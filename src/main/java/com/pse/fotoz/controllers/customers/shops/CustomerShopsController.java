@@ -69,7 +69,7 @@ public class CustomerShopsController {
                 .findAny();
         
         if (!shop.isPresent()) {
-            return new ModelAndView("redirect:/customers/shops/");
+            return new ModelAndView("redirect:/app/customers/shops/");
         } else {
             mav.addObject("shop", shop.get());
             return mav;

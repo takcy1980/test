@@ -1,12 +1,15 @@
 package com.pse.fotoz.controllers.customers.shops;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
+import com.pse.fotoz.dbal.entities.CustomerAccount;
 import com.pse.fotoz.dbal.entities.PictureSession;
 import com.pse.fotoz.dbal.entities.Shop;
 import com.pse.fotoz.helpers.forms.Parser;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
+import com.pse.fotoz.helpers.users.Users;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class CustomerPictureSessionsController {
     
     @RequestMapping(value = "/{session}", method = RequestMethod.GET)
-    public ModelAndView displayShopDetail(@PathVariable("shop") String shopid, 
-            @PathVariable("session") String sessionid,
+    public ModelAndView displayPictureSessions(@PathVariable("shop") 
+            String shopid, @PathVariable("session") String sessionid,
             HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
                     withProperties(request).
@@ -42,16 +45,24 @@ public class CustomerPictureSessionsController {
                 "login", shopid).stream()
                 .findAny();
         
-        int sessionId = Parser.parseInt(sessionid).orElse(-1);
+        int sessionId = Parser.parseInt(sessionid).
+                orElse(Integer.MIN_VALUE);
+        
+        final Integer userid = Users.currentUserAccount().
+                map(a -> a.getId()).
+                orElse(Integer.MIN_VALUE);
         
         Optional<PictureSession> session = shop.isPresent() ?
                 shop.get().getSessions().stream().
                         filter(s -> s.getId() == sessionId).
+                        filter(s -> s.isPublic() ||
+                                s.getPermittedAccounts().stream().
+                                        anyMatch(a -> a.getId() == userid)).
                         findAny() :
                 Optional.empty();
         
         if (!session.isPresent()) {
-            return new ModelAndView("redirect:/customers/shops/");
+            return new ModelAndView("redirect:/app/customers/shops/");
         } else {
             mav.addObject("shop", shop.get());
             mav.addObject("session", session.get());

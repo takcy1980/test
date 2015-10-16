@@ -12,6 +12,7 @@
     <http auto-config="true" use-expressions="true">
         <intercept-url pattern="/app/producer/dashboard/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/app/photographers/shop/**" access="hasRole('ROLE_PHOTOGRAPHER')" />
+        <intercept-url pattern="/app/customers/account/**" access="hasRole('ROLE_CUSTOMER')" />
         <logout logout-url="/logout" logout-success-url="/app/logout"/>
         <csrf disabled="true"/>
     </http>
