@@ -3,7 +3,6 @@
 package com.pse.fotoz.helpers.Authentication;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
-import com.pse.fotoz.dbal.entities.ProducerAccounts;
 import com.pse.fotoz.dbal.entities.Shop;
 import com.pse.fotoz.helpers.encryption.PasswordHash;
 import java.security.NoSuchAlgorithmException;
