@@ -9,12 +9,12 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         
-        <mapping class="com.pse.fotoz.dbal.entities.Customers"/>
+        <mapping class="com.pse.fotoz.dbal.entities.Customer"/>
         <mapping class="com.pse.fotoz.dbal.entities.Photographer"/>
         <mapping class="com.pse.fotoz.dbal.entities.Shop"/>
         <mapping class="com.pse.fotoz.dbal.entities.Picture"/>
-        <mapping class="com.pse.fotoz.dbal.entities.Customer_accounts"/>
-        <mapping class="com.pse.fotoz.dbal.entities.ProducerAccounts"/>
+        <mapping class="com.pse.fotoz.dbal.entities.CustomerAccount"/>
+        <mapping class="com.pse.fotoz.dbal.entities.ProducerAccount"/>
         <mapping class="com.pse.fotoz.dbal.entities.PictureSession"/>
         <mapping class="com.pse.fotoz.dbal.entities.ProductType" />
         

@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="producer_accounts")
-public class ProducerAccounts implements HibernateEntity{
+public class ProducerAccount implements HibernateEntity{
     
     @Id
     @Column(name="id")
