@@ -1,0 +1,35 @@
+{% extends "customers/shops/index.twig" %}
+
+{% block content %}
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                
+                <p class="lead">
+                    {{ shop.photographer.name}}
+                </p>
+                
+                <div class="list-group">
+                    {% for session in shop.sessions %}
+                        {% if session.isPublic %}
+                            <a href="/app/customers/shops/{{ shop.login }}/sessions/{{ session.id }}/" class="list-group-item">
+                                {{ session.title }}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+            </div>
+
+            <div class="col-md-9">
+            {% block inner_content %}
+                <p>
+                    Hier moet nog iets komen, mensen!
+                </p>
+            {% endblock %}
+            </div> 
+        </div>
+    </div>
+
+{% endblock %}

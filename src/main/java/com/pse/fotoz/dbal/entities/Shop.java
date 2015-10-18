@@ -11,6 +11,7 @@ import com.pse.fotoz.dbal.HibernateSession;
 import com.pse.fotoz.helpers.encryption.PasswordHash;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
