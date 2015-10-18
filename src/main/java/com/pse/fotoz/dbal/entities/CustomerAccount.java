@@ -8,16 +8,19 @@ package com.pse.fotoz.dbal.entities;
 import com.pse.fotoz.helpers.encryption.PasswordHash;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -46,6 +49,16 @@ public class CustomerAccount implements HibernateEntity {
     @Basic
     @Column(name = "passwordHash")
     private String passwordHash;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "customer_permissions", joinColumns = { 
+                        @JoinColumn(name = "customer_account_id", 
+                                nullable = false, updatable = false)
+                    }, inverseJoinColumns = { 
+                        @JoinColumn(name = "picture_session_id", 
+                                nullable = false, updatable = false) 
+                    })
+    private Set<PictureSession> permittedSessions;
 
     public int getId() {
         return id;
@@ -83,8 +96,16 @@ public class CustomerAccount implements HibernateEntity {
         }
 
     }
+
+    public Set<PictureSession> getPermittedSessions() {
+        return permittedSessions;
+    }
+
+    public void setPermittedSessions(Set<PictureSession> permittedSessions) {
+        this.permittedSessions = permittedSessions;
+    }
     
-        /**
+    /**
      * Validates a password 
      * @param password the password to be verified
      * @return true if the password matches the stored password
