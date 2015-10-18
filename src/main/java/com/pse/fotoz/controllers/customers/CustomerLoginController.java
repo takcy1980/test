@@ -23,6 +23,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,30 +34,45 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/customers/login")
 public class CustomerLoginController {
 
-    
-
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView loadLoginScreen(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView();
-        Map<String, String> labels;
+        ModelAndView mav = ModelAndViewBuilder.empty().
+                withProperties(request).
+                build();
 
-        try {
-            labels = LocaleUtil.getProperties(
-                    request.getSession().getAttribute("lang").toString());
-        } catch (IllegalArgumentException | NullPointerException e) {
-            request.getSession().setAttribute("lang", "nl");
-            labels = LocaleUtil.getProperties(
-                    request.getSession().getAttribute("lang").toString());
-        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
 
-        mav.addObject("labels", labels);
+        mav.addObject("username", name);
+
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
+            public String uri = "/customers/login";
             public String redirect = request.getRequestURL().toString();
         });
 
-        mav.setViewName("customers/login/login.twig");
+        mav.setViewName("customers/home/index.twig");
+
+        return mav;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/fotos")
+    public ModelAndView displayShops(HttpServletRequest request) {
+        ModelAndView mav = ModelAndViewBuilder.empty().
+                withProperties(request).
+                build();
+
+        List<Shop> shops = HibernateEntityHelper.all(Shop.class);
+
+        mav.addObject("shops", shops);
+        mav.addObject("page", new Object() {
+            public String lang = request.getSession().
+                    getAttribute("lang").toString();
+            public String uri = "/customers/login/fotos";
+            public String redirect = request.getRequestURL().toString();
+        });
+        mav.setViewName("customers/login/fotos.twig");
 
         return mav;
     }
@@ -89,15 +106,14 @@ public class CustomerLoginController {
 
         String name = request.getParameter("login");
         String password = request.getParameter("password");
-        
+
         List<CustomerAccount> list = HibernateEntityHelper.all(CustomerAccount.class);
-        
+
         boolean login = false;
-        
-        for(CustomerAccount cus : list)
-        {
-           if (cus.validatePassword(password)&& cus.getLogin().equals(name)) {
-               
+
+        for (CustomerAccount cus : list) {
+            if (cus.validatePassword(password) && cus.getLogin().equals(name)) {
+
                 System.err.println("Test");
                 login = true;
                 mav.setViewName("customers/login/loginSession.twig");
@@ -109,12 +125,10 @@ public class CustomerLoginController {
         mav.addObject("page", new Object() {
             public String lang = "en";
         });
-        
-         if(!login)
-         {
-                mav.setViewName("common/error/505.jsp");
-         }
-            
+
+        if (!login) {
+            mav.setViewName("common/error/505.jsp");
+        }
 
         return mav;
     }

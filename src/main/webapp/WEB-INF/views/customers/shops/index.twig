@@ -26,8 +26,16 @@
                 <span class="icon-bar"></span>
             </button>
 
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav navbar-left">
+
+                    <li><a href="/app/"><i class="fa fa-home"></i> Home</a></li>
+
+                </ul> 
 
 
+            </div>
 
             <!-- /.navbar-collapse -->
         </div>
@@ -35,36 +43,36 @@
     </nav>
 
     {% block content %}
-        
-    <!-- Page Content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">           
-                {% for shop in shops %}
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="/assets/shops/{{ shop.login }}/sessions/{{ shop.showcasePicture.session.id }}/{{ shop.showcasePicture.fileName }}"/>
-                            <div class="caption">
-                                <h4>
-                                    <a href="/app/customers/shops/{{ shop.login }}">
-                                        {{ shop.photographer.name }}
-                                    </a>
-                                </h4>
-                                <p>
-                                    {{ shop.photographer.name }} <br/>
-                                    {{ shop.photographer.address }} <br/>
-                                    {{ shop.photographer.city }} <br/>
-                                    {{ shop.photographer.email }} <br/>
-                                    {{ shop.photographer.phone }}
-                                </p>
+
+        <!-- Page Content -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">           
+                    {% for shop in shops %}
+                        <div class="col-sm-4 col-lg-4 col-md-4">
+                            <div class="thumbnail">
+                                <img src="/assets/shops/{{ shop.login }}/sessions/{{ shop.showcasePicture.session.id }}/{{ shop.showcasePicture.fileName }}"/>
+                                <div class="caption">
+                                    <h4>
+                                        <a href="/app/customers/shops/{{ shop.login }}">
+                                            {{ shop.photographer.name }}
+                                        </a>
+                                    </h4>
+                                    <p>
+                                        {{ shop.photographer.name }} <br/>
+                                        {{ shop.photographer.address }} <br/>
+                                        {{ shop.photographer.city }} <br/>
+                                        {{ shop.photographer.email }} <br/>
+                                        {{ shop.photographer.phone }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
-            
+
     {% endblock %}
 
     <!-- /.container -->
