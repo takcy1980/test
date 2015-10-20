@@ -9,6 +9,7 @@ import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.HibernateSession;
 import com.pse.fotoz.helpers.encryption.PasswordHash;
+import com.pse.fotoz.helpers.forms.DoesNotExist;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Set;
@@ -24,6 +25,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import org.hibernate.Session;
 
 /**
@@ -45,11 +47,14 @@ public class Shop implements HibernateEntity {
 
     @Basic
     @Column(name = "login", unique = true)
+    @Size(min=1, max=100, message = "ERROR_INPUT_EMPTYFIELD")
+    @DoesNotExist(entity=Shop.class, field="login", message="ERROR_INPUT_INVALIDFIELD")
     private String login;
 
     //TODO: hashen wellicht handig
     @Basic
     @Column(name = "passwordHash")
+    @Size(min=1, max=8, message = "ERROR_INPUT_INVALIDFIELD")
     private String passwordHash;
 
     @OneToMany(mappedBy = "shop")

@@ -1,19 +1,22 @@
 package com.pse.fotoz.controllers.producer.dashboard;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
-import com.pse.fotoz.dbal.HibernateException;
+import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Shop;
-import com.pse.fotoz.helpers.forms.InputValidator;
-import com.pse.fotoz.helpers.forms.InputValidator.ValidationResult;
-import com.pse.fotoz.helpers.forms.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.properties.LocaleUtil;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -79,42 +82,38 @@ public class ProducerShopsController {
      * @return 
      */
     @RequestMapping(method = RequestMethod.POST, value = "/new")
-    public ModelAndView handleNewShopForm(HttpServletRequest request) {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        String name = request.getParameter("name");
-        String address = request.getParameter("address");
-        String city = request.getParameter("city");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
+    public ModelAndView handleNewShopForm(@ModelAttribute(value="newShop") @Valid Shop newShop, BindingResult resultShop, 
+                                          @ModelAttribute(value="newPhotographer") @Valid Photographer newPhotographer, BindingResult resultPhotographer,
+                                          HttpServletRequest request) {
+        
+        ModelAndView mav = ModelAndViewBuilder.empty().build();
+        Map<String, String> labels = LocaleUtil.getProperties(request);
+        mav.addObject("labels", labels);
         
         List<String> errors = new ArrayList<>();
         
-        ModelAndView mav = ModelAndViewBuilder.empty().
-                    withProperties(request).
-                    build();
-        
-        try {
-            ValidationResult result = PersistenceFacade.addShop(login, password, 
-                    name, address, city, email, phone, 
-                    LocaleUtil.getProperties(request));
-            
-            if (result.status() == InputValidator.ValidationStatus.OK) {
-                mav.setViewName("producer/dashboard/shops_new_success.twig");
-            } else {
-                errors.addAll(result.errors());
-                mav.setViewName("producer/dashboard/shops_new.twig");
+        if(resultShop.hasFieldErrors()){
+            Iterator<FieldError> it = resultShop.getFieldErrors().iterator();
+            while(it.hasNext()){
+                FieldError err = it.next();
+                errors.add(
+                    MessageFormat.format(
+                        labels.get(err.getDefaultMessage()),
+                        err.getField()
+                    )
+                );
             }
-        } catch (HibernateException ex) {
-            Logger.getLogger(ProducerShopsController.class.getName()).
-                    log(Level.SEVERE, null, ex);
-            errors.add(LocaleUtil.getProperties(request).
-                    get("ERROR_INTERNALDATABASEERROR"));
-            
-            mav.setViewName("producer/dashboard/shops_new.twig");
         }
         
+        //NOG OMZEttEN NAAR FIELDERRORS
+        if(resultPhotographer.hasErrors()){
+            Iterator<ObjectError> it = resultPhotographer.getAllErrors().iterator();
+            while(it.hasNext()){
+                errors.add(labels.get(it.next().getDefaultMessage()));
+            }
+        }
         
+        mav.setViewName("producer/dashboard/shops_new.twig");
         mav.addObject("errors", errors);
         
         mav.addObject("page", new Object() {
@@ -124,7 +123,8 @@ public class ProducerShopsController {
             public String redirect = request.getRequestURL().toString();
         });
         
-
         return mav;
     }
+    
+    
 }

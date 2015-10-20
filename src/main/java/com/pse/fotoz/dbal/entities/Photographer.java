@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -25,22 +27,30 @@ public class Photographer implements HibernateEntity {
     
     @Basic
     @Column(name="name")
+    @Size(min = 1, max = 20, message = "ERROR_INPUT_EMPTYFIELD")
     private String name;
     
     @Basic
     @Column(name="address")
+    @Size(min=1, max=200, message = "ERROR_INPUT_EMPTYFIELD")
     private String address;
     
     @Basic
     @Column(name="city")
+    @Size(min=1, max=100, message = "ERROR_INPUT_EMPTYFIELD")
     private String city;
     
     @Basic
     @Column(name="phone")
+    @Size(min=1, max=40, message = "ERROR_INPUT_EMPTYFIELD")
     private String phone;
     
     @Basic
     @Column(name="email")
+    @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+        +"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+        +"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
+             message="ERROR_INPUT_INVALIDFIELD")
     private String email;
     
     @OneToMany(mappedBy="photographer")
