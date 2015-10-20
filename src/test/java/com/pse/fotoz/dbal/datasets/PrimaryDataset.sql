@@ -6,7 +6,7 @@
 -- Generation Time: Oct 10, 2015 at 07:06 PM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
-
+USE fotoz;
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";

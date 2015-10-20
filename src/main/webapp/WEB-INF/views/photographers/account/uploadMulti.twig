@@ -1,7 +1,7 @@
 {% extends "common/bootstrap.twig" %}
 
 {% block title %}
-    lala
+    {{ labels.photographers_upload_page_title}}
 {% endblock %}
 
 {% block more_js %}
@@ -17,10 +17,9 @@
     <div class="container">
         <blockquote>
             <p>
-                This is a bootstrap theme of Dropzone.js with a completely different user experience.<br />
-                It is a demonstration of the powerful configuration possibilities of <a href="http://www.dropzonejs.com">Dropzone.js</a>.
-                You can make Dropzone.js look exactly how you want it to look and it's very easy to do so.
+                {{ labels.photographers_upload_intro_title}}
             </p>
+            {{ labels.photographers_upload_intro_sub}}
         </blockquote>
 
         <br>
@@ -30,15 +29,15 @@
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
-                    <span>Add files...</span>
+                    <span>{{ labels.photographers_upload_btn_addpic }}</span>
                 </span>
                 <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start upload</span>
+                    <span>{{ labels.photographers_upload_btn_startupload }}</span>
                 </button>
                 <button type="reset" class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel upload</span>
+                    <span>{{ labels.photographers_upload_btn_cancelupload }}</span>
                 </button>
             </div>
 
@@ -80,15 +79,15 @@
                 <div>
                     <button class="btn btn-primary start">
                         <i class="glyphicon glyphicon-upload"></i>
-                        <span>Start</span>
+                        <span>{{ labels.photographers_upload_btn_startpic }}</span>
                     </button>
                     <button data-dz-remove class="btn btn-warning cancel">
                         <i class="glyphicon glyphicon-ban-circle"></i>
-                        <span>Cancel</span>
+                        <span>{{ labels.photographers_upload_btn_cancelpic }}</span>
                     </button>
                     <button data-dz-remove class="btn btn-danger delete">
                         <i class="glyphicon glyphicon-trash"></i>
-                        <span>Delete</span>
+                        <span>{{ labels.photographers_upload_btn_deletepic }}</span>
                     </button>
                 </div>
             </div>

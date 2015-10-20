@@ -5,7 +5,7 @@ var previewTemplate = previewNode.parentNode.innerHTML;
 previewNode.parentNode.removeChild(previewNode);
 
 var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-  url: "/app/photographers/upload2", // Set the url
+  url: "/app/photographers/upload", // Set the url
   thumbnailWidth: 80,
   thumbnailHeight: 80,
   parallelUploads: 20,

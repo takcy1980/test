@@ -5,21 +5,25 @@
  */
 package com.pse.fotoz.controllers.photographers;
 
+import com.pse.fotoz.dbal.HibernateException;
+import com.pse.fotoz.dbal.entities.Picture;
+import com.pse.fotoz.dbal.entities.PictureSession;
+import com.pse.fotoz.dbal.entities.Shop;
+import com.pse.fotoz.helpers.Configuration.ConfigurationHelper;
 import com.pse.fotoz.properties.LocaleUtil;
-import java.io.BufferedOutputStream;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
-import javassist.bytecode.Descriptor;
+import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -30,7 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author René
  */
 @Controller
-@RequestMapping("/photographers/upload2")
+@RequestMapping("/photographers/upload")
 public class PhotographerMultiFileUploadController {
 
     @RequestMapping(method = RequestMethod.GET)
@@ -57,32 +61,78 @@ public class PhotographerMultiFileUploadController {
         return mav;
     }
 
-
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody
     String upload(MultipartHttpServletRequest request,
-            HttpServletResponse response) throws IOException {
+            HttpServletResponse response) {
 
-        // Getting uploaded files from the request object
-        Map<String, MultipartFile> fileMap = request.getFileMap();
-              //Logger.getLogger(fileMap.size())
-        //for(Map.Entry<String, MultipartFile> entry : Map.
+        ServletContext context = request.getServletContext();
+        String appPath = context.getRealPath(ConfigurationHelper.getShopAssetLocation());//dit bepaald de folder waar opgeslagen wordt
+        String returnMessage = "";
 
-        //1. build an iterator
         Iterator<String> itr = request.getFileNames();
-        MultipartFile mpf = null;
+        MultipartFile file = null;
 
-        //2. get each file
         while (itr.hasNext()) {
-            //2.1 get next MultipartFile
-            mpf = request.getFile(itr.next());
-            Logger.getLogger(mpf.getOriginalFilename() + " uploaded! ");
+            file = request.getFile(itr.next());
+            Logger.getLogger(file.getOriginalFilename() + " uploaded! ");
 
-            File folder = new File("C:\\test");
-            folder.mkdir(); //maak folder als niet bestaat
-            mpf.transferTo(new File("c:\\test\\" + mpf.getOriginalFilename()));
+
+            if (!file.isEmpty()) {
+                try {
+                    String name = file.getOriginalFilename();
+                    
+                    Shop shop = getCurrentSHop();
+                    //todo: sessie dropdowntje oid
+                    PictureSession session = (shop.getSessions().isEmpty()) ? null : shop.getSessions().iterator().next();
+                    if (saveUpload(file, name, session)) {
+                        File folder = new File(appPath + "\\" + shop.getLogin());
+                        folder.mkdir(); //maak folder als niet bestaat
+                        file.transferTo(new File(appPath + "\\" + shop.getLogin() + "\\" + name));
+                        returnMessage = "Upload van " + name + " geslaagd!";
+                    }
+                } catch (Exception e) {
+                    returnMessage = "Upload mislukt => " + e.getMessage();
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
+            } else {
+                returnMessage = "Upload van mislukt, bestand was leeg.";
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
 
         }
-        return "";
+        return returnMessage;
+    }
+
+    private Shop getCurrentSHop() {
+        //todo: linken aan inlogprocedure
+        return Shop.getShopByLogin("mooie-kiekjes");
+    }
+
+    
+    private boolean saveUpload(MultipartFile file, String title, PictureSession session) throws IOException {
+        boolean returnVal = false;
+        try {
+            //dit weghalen indien dimensies niet nodig zijn
+            BufferedImage image = ImageIO.read(file.getInputStream());
+
+            Picture pic1 = new Picture();
+            pic1.setSession(session);
+            pic1.setWidth(image.getWidth());
+            pic1.setHeight(image.getHeight());
+            pic1.setFileName(file.getOriginalFilename());
+            
+            //pic1.setDescription(description);
+            //pic1.setPrice(new BigDecimal(10.75));
+            pic1.setHidden(false);
+            pic1.setApproved(Picture.Approved.PENDING);
+            pic1.setSubmissionDate(new Date());
+            pic1.setTitle(title);
+            pic1.persist();
+            returnVal = true;
+        } catch (HibernateException ex) {
+            Logger.getLogger(PhotographerMultiFileUploadController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return returnVal;
     }
 }
