@@ -5,18 +5,20 @@ import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.Customer;
 import com.pse.fotoz.dbal.entities.CustomerAccount;
+import com.pse.fotoz.dbal.entities.Shop;
 import com.pse.fotoz.helpers.forms.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.properties.LocaleUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -29,30 +31,45 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/customers/login")
 public class CustomerLoginController {
 
-    
-
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView loadLoginScreen(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView();
-        Map<String, String> labels;
+        ModelAndView mav = ModelAndViewBuilder.empty().
+                withProperties(request).
+                build();
 
-        try {
-            labels = LocaleUtil.getProperties(
-                    request.getSession().getAttribute("lang").toString());
-        } catch (IllegalArgumentException | NullPointerException e) {
-            request.getSession().setAttribute("lang", "nl");
-            labels = LocaleUtil.getProperties(
-                    request.getSession().getAttribute("lang").toString());
-        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
 
-        mav.addObject("labels", labels);
+        mav.addObject("username", name);
+
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
+            public String uri = "/customers/login";
             public String redirect = request.getRequestURL().toString();
         });
 
-        mav.setViewName("customers/login/login.twig");
+        mav.setViewName("customers/home/index.twig");
+
+        return mav;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/fotos")
+    public ModelAndView displayShops(HttpServletRequest request) {
+        ModelAndView mav = ModelAndViewBuilder.empty().
+                withProperties(request).
+                build();
+
+        List<Shop> shops = HibernateEntityHelper.all(Shop.class);
+
+        mav.addObject("shops", shops);
+        mav.addObject("page", new Object() {
+            public String lang = request.getSession().
+                    getAttribute("lang").toString();
+            public String uri = "/customers/login/fotos";
+            public String redirect = request.getRequestURL().toString();
+        });
+        mav.setViewName("customers/login/fotos.twig");
 
         return mav;
     }
@@ -86,9 +103,9 @@ public class CustomerLoginController {
 
         String name = request.getParameter("login");
         String password = request.getParameter("password");
-        
+
         List<CustomerAccount> list = HibernateEntityHelper.all(CustomerAccount.class);
-        
+
         boolean login = false;
         
         for(CustomerAccount cus : list)
@@ -104,12 +121,10 @@ public class CustomerLoginController {
         mav.addObject("page", new Object() {
             public String lang = "en";
         });
-        
-         if(!login)
-         {
-                mav.setViewName("common/error/505.jsp");
-         }
-            
+
+        if (!login) {
+            mav.setViewName("common/error/505.jsp");
+        }
 
         return mav;
     }
