@@ -86,31 +86,23 @@ public class ProducerShopsController {
                                           @ModelAttribute(value="newPhotographer") @Valid Photographer newPhotographer, BindingResult resultPhotographer,
                                           HttpServletRequest request) {
         
-        ModelAndView mav = ModelAndViewBuilder.empty().build();
-        Map<String, String> labels = LocaleUtil.getProperties(request);
-        mav.addObject("labels", labels);
+        ModelAndView mav = ModelAndViewBuilder.empty().
+                    withProperties(request).
+                    build();
         
         List<String> errors = new ArrayList<>();
         
         if(resultShop.hasFieldErrors()){
             Iterator<FieldError> it = resultShop.getFieldErrors().iterator();
             while(it.hasNext()){
-                FieldError err = it.next();
-                errors.add(
-                    err.getDefaultMessage()
-                    //MessageFormat.format(
-                    //    labels.get(err.getDefaultMessage()),
-                    //    err.getField()
-                    //)
-                );
+                errors.add(it.next().getDefaultMessage());
             }
         }
         
-        //NOG OMZEttEN NAAR FIELDERRORS
-        if(resultPhotographer.hasErrors()){
-            Iterator<ObjectError> it = resultPhotographer.getAllErrors().iterator();
+        if(resultPhotographer.hasFieldErrors()){
+            Iterator<FieldError> it = resultPhotographer.getFieldErrors().iterator();
             while(it.hasNext()){
-                errors.add(labels.get(it.next().getDefaultMessage()));
+                errors.add(it.next().getDefaultMessage());
             }
         }
         
@@ -126,6 +118,5 @@ public class ProducerShopsController {
         
         return mav;
     }
-    
-    
+
 }

@@ -47,14 +47,14 @@ public class Shop implements HibernateEntity {
 
     @Basic
     @Column(name = "login", unique = true)
-    @Size(min=1, max=100, message = "ERROR_INPUT_EMPTYFIELD")
-    @DoesNotExist(entity=Shop.class, field="login", message="ERROR_INPUT_INVALIDFIELD")
+    @Size(min=1, max=100, message = "{error_size_login}")
+    @DoesNotExist(entity=Shop.class, field="login", message="{error_exist_login}")
     private String login;
 
     //TODO: hashen wellicht handig
     @Basic
     @Column(name = "passwordHash")
-    @Size(min=1, max=8, message = "{messagetest}")
+    @Size(min=1, max=8, message = "{error_size_password}")
     private String passwordHash;
 
     @OneToMany(mappedBy = "shop")

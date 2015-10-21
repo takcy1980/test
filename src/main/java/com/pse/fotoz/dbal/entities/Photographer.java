@@ -27,22 +27,22 @@ public class Photographer implements HibernateEntity {
     
     @Basic
     @Column(name="name")
-    @Size(min = 1, max = 20, message = "ERROR_INPUT_EMPTYFIELD")
+    @Size(min = 1, max = 100, message = "{error_size_name}")
     private String name;
     
     @Basic
     @Column(name="address")
-    @Size(min=1, max=200, message = "ERROR_INPUT_EMPTYFIELD")
+    @Size(min=1, message = "{error_size_address}")
     private String address;
     
     @Basic
     @Column(name="city")
-    @Size(min=1, max=100, message = "ERROR_INPUT_EMPTYFIELD")
+    @Size(min=1, message = "{error_size_city}")
     private String city;
     
     @Basic
     @Column(name="phone")
-    @Size(min=1, max=40, message = "ERROR_INPUT_EMPTYFIELD")
+    @Size(min=1, max=40, message = "{error_size_phone}")
     private String phone;
     
     @Basic
@@ -50,7 +50,7 @@ public class Photographer implements HibernateEntity {
     @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
         +"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
         +"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
-             message="ERROR_INPUT_INVALIDFIELD")
+             message="{error_pattern_email}")
     private String email;
     
     @OneToMany(mappedBy="photographer")

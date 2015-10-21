@@ -15,14 +15,14 @@ import org.springframework.web.util.WebUtils;
  *
  * @author Gijs
  */
-public class UrlLocaleResolver implements LocaleResolver {
+public class CustomLocaleResolver implements LocaleResolver {
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
         
         Locale loc; 
         
         try{
-            loc = new Locale(WebUtils.getSessionAttribute(request,"lang").toString());
+            loc = new Locale(request.getSession().getAttribute("lang").toString());
         } catch (NullPointerException ex){
             //language not implemented in visited page
             //default language NL

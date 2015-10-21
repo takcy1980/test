@@ -4,7 +4,7 @@ import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.loader.Loader;
 import com.mitchellbosecke.pebble.loader.ServletLoader;
 import com.mitchellbosecke.pebble.spring.PebbleViewResolver;
-import com.pse.fotoz.properties.UrlLocaleResolver;
+import com.pse.fotoz.properties.CustomLocaleResolver;
 import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -75,7 +75,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     public MessageSource messageSource()
     {
         ReloadableResourceBundleMessageSource bean = new ReloadableResourceBundleMessageSource();
-        bean.setBasename("classpath:properties/berichten");
+        bean.setBasename("classpath:properties/errormsg");
         bean.setDefaultEncoding("UTF-8");
         return bean;
     }
@@ -90,7 +90,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         
     @Bean(name = "localeResolver")
     public LocaleResolver localeResolver(){
-        LocaleResolver loc = new UrlLocaleResolver();
+        LocaleResolver loc = new CustomLocaleResolver();
         return loc;
     }
 
