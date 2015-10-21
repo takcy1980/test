@@ -7,8 +7,6 @@ import com.pse.fotoz.dbal.entities.Customer;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.Shop;
-import com.pse.fotoz.helpers.forms.InputValidator.ValidationResult;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -70,16 +68,12 @@ public class PersistenceFacade {
      * @param city City of the shop's owner
      * @param email Email address of the shop's owner
      * @param phone Phone number of the shop's owner
-     * @param properties Properties file containing the error messages that can
-     * be generated.
-     * @return ValidationResult that is either OK if no illegal input was
-     * detected, or NOK if there was.
      * @throws HibernateException If a persistence error occured regardless of a
      * correct input.
      */
-    public static ValidationResult addShop(String login, String password,
+    public static void addShop(String login, String password,
             String name, String address, String city, String email,
-            String phone, Map<String, String> properties)
+            String phone)
             throws HibernateException {
 
         Photographer phtgrpr = new Photographer();
@@ -91,24 +85,12 @@ public class PersistenceFacade {
         phtgrpr.setName(name);
         phtgrpr.setPhone(phone);
 
-        ValidationResult pResult = new PhotographerValidator(properties).
-                validate(phtgrpr);
-
         shop.setLogin(login);
         shop.setPassword(password);
-
-        ValidationResult sResult = new ShopValidator(properties).
-                validate(shop);
-
-        ValidationResult composed = pResult.compose(pResult, sResult);
-
-        if (composed.status() == InputValidator.ValidationStatus.OK) {
-            phtgrpr.persist();
-            shop.setPhotographer(phtgrpr);
-            shop.persist();
-        }
-
-        return composed;
+          
+        phtgrpr.persist();
+        shop.setPhotographer(phtgrpr);
+        shop.persist();
     }
     
     /**
@@ -121,16 +103,12 @@ public class PersistenceFacade {
      * @param phone Phone number of the shop's owner
      * @param login Login of the shop
      * @param password Password of the shop
-     * @param properties Properties file containing the error messages that can
-     * be generated.
-     * @return ValidationResult that is either OK if no illegal input was
-     * detected, or NOK if there was.
      * @throws HibernateException If a persistence error occured regardless of a
      * correct input.
      */
-    public static ValidationResult addCustomer(String login, String password,
+    public static void addCustomer(String login, String password,
             String name, String address, String city, String email,
-            String phone, Map<String, String> properties)
+            String phone)
             throws HibernateException {
 
         Customer cus = new Customer();
@@ -141,25 +119,12 @@ public class PersistenceFacade {
         cus.setCity(city);
         cus.setPhone(phone);
         cus.setEmail(email);
-        
-
-        ValidationResult pResult = new CustomerValidator(properties).
-                validate(cus);
 
         account.setLogin(login);
         account.setPasswordHash(password);
-
-        ValidationResult sResult = new CustomerAccountValidator(properties).
-                validate(account);
-
-        ValidationResult composed = pResult.compose(pResult, sResult);
-
-        if (composed.status() == InputValidator.ValidationStatus.OK) {
-            cus.persist();
-            account.setCustomer(cus);
-            account.persist();
-        }
-
-        return composed;
+        
+        cus.persist();
+        account.setCustomer(cus);
+        account.persist();
     }
 }

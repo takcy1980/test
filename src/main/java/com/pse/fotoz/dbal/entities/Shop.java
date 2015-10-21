@@ -51,10 +51,9 @@ public class Shop implements HibernateEntity {
     @DoesNotExist(entity=Shop.class, field="login", message="{error_exist_login}")
     private String login;
 
-    //TODO: hashen wellicht handig
     @Basic
     @Column(name = "passwordHash")
-    @Size(min=1, max=8, message = "{error_size_password}")
+    @Size(min=4, message = "{error_size_password}")
     private String passwordHash;
 
     @OneToMany(mappedBy = "shop")

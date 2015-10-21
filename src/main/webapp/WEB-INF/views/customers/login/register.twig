@@ -43,38 +43,43 @@
     </nav>
     
     <div class="container">
-        {% if error is not empty %}
-            <p class="error">{{ error }}</p>
-        {% endif %}
+        {% for error in errors %}
+        <div class="row alert alert-danger">
+            <div class="col-lg-12">
+                {{ error }}
+            </div>
+        </div>
+        {% endfor %}
+ 
         <form class="form-signin" method="post" role="form">
     
             <h2 class="form-signin-heading">
                 {{ labels.customer_register_register_label }}:
             </h2>
-            <label for="customer_name" class="sr-only">
+            <label for="name" class="sr-only">
                 {{ labels.customer_register_name_label }}:
             </label>
-            <input type="text" id="customer_name" name="customer_name" class="form-control" placeholder="{{ labels.customer_register_name_label }}" required autofocus>
+            <input type="text" id="customer_name" name="name" class="form-control" placeholder="{{ labels.customer_register_name_label }}" required autofocus>
 
-            <label for="customer_adress" class="sr-only">
+            <label for="adress" class="sr-only">
                 {{ labels.customer_register_adress_label }}:
             </label>
-            <input type="text" id="customer_adress" name="customer_adress" class="form-control" placeholder="{{ labels.customer_register_adress_label }}" required autofocus>
+            <input type="text" id="customer_adress" name="adress" class="form-control" placeholder="{{ labels.customer_register_adress_label }}" required autofocus>
 
-            <label for="customer_adress" class="sr-only">
+            <label for="city" class="sr-only">
                 {{ labels.customer_register_city_label }}:
             </label>
-            <input type="text" id="customer_city" name="customer_city" class="form-control" placeholder="{{ labels.customer_register_city_label }}" required autofocus>
+            <input type="text" id="customer_city" name="city" class="form-control" placeholder="{{ labels.customer_register_city_label }}" required autofocus>
 
-            <label for="customer_phone" class="sr-only">
+            <label for="phone" class="sr-only">
                 {{ labels.customer_register_phone_label }}:
             </label>
-            <input type="number" id="customer_phone" name="customer_phone" class="form-control" placeholder="{{ labels.customer_register_phone_label }}" required autofocus>
+            <input type="number" id="customer_phone" name="phone" class="form-control" placeholder="{{ labels.customer_register_phone_label }}" required autofocus>
 
-            <label for="customer_email" class="sr-only">
+            <label for="email" class="sr-only">
                 {{ labels.customer_register_email_label }}:
             </label>
-            <input type="email" id="customer_email" name="customer_email" class="form-control" placeholder="{{ labels.customer_register_email_label }}" required autofocus>
+            <input type="email" id="customer_email" name="email" class="form-control" placeholder="{{ labels.customer_register_email_label }}" required autofocus>
          
 
             <label>
@@ -86,7 +91,7 @@
                 {{ labels.customer_login_password_label }}:
             </label>
             <input type="password" id="inputPassword" class="form-control" 
-                   required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" name="inputPassword"  onchange="form.repeatPassword.pattern = this.value;">
+                   required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}" name="passwordHash"  onchange="form.repeatPassword.pattern = this.value;">
             
              <label>
                 Repeat password
