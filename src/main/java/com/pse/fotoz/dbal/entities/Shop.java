@@ -54,7 +54,7 @@ public class Shop implements HibernateEntity {
     //TODO: hashen wellicht handig
     @Basic
     @Column(name = "passwordHash")
-    @Size(min=1, max=8, message = "ERROR_INPUT_INVALIDFIELD")
+    @Size(min=1, max=8, message = "{messagetest}")
     private String passwordHash;
 
     @OneToMany(mappedBy = "shop")

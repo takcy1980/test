@@ -97,10 +97,11 @@ public class ProducerShopsController {
             while(it.hasNext()){
                 FieldError err = it.next();
                 errors.add(
-                    MessageFormat.format(
-                        labels.get(err.getDefaultMessage()),
-                        err.getField()
-                    )
+                    err.getDefaultMessage()
+                    //MessageFormat.format(
+                    //    labels.get(err.getDefaultMessage()),
+                    //    err.getField()
+                    //)
                 );
             }
         }
