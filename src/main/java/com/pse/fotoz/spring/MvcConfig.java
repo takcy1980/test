@@ -4,7 +4,7 @@ import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.loader.Loader;
 import com.mitchellbosecke.pebble.loader.ServletLoader;
 import com.mitchellbosecke.pebble.spring.PebbleViewResolver;
-import java.util.Locale;
+import com.pse.fotoz.properties.UrlLocaleResolver;
 import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -18,11 +18,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.FixedLocaleResolver;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 /**
  * Basic Spring configuration, integrating Pebble.
@@ -92,22 +88,11 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         return bean;
     }
         
-
-        
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-//        localeChangeInterceptor.setParamName("lang");
-//        registry.addInterceptor(localeChangeInterceptor);
-//    }
-    
-//    @Bean
-//    public LocaleResolver localeResolver() {
-//        LocaleResolver l = new SessionLocaleResolver(); 
-//        FixedLocaleResolver localeResolver = new FixedLocaleResolver();
-//        localeResolver.setDefaultLocale(new Locale(env.getProperty("system.default.language")));
-//        return localeResolver;
-//    }
+    @Bean(name = "localeResolver")
+    public LocaleResolver localeResolver(){
+        LocaleResolver loc = new UrlLocaleResolver();
+        return loc;
+    }
 
     @Override
     public Validator getValidator()

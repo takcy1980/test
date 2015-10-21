@@ -34,6 +34,6 @@ public class UrlLocaleResolver implements LocaleResolver {
 
     @Override
     public void setLocale(HttpServletRequest hsr, HttpServletResponse hsr1, Locale locale) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //locale not able to change via set
     }
 }

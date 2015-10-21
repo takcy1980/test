@@ -11,8 +11,4 @@
     
     <bean class="com.pse.fotoz.spring.MvcConfig"/>
     
-    <bean id="localeResolver"
-      class="com.pse.fotoz.properties.UrlLocaleResolver">
-    </bean>
-    
 </beans>
