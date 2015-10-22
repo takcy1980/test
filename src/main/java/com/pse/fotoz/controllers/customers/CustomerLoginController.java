@@ -10,12 +10,10 @@ import com.pse.fotoz.helpers.forms.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.properties.LocaleUtil;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -98,33 +96,28 @@ public class CustomerLoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView serviceLoginRequest(HttpServletRequest request, HttpServletResponse res) {
+    public ModelAndView serviceLoginRequest(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
 
         String name = request.getParameter("login");
         String password = request.getParameter("password");
 
-        List<CustomerAccount> list = HibernateEntityHelper.all(CustomerAccount.class);
+        List<CustomerAccount> accounts = 
+                HibernateEntityHelper.all(CustomerAccount.class);
 
-        boolean login = false;
+        mav.setViewName("common/error/505.jsp");
         
-        for(CustomerAccount cus : list)
-        {
-           if (cus.validatePassword(password)&& cus.getLogin().equals(name)) {
-                login = true;
+        for(CustomerAccount account : accounts) {
+           if (account.validatePassword(password)&& 
+                   account.getLogin().equals(name)) {
                 mav.setViewName("customers/login/loginSession.twig");
             }
         }
 
-        // mav.setViewName("producer/login/login.twig");
         mav.addObject("labels", LocaleUtil.getProperties("en"));
         mav.addObject("page", new Object() {
             public String lang = "en";
         });
-
-        if (!login) {
-            mav.setViewName("common/error/505.jsp");
-        }
 
         return mav;
     }
@@ -132,12 +125,21 @@ public class CustomerLoginController {
     /**
      * Handles a request to add a new shop to the system by the producer.
      *
+     * @param newCustomerAcc
+     * @param resultCustomerAcc
+     * @param newCustomer
+     * @param resultCustomer
      * @param request
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value = "/new")
-    public ModelAndView handleNewCustomerForm(@ModelAttribute(value = "newCustomerAcc") @Valid CustomerAccount newCustomerAcc, BindingResult resultCustomerAcc,
-            @ModelAttribute(value = "newCustomer") @Valid Customer newCustomer, BindingResult resultCustomer,
+    public ModelAndView handleNewCustomerForm(
+            @ModelAttribute(value = "newCustomerAcc") @Valid 
+                    CustomerAccount newCustomerAcc, 
+            BindingResult resultCustomerAcc,
+            @ModelAttribute(value = "newCustomer") @Valid 
+                    Customer newCustomer, 
+            BindingResult resultCustomer,
             HttpServletRequest request) {
 
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -146,18 +148,12 @@ public class CustomerLoginController {
 
         List<String> errors = new ArrayList<>();
 
-        if (resultCustomerAcc.hasFieldErrors()) {
-            Iterator<FieldError> it = resultCustomerAcc.getFieldErrors().iterator();
-            while (it.hasNext()) {
-                errors.add(it.next().getDefaultMessage());
-            }
+        for (FieldError error : resultCustomerAcc.getFieldErrors()) {
+            errors.add(error.getDefaultMessage());
         }
 
-        if (resultCustomer.hasFieldErrors()) {
-            Iterator<FieldError> it = resultCustomer.getFieldErrors().iterator();
-            while (it.hasNext()) {
-                errors.add(it.next().getDefaultMessage());
-            }
+        for (FieldError error : resultCustomer.getFieldErrors()) {
+            errors.add(error.getDefaultMessage());
         }
 
         if (errors.isEmpty()) {
@@ -166,12 +162,13 @@ public class CustomerLoginController {
                 String login = request.getParameter("login");
                 String password = request.getParameter("passwordHash");
                 String name = request.getParameter("name");
-                String address = request.getParameter("adress");
+                String address = request.getParameter("address");
                 String city = request.getParameter("city");
                 String phone = request.getParameter("phone");
                 String email = request.getParameter("email");
 
-                PersistenceFacade.addCustomer(login, password, name, address, city, email, phone);
+                PersistenceFacade.addCustomer(login, password, name, address, 
+                        city, email, phone);
                 mav.setViewName("customers/login/customer_new_success.twig");
             } catch (HibernateException ex) {
                 Logger.getLogger(ProducerShopsController.class.getName()).

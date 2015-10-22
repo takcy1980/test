@@ -65,7 +65,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        CommonsMultipartResolver commonsMultipartResolver = 
+                new CommonsMultipartResolver();
         commonsMultipartResolver.setDefaultEncoding("utf-8");
         commonsMultipartResolver.setMaxUploadSize(50000000);
         return commonsMultipartResolver;
@@ -74,7 +75,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     @Bean(name = "messageSource")
     public MessageSource messageSource()
     {
-        ReloadableResourceBundleMessageSource bean = new ReloadableResourceBundleMessageSource();
+        ReloadableResourceBundleMessageSource bean = 
+                new ReloadableResourceBundleMessageSource();
         bean.setBasename("classpath:properties/errormsg");
         bean.setDefaultEncoding("UTF-8");
         return bean;

@@ -9,31 +9,28 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.util.WebUtils;
 
 /**
  *
  * @author Gijs
  */
 public class CustomLocaleResolver implements LocaleResolver {
+    
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
+        String lang = request.getSession().getAttribute("lang").toString();
         
-        Locale loc; 
-        
-        try{
-            loc = new Locale(request.getSession().getAttribute("lang").toString());
-        } catch (NullPointerException ex){
-            //language not implemented in visited page
-            //default language NL
-            loc = new Locale("nl");
+        try {
+            return LocaleUtil.getLocale(lang);
+        } catch (IllegalArgumentException e) {
+            return LocaleUtil.getLocale("nl");
         }
-
-        return loc;
     }
 
-    @Override
-    public void setLocale(HttpServletRequest hsr, HttpServletResponse hsr1, Locale locale) {
-        //locale not able to change via set
+   @Override
+    public void setLocale(HttpServletRequest hsr, HttpServletResponse hsr1, 
+            Locale locale) {
+        throw new UnsupportedOperationException("Locale not able to "
+                + "change via set.");
     }
 }

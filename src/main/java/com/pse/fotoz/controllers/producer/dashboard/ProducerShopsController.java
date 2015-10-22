@@ -8,7 +8,6 @@ import com.pse.fotoz.helpers.forms.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.properties.LocaleUtil;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,12 +82,20 @@ public class ProducerShopsController {
     /**
      * Handles a request to add a new shop to the system by the producer.
      *
+     * @param newShop
+     * @param resultShop
+     * @param newPhotographer
+     * @param resultPhotographer
      * @param request
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value = "/new")
-    public ModelAndView handleNewShopForm(@ModelAttribute(value = "newShop") @Valid Shop newShop, BindingResult resultShop,
-            @ModelAttribute(value = "newPhotographer") @Valid Photographer newPhotographer, BindingResult resultPhotographer,
+    public ModelAndView handleNewShopForm(
+            @ModelAttribute(value = "newShop") @Valid
+                    Shop newShop, BindingResult resultShop,
+            @ModelAttribute(value = "newPhotographer") @Valid 
+                    Photographer newPhotographer, 
+            BindingResult resultPhotographer,
             HttpServletRequest request) {
 
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -97,18 +104,13 @@ public class ProducerShopsController {
 
         List<String> errors = new ArrayList<>();
 
-        if (resultShop.hasFieldErrors()) {
-            Iterator<FieldError> it = resultShop.getFieldErrors().iterator();
-            while (it.hasNext()) {
-                errors.add(it.next().getDefaultMessage());
-            }
+        
+        for (FieldError error : resultShop.getFieldErrors()) {
+            errors.add(error.getDefaultMessage());
         }
-
-        if (resultPhotographer.hasFieldErrors()) {
-            Iterator<FieldError> it = resultPhotographer.getFieldErrors().iterator();
-            while (it.hasNext()) {
-                errors.add(it.next().getDefaultMessage());
-            }
+        
+        for (FieldError error : resultPhotographer.getFieldErrors()) {
+            errors.add(error.getDefaultMessage());
         }
 
         if (errors.isEmpty()) {
@@ -120,8 +122,9 @@ public class ProducerShopsController {
                 String address = request.getParameter("address");
                 String city = request.getParameter("city");
                 String email = request.getParameter("email");
-                String phone = request.getParameter("phone");
-                PersistenceFacade.addShop(login, password, name, address, city, email, phone);
+                String phone = request.getParameter("phone");                
+                PersistenceFacade.addShop(login, password, name, address, city, 
+                        email, phone);                
                 mav.setViewName("producer/dashboard/shops_new_success.twig");
             } catch (HibernateException ex) {
                 Logger.getLogger(ProducerShopsController.class.getName()).

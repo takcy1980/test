@@ -46,7 +46,8 @@ public class CustomerAccount implements HibernateEntity {
     @Basic
     @Column(name = "login", unique = true)
     @Size(min=1, max=100, message = "{error_size_login}")
-    @DoesNotExist(entity=CustomerAccount.class, field="login", message="{error_exist_login}")
+    @DoesNotExist(entity=CustomerAccount.class, field="login", 
+            message="{error_exist_login}")
     private String login;
 
     @Basic
