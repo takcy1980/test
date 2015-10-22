@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -29,22 +31,30 @@ public class Customer implements HibernateEntity {
     
     @Basic
     @Column(name="name")
+    @Size(min = 1, max = 100, message = "{error_size_name}")
     private String name;
     
     @Basic
     @Column(name="address")
+    @Size(min=1, message = "{error_size_address}")
     private String address;
     
     @Basic
     @Column(name="city")
+    @Size(min=1, message = "{error_size_city}")
     private String city;
     
     @Basic
     @Column(name="phone")
+    @Size(min=1, max=40, message = "{error_size_phone}")
     private String phone;
     
     @Basic
     @Column(name="email")
+    @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+        +"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+        +"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
+             message="{error_pattern_email}")
     private String email;
 
     public int getId() {
