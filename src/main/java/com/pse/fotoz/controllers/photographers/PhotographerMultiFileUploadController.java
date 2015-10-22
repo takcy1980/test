@@ -28,17 +28,21 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import com.pse.fotoz.helpers.Authentication.OwnershipHelper;
+import com.pse.fotoz.helpers.Authentication.LoginHelper;
+import java.util.Optional;
 
 /**
  *
  * @author René
  */
 @Controller
-@RequestMapping("/photographers/upload")
 public class PhotographerMultiFileUploadController {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView doGet(HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.GET, path = "/photographers/shop/{shopName}/upload/{sessionCode}")
+    public ModelAndView doGet(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable String shopName, @PathVariable String sessionCode) {
+
         ModelAndView mav = new ModelAndView();
         Map<String, String> labels;
         mav.setViewName("/photographers/account/uploadMulti.twig");
@@ -51,6 +55,8 @@ public class PhotographerMultiFileUploadController {
             labels = LocaleUtil.getProperties(
                     request.getSession().getAttribute("lang").toString());
         }
+        mav.addObject("shopName", shopName);//hiddenfield voor dropzone.js -> dropzone_init.js
+        mav.addObject("sessionCode", sessionCode);//hiddenfield voor dropzone.js -> dropzone_init.js
 
         mav.addObject("labels", labels);
         mav.addObject("page", new Object() {
@@ -58,13 +64,24 @@ public class PhotographerMultiFileUploadController {
                     getAttribute("lang").toString();
             public String redirect = request.getRequestURL().toString();
         });
+
+        //check voor bestaande shop/sessie en eigendom  + correcte login
+        //TODO: uservriendelijke errors(deze errors zouden normaliter niet voor moeten komen dus niet cruciaal hier)
+        Shop shop = Shop.getShopByLogin(shopName);
+        PictureSession session = PictureSession.getSessionByCode(sessionCode);
+        if (shop == null || session == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);//niet bestaande shop/sessie
+        } else if (!checkCredentials(shop, session)) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);//verkeerde credentials
+        }
+
         return mav;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, path = "/photographers/shop/{shopName}/upload/{sessionCode}")
     public @ResponseBody
     String upload(MultipartHttpServletRequest request,
-            HttpServletResponse response) {
+            HttpServletResponse response, @PathVariable String shopName, @PathVariable String sessionCode) {
 
         ServletContext context = request.getServletContext();
         String appPath = context.getRealPath(ConfigurationHelper.getShopAssetLocation());//dit bepaald de folder waar opgeslagen wordt
@@ -73,43 +90,44 @@ public class PhotographerMultiFileUploadController {
         Iterator<String> itr = request.getFileNames();
         MultipartFile file = null;
 
-        while (itr.hasNext()) {
-            file = request.getFile(itr.next());
-            Logger.getLogger(file.getOriginalFilename() + " uploaded! ");
+        //check voor bestaande shop/sessie en eigendom + correcte login
+        //TODO: uservriendelijke errors(deze errors zouden normaliter niet voor moeten komen dus niet cruciaal hier)
+        Shop shop = Shop.getShopByLogin(shopName);
+        PictureSession session = PictureSession.getSessionByCode(sessionCode);
+        if (shop == null || session == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);//niet bestaande shop/sessie
+        } else if (!checkCredentials(shop, session)) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);//verkeerde credentials
+        } else {
 
+            while (itr.hasNext()) {
+                file = request.getFile(itr.next());
+                Logger.getLogger(file.getOriginalFilename() + " uploaded! ");
 
-            if (!file.isEmpty()) {
-                try {
-                    String name = file.getOriginalFilename();
-                    
-                    Shop shop = getCurrentSHop();
-                    //todo: sessie dropdowntje oid
-                    PictureSession session = (shop.getSessions().isEmpty()) ? null : shop.getSessions().iterator().next();
-                    if (saveUpload(file, name, session)) {
-                        File folder = new File(appPath + "\\" + shop.getLogin());
-                        folder.mkdir(); //maak folder als niet bestaat
-                        file.transferTo(new File(appPath + "\\" + shop.getLogin() + "\\" + name));
-                        returnMessage = "Upload van " + name + " geslaagd!";
+                if (!file.isEmpty()) {
+                    try {
+                        String name = file.getOriginalFilename();
+
+                        if (saveUpload(file, name, session)) {
+                            File folder = new File(appPath + "\\" + shop.getLogin() + "\\sessions\\"  + session.getId());
+                            folder.mkdir(); //maak folder als niet bestaat
+                            file.transferTo(new File(folder.getAbsolutePath() + "\\" + name));
+                            returnMessage = "Upload van " + name + " geslaagd!";
+                        }
+                    } catch (Exception e) {
+                        returnMessage = "Upload mislukt => " + e.getMessage();
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     }
-                } catch (Exception e) {
-                    returnMessage = "Upload mislukt => " + e.getMessage();
+                } else {
+                    returnMessage = "Upload van mislukt, bestand was leeg.";
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }
-            } else {
-                returnMessage = "Upload van mislukt, bestand was leeg.";
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
 
+            }
         }
         return returnMessage;
     }
 
-    private Shop getCurrentSHop() {
-        //todo: linken aan inlogprocedure
-        return Shop.getShopByLogin("mooie-kiekjes");
-    }
-
-    
     private boolean saveUpload(MultipartFile file, String title, PictureSession session) throws IOException {
         boolean returnVal = false;
         try {
@@ -121,7 +139,7 @@ public class PhotographerMultiFileUploadController {
             pic1.setWidth(image.getWidth());
             pic1.setHeight(image.getHeight());
             pic1.setFileName(file.getOriginalFilename());
-            
+
             //pic1.setDescription(description);
             //pic1.setPrice(new BigDecimal(10.75));
             pic1.setHidden(false);
@@ -135,4 +153,18 @@ public class PhotographerMultiFileUploadController {
         }
         return returnVal;
     }
+
+    private boolean checkCredentials(Shop s, PictureSession ps) {
+        boolean returnVal = false;
+        Optional<Shop> loggedInShop = LoginHelper.currentShopAccount();
+
+        if (loggedInShop.isPresent()) {
+            //zijn we daadwerkelijk ingelogd onder de juiste shop?
+            if (loggedInShop.get().getId() == s.getId()) {
+                returnVal = OwnershipHelper.doesShopOwnPictureSession(s, ps);
+            }
+        }
+        return returnVal;
+    }
+
 }

@@ -151,4 +151,12 @@ public class Shop implements HibernateEntity {
 
         return returnShop;
     }
+    /**
+     * checks ownership
+     * @param s
+     * @return true if this shop owns the session
+     */
+    public boolean doesShopOwnPictureSession(PictureSession s){
+        return (this.getId() == s.getShop().getId());
+    }
 }

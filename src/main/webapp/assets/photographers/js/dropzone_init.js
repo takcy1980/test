@@ -4,8 +4,12 @@ previewNode.id = "";
 var previewTemplate = previewNode.parentNode.innerHTML;
 previewNode.parentNode.removeChild(previewNode);
 
+
+var shopName = $('#hdnShopName').val();
+var sessionCode = $('#hdnSessionCode').val();
+
 var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-  url: "/app/photographers/upload", // Set the url
+  url: "/app/photographers/shop/" + shopName + "/upload/" + sessionCode, // Set the url
   thumbnailWidth: 80,
   thumbnailHeight: 80,
   parallelUploads: 20,

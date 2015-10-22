@@ -68,13 +68,13 @@ TRUNCATE TABLE `picture_sessions`;
 --
 
 INSERT INTO `picture_sessions` (`id`, `code`, `shop_id`, `description`, `title`, `public`) VALUES
-(1, 'ardennen-maart-2015#6832', 2, 'Mooie plaatjes uit de Ardennen van de eerste week in maart.', 'Ardennen maart 2015', b'1'),
-(2, 'herfstvogels-2015#7201', 4, 'Vogels in de herfst van dit jaar.', 'Herfstvogels 2015', b'1'),
-(3, 'fam_zengers_962#0693', 6, 'Familiefoto fam. Zengers', 'Familiefoto fam. Zengers', b'0'),
-(4, 'blft-8-2-2015#0538', 8, 'Bruiloft Jannie en Mark', 'Bruiloft Jannie en Mark', b'0'),
-(5, 'intocht-sinterklaas#9472', 10, 'Intocht Sinterklaas 2015', 'Intocht Sinterklaas 2015', b'1'),
-(6, 'cultentumult2015#5901', 12, 'Cult en Tumult Veldhoven 2015', 'Cult en Tumult Veldhoven 2015', b'1'),
-(7, 'uitstapje-bieschbos#9572', 2, 'Ondanks het niet al te mooie weer hebben we het voor elkaar gekregen om toch mooie plaatjes van de fauna in het Bieschbos te schieten.', 'Uitstapje Bieschbos in maart.', b'1');
+(1, 'ardennen-maart-2015!6832', 2, 'Mooie plaatjes uit de Ardennen van de eerste week in maart.', 'Ardennen maart 2015', b'1'),
+(2, 'herfstvogels-2015!7201', 4, 'Vogels in de herfst van dit jaar.', 'Herfstvogels 2015', b'1'),
+(3, 'fam_zengers_962!0693', 6, 'Familiefoto fam. Zengers', 'Familiefoto fam. Zengers', b'0'),
+(4, 'blft-8-2-2015!0538', 8, 'Bruiloft Jannie en Mark', 'Bruiloft Jannie en Mark', b'0'),
+(5, 'intocht-sinterklaas!9472', 10, 'Intocht Sinterklaas 2015', 'Intocht Sinterklaas 2015', b'1'),
+(6, 'cultentumult2015!5901', 12, 'Cult en Tumult Veldhoven 2015', 'Cult en Tumult Veldhoven 2015', b'1'),
+(7, 'uitstapje-bieschbos!9572', 2, 'Ondanks het niet al te mooie weer hebben we het voor elkaar gekregen om toch mooie plaatjes van de fauna in het Bieschbos te schieten.', 'Uitstapje Bieschbos in maart.', b'1');
 
 --
 -- Truncate table before insert `producer_accounts`
