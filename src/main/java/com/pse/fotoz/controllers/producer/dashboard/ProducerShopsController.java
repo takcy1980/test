@@ -82,12 +82,12 @@ public class ProducerShopsController {
     /**
      * Handles a request to add a new shop to the system by the producer.
      *
-     * @param newShop
-     * @param resultShop
-     * @param newPhotographer
-     * @param resultPhotographer
-     * @param request
-     * @return
+     * @param newShop the new shop to be added
+     * @param resultShop result of new shop validation
+     * @param newPhotographer the new photographer to be added
+     * @param resultPhotographer result of new photographer validation
+     * @param request http request
+     * @return resulted model and view
      */
     @RequestMapping(method = RequestMethod.POST, value = "/new")
     public ModelAndView handleNewShopForm(

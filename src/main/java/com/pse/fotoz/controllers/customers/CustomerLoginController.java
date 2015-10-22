@@ -123,13 +123,13 @@ public class CustomerLoginController {
     }
 
     /**
-     * Handles a request to add a new shop to the system by the producer.
+     * Handles a request to register a new customer.
      *
-     * @param newCustomerAcc
-     * @param resultCustomerAcc
-     * @param newCustomer
-     * @param resultCustomer
-     * @param request
+     * @param newCustomerAcc the new Customer Account
+     * @param resultCustomerAcc result of new Customer Account validation
+     * @param newCustomer the new Customer
+     * @param resultCustomer result of new Customer validation
+     * @param request http request
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value = "/new")

@@ -9,7 +9,8 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- *
+ * Creates a DoesNotExist constraint able to be applied to field attributes
+ * 
  * @author Gijs
  */
 @Documented
