@@ -5,7 +5,6 @@
  */
 package com.pse.fotoz.integration.controllers.customers.shops;
 
-import com.pse.fotoz.controllers.customers.shops.CustomerCartController;
 import com.pse.fotoz.integration.controllers.TestMvcConfig;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,7 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- *
+ * Test for CustomerCartController.
  * @author Robert
  */
 @RunWith(SpringJUnit4ClassRunner.class)  
@@ -38,8 +37,6 @@ public class CustomerCartControllerTest {
     private WebApplicationContext wac;  
   
     private MockMvc mockMvc;
-    
-    CustomerCartController instance = new CustomerCartController();
     
     public CustomerCartControllerTest() {
     }

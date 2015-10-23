@@ -13,7 +13,9 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
- *
+ * Mimic configuration of production environment.
+ * Contains however only minimal required setup and does away with problematic,
+ * unused beans.
  * @author Robert
  */
 @Configuration
