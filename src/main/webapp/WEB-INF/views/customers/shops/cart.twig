@@ -1,0 +1,41 @@
+{% extends "customers/shops/index.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    {{ labels.customer_cart_cart }}
+                </h2>
+            {% if cart.order.entries is empty %}
+                <p>
+                    {{ labels.customer_cart_table_nocontent }}
+                </p>
+            {% else %}
+                <div class="table-responsive">            
+                    <table class="table table-hover table-striped cart-table">
+                        <tbody>
+                            {% for entry in cart.order.entries %}
+                                <tr>                                    
+                                    <td>
+                                        image
+                                    </td>
+                                    <td>
+                                        type
+                                    </td>
+                                    <td>
+                                        title
+                                    </td>
+                                    <td>
+                                        amount
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

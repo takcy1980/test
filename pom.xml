@@ -154,7 +154,7 @@
                 <version>2.18.1</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/dbal/*.java</exclude>
+                        <exclude>**/integration/*.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
