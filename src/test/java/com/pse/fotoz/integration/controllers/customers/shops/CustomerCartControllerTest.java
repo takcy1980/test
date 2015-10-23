@@ -74,7 +74,7 @@ public class CustomerCartControllerTest {
     public void testAddItemToCart() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.
                 post("/customers/cart/ajax/add").content("")).
-                andExpect(status().isBadRequest());
+                andExpect(status().isNotFound());
     }
     
 }
