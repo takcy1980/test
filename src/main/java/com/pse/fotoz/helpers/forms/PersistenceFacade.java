@@ -142,8 +142,6 @@ public class PersistenceFacade {
             pt.setPrice(price);
             pt.setStock(stock);
             pt.setFilename(filename);
-            pt.setHeight(height);
-            pt.setWidth(width); 
 
             //persisten
     }    

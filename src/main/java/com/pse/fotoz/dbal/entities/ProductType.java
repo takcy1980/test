@@ -13,6 +13,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
  *
@@ -22,6 +27,14 @@ import javax.persistence.Table;
 @Table(name = "product_types")
 public class ProductType implements HibernateEntity{
 
+    public interface ValidationStepOne {
+        // validation group marker interface
+
+    }
+    public interface ValidationStepTwo {
+        // validation group marker interface
+    }
+    
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,31 +42,28 @@ public class ProductType implements HibernateEntity{
 
     @Basic
     @Column(name = "name")
+    @Size(min = 1, groups = {ValidationStepOne.class}, message="testbericht naam")
     private String name;
     
     @Basic
     @Column(name = "description")
+    @Size(min = 1, groups = {ValidationStepOne.class}, message="testbericht desc")
     private String description;
             
     @Basic
     @Column(name = "price")
+    @DecimalMin(value="0.01", groups = {ValidationStepOne.class}, message="test dec")
     private BigDecimal price;
          
     @Basic
     @Column(name = "stock")
-    private int stock;
+    @NotNull @Min(value=13,groups = {ValidationStepOne.class}, message="iets")
+    private Integer stock;
     
     @Basic
     @Column(name = "filename")
+    @Size(min = 1, message="test")
     private String filename;
-    
-    @Basic
-    @Column(name = "width")
-    private int width;
-
-    @Basic
-    @Column(name = "height")
-    private int height;
 
     public int getId() {
         return id;
@@ -91,27 +101,11 @@ public class ProductType implements HibernateEntity{
         this.filename = filename;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
     public int getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(Integer stock) {
         this.stock = stock;
     }
     
