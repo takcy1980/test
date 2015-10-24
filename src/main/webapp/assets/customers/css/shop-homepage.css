@@ -49,6 +49,13 @@ body {
     color: #333;
 }
 
+.fa-chevron-right, .fa-chevron-left {
+    
+    position: absolute;
+    top: 50%;
+  
+}
+
 footer {
     margin: 50px 0;
 }

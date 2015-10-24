@@ -2,6 +2,7 @@ package com.pse.fotoz.dbal.entities;
 
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.HibernateSession;
+import java.io.Serializable;
 import org.hibernate.Session;
 
 /**
@@ -9,7 +10,9 @@ import org.hibernate.Session;
  * Hibernate.
  * @author Robert
  */
-public interface HibernateEntity {
+public interface HibernateEntity extends Serializable {
+    
+    abstract public int getId();
     
     /**
      * Persists this entity.
