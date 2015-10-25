@@ -1,18 +1,27 @@
 package com.pse.fotoz.controllers.producer.dashboard;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
-import com.pse.fotoz.dbal.entities.Photographer;
+import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.ProductType;
+import com.pse.fotoz.helpers.Configuration.ConfigurationHelper;
+import com.pse.fotoz.helpers.forms.MultipartFileValidator;
+import com.pse.fotoz.helpers.forms.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
+import com.pse.fotoz.properties.LocaleUtil;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Controller handling the display of product dashboard for producer.
+ *
  * @author Gijs
  */
 @Controller
@@ -31,15 +41,16 @@ public class ProducerProductsController {
 
     /**
      * Displays all the products to the producers.
+     *
      * @param request
-     * @return 
+     * @return
      */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView displayProducts(HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
-                    withProperties(request).
-                    build();
-        
+                withProperties(request).
+                build();
+
         List<ProductType> products = HibernateEntityHelper.all(ProductType.class);
 
         mav.addObject("products", products);
@@ -54,16 +65,28 @@ public class ProducerProductsController {
         return mav;
     }
     
+        /**
+     * Displays all the products to the producers.
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST)
+    public ModelAndView displayProductsPost(HttpServletRequest request) {
+        return displayProducts(request);
+    }
+
     /**
      * Displays a form to add new products to the system to the producer.
+     *
      * @param request
-     * @return 
+     * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/new")
     public ModelAndView provideNewProductForm(HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
-                    withProperties(request).
-                    build();
+                withProperties(request).
+                build();
         
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
@@ -75,31 +98,69 @@ public class ProducerProductsController {
 
         return mav;
     }
-    
-    //TODO: extensie checken
+
     @RequestMapping(method = RequestMethod.POST, value = "/new")
     @ResponseBody
-    public ModelAndView handleFileUpload( @ModelAttribute(value="newProdType") @Valid ProductType newProdType, 
-                    BindingResult resultProdType,
-                    HttpServletRequest request,
-                    @RequestParam("file") MultipartFile file) {
-//        
-//         public ModelAndView handleFileUpload( @Validated(ProductType.ValidationStepOne.class) ProductType productType, 
-//                    Errors errs,
-//                    HttpServletRequest request,
-//                    @RequestParam("file") MultipartFile file) {
-      
-        List<String> errors = new ArrayList<>();
+    public ModelAndView handleFileUpload(@ModelAttribute(value = "newProdType")
+            @Valid ProductType newProdType,
+            BindingResult resultProdType,
+            HttpServletRequest request,
+            @RequestParam("file") MultipartFile file) {
+
+        ModelAndView mav = ModelAndViewBuilder.empty().
+                withProperties(request).
+                build();
+        mav.setViewName("producer/dashboard/products_new.twig");
         
-        for(FieldError e : resultProdType.getFieldErrors()){
+        List<String> errors = new ArrayList<>();
+
+        //check validation errors
+        for (FieldError e : resultProdType.getFieldErrors()) {
             errors.add(e.getDefaultMessage());
         }
 
-        ModelAndView mav = ModelAndViewBuilder.empty().
-                    withProperties(request).
-                    build();
-        mav.setViewName("producer/dashboard/products_new.twig");
-        
+        //validate file
+        errors.addAll(MultipartFileValidator.validate(
+                file,
+                LocaleUtil.getErrorProperties(request)));
+
+        //move file
+        if (errors.isEmpty()) {
+            String filename = file.getOriginalFilename();
+
+            try {
+                ServletContext context = request.getServletContext();
+                String appPath = context.getRealPath(
+                        ConfigurationHelper.getProductTypeAssetLocation());
+                String totalname = appPath + "\\" + filename;
+                file.transferTo(new File(totalname));
+            } catch (IOException ex) {
+                Logger.getLogger(ProducerProductsController.class.getName()).
+                        log(Level.SEVERE, null, ex);
+                errors.add(LocaleUtil.getProperties(request).get("ERROR_IOERROR"));
+            }
+        }
+
+        //persist new Product Type
+        if (errors.isEmpty()) {
+            try {
+                String name = request.getParameter("name");
+                String description = request.getParameter("description");
+                BigDecimal price = new BigDecimal(request.getParameter("price"));
+                int stock = Integer.parseInt(request.getParameter("stock"));
+                String filename = file.getOriginalFilename();
+                PersistenceFacade.addProductType(
+                        name, description, price, stock, filename);
+                //no errors found. change viewname for succesfull add
+                mav.setViewName("producer/dashboard/products.twig");
+            } catch (HibernateException ex) {
+                Logger.getLogger(ProducerShopsController.class.getName()).
+                        log(Level.SEVERE, null, ex);
+                errors.add(LocaleUtil.getProperties(request).
+                        get("ERROR_INTERNALDATABASEERROR"));
+            }
+        }
+
         mav.addObject("errors", errors);
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
@@ -107,9 +168,8 @@ public class ProducerProductsController {
             public String uri = "/producer/dashboard/products";
             public String redirect = request.getRequestURL().toString();
         });
-        
-        return mav;
 
-    }  
-    
+        return mav;
+    }
+
 }

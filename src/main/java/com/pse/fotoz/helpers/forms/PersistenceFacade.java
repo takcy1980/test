@@ -132,8 +132,7 @@ public class PersistenceFacade {
     }
     
     public static void addProductType(String name, String description,
-            BigDecimal price, int stock, String filename, int height, int width, 
-            Map<String, String> properties)
+            BigDecimal price, int stock, String filename)
             throws HibernateException {
 
             ProductType pt = new ProductType();
@@ -143,6 +142,6 @@ public class PersistenceFacade {
             pt.setStock(stock);
             pt.setFilename(filename);
 
-            //persisten
+            pt.persist();
     }    
 }

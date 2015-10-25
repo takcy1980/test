@@ -17,7 +17,6 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
  *
@@ -26,14 +25,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Entity
 @Table(name = "product_types")
 public class ProductType implements HibernateEntity{
-
-    public interface ValidationStepOne {
-        // validation group marker interface
-
-    }
-    public interface ValidationStepTwo {
-        // validation group marker interface
-    }
     
     @Id
     @Column(name = "id")
@@ -42,27 +33,27 @@ public class ProductType implements HibernateEntity{
 
     @Basic
     @Column(name = "name")
-    @Size(min = 1, groups = {ValidationStepOne.class}, message="testbericht naam")
+    @Size(min = 1, message="{error_size_name}")
     private String name;
     
     @Basic
     @Column(name = "description")
-    @Size(min = 1, groups = {ValidationStepOne.class}, message="testbericht desc")
+    @Size(min = 1, message="{error_size_description}")
     private String description;
             
     @Basic
     @Column(name = "price")
-    @DecimalMin(value="0.01", groups = {ValidationStepOne.class}, message="test dec")
+    @NotNull(message="{error_decimal_price}")
+    @DecimalMin(value="0.01", message="{error_decimal_price}")
     private BigDecimal price;
          
     @Basic
     @Column(name = "stock")
-    @NotNull @Min(value=13,groups = {ValidationStepOne.class}, message="iets")
-    private Integer stock;
+    @Min(value=0, message="{error_min_stock}")
+    private int stock;
     
     @Basic
     @Column(name = "filename")
-    @Size(min = 1, message="test")
     private String filename;
 
     public int getId() {
@@ -105,7 +96,7 @@ public class ProductType implements HibernateEntity{
         return stock;
     }
 
-    public void setStock(Integer stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
     
