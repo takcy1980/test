@@ -20,5 +20,8 @@
         <mapping class="com.pse.fotoz.dbal.entities.OrderEntry"/>
         <mapping class="com.pse.fotoz.dbal.entities.ProductOption"/>
         <mapping class="com.pse.fotoz.dbal.entities.ProductType"/>
+        <mapping class="com.pse.fotoz.dbal.entities.PictureSession"/>
+        <mapping class="com.pse.fotoz.dbal.entities.ProductType" />
+        
     </session-factory>
 </hibernate-configuration>
