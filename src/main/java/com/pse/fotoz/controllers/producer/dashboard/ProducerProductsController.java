@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
@@ -40,7 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProducerProductsController {
 
     /**
-     * Displays all the products to the producers.
+     * Displays all the Product Types to the producers.
      *
      * @param request
      * @return
@@ -64,20 +63,9 @@ public class ProducerProductsController {
 
         return mav;
     }
-    
-        /**
-     * Displays all the products to the producers.
-     *
-     * @param request
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView displayProductsPost(HttpServletRequest request) {
-        return displayProducts(request);
-    }
 
     /**
-     * Displays a form to add new products to the system to the producer.
+     * Displays a form to add a new Product Type to the system to the producer.
      *
      * @param request
      * @return
@@ -99,6 +87,14 @@ public class ProducerProductsController {
         return mav;
     }
 
+    /**
+     * Handles a request to add a new Product Type to the system
+     * @param newProdType validated Product Type
+     * @param resultProdType result of validation
+     * @param request http request
+     * @param file picture of new Product Type
+     * @return corresponding MAV depending on succes of adding Product Type
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/new")
     @ResponseBody
     public ModelAndView handleFileUpload(@ModelAttribute(value = "newProdType")
@@ -152,7 +148,7 @@ public class ProducerProductsController {
                 PersistenceFacade.addProductType(
                         name, description, price, stock, filename);
                 //no errors found. change viewname for succesfull add
-                mav.setViewName("producer/dashboard/products.twig");
+                mav.setViewName("producer/dashboard/products_new_success.twig");
             } catch (HibernateException ex) {
                 Logger.getLogger(ProducerShopsController.class.getName()).
                         log(Level.SEVERE, null, ex);

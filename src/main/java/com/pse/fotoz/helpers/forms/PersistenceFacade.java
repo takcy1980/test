@@ -131,6 +131,17 @@ public class PersistenceFacade {
         account.persist();
     }
     
+    /**
+     * Adds a Product Type to the system
+     * 
+     * @param name name of Product Type
+     * @param description description of Product Type
+     * @param price price excl. VAT of Product Type
+     * @param stock currect stock of Product Type
+     * @param filename filename of uploaded picture showing Product Type
+     * @throws HibernateException If a persistence error occured regardless of a
+     * correct input.
+     */
     public static void addProductType(String name, String description,
             BigDecimal price, int stock, String filename)
             throws HibernateException {

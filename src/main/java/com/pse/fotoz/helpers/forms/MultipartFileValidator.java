@@ -13,12 +13,21 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
+ * Validates a MultiPartFile
  *
  * @author Gijs
  */
 public class MultipartFileValidator {
 
-    public static List<String> validate(MultipartFile file, Map<String, String> errormessages) {
+    /**
+     * Method to validate a MultiPartFile, in this case a picture
+     *
+     * @param file MultiPartFile to be validated
+     * @param errormessages messages to be returned on failure of validation
+     * @return List of errormessages. Empty when validation succeeded
+     */
+    public static List<String> validate(MultipartFile file,
+            Map<String, String> errormessages) {
 
         List<String> errors = new ArrayList<>();
         boolean validated = true;
@@ -54,11 +63,12 @@ public class MultipartFileValidator {
         }
 
         //check filesize in kb
-        if (validated && (file.getSize() / 1000) > ConfigurationHelper.getMaxmultipartsizeinkb()) {
+        if (validated && (file.getSize() / 1000)
+                > ConfigurationHelper.getMaxmultipartsizeinkb()) {
             errors.add(
-                    MessageFormat.format(
-                            errormessages.get("error_multipartfile_sizeexceeded"),
-                            ConfigurationHelper.getMaxmultipartsizeinkb()));
+                MessageFormat.format(
+                        errormessages.get("error_multipartfile_sizeexceeded"),
+                        ConfigurationHelper.getMaxmultipartsizeinkb()));
         }
 
         return errors;
