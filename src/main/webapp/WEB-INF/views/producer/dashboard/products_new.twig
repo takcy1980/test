@@ -38,23 +38,23 @@
                 </h3>
                 <div class="form-group">
                     <label>{{ labels.producer_dashboard_products_new_form_name }}</label>
-                    <input name="name" class="form-control">
+                    <input name="name" class="form-control" required autofocus>
                 </div>
                 <div class="form-group">
                     <label>{{ labels.producer_dashboard_products_new_form_description }}</label>
-                    <input name="description" class="form-control">
+                    <input name="description" class="form-control" required autofocus>
                 </div>
                 <div class="form-group">
                     <label>{{ labels.producer_dashboard_products_new_form_price }}</label>
-                    <input type="number" step="0.01" name="price" class="form-control">
+                    <input type="number" step="0.01" name="price" class="form-control" required autofocus>
                 </div>
                 <div class="form-group">
                     <label>{{ labels.producer_dashboard_products_new_form_stock }}</label>
-                    <input type="number" name="stock" class="form-control">
+                    <input type="number" name="stock" class="form-control" required autofocus>
                 </div>
                 <div class="form-group">
                     <label>{{ labels.producer_dashboard_products_new_form_file }}</label>
-                    <input type="file" name="file" class="form-control">
+                    <input type="file" name="file" class="form-control" required autofocus>
                 </div>                    
                 <button type="submit" onclick="isNumeric('!')" class="btn btn-default">{{ labels.producer_dashboard_products_new_form_button_submit }}</button>
             </form>  
