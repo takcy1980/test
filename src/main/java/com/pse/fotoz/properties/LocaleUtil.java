@@ -59,12 +59,13 @@ public class LocaleUtil {
                 Collectors.toMap(k -> k, k -> bundle.getString(k)));
     }
     
-        /**
+    /**
      * 
      * @param request
      * @return 
      */
-    public static Map<String, String> getErrorProperties(HttpServletRequest request) 
+    public static Map<String, String> getErrorProperties(
+            HttpServletRequest request) 
     {
         try {
             String lang = request.getSession().getAttribute("lang").toString();

@@ -50,7 +50,8 @@ public class ProducerProductsController {
                 withProperties(request).
                 build();
 
-        List<ProductType> products = HibernateEntityHelper.all(ProductType.class);
+        List<ProductType> products = HibernateEntityHelper.
+                all(ProductType.class);
 
         mav.addObject("products", products);
         mav.addObject("page", new Object() {
@@ -120,35 +121,33 @@ public class ProducerProductsController {
                 file,
                 LocaleUtil.getErrorProperties(request)));
 
-        //move file
         if (errors.isEmpty()) {
             String filename = file.getOriginalFilename();
 
             try {
+                //move file
                 ServletContext context = request.getServletContext();
                 String appPath = context.getRealPath(
                         ConfigurationHelper.getProductTypeAssetLocation());
                 String totalname = appPath + "\\" + filename;
                 file.transferTo(new File(totalname));
+                
+                //persist new Product Type
+                String name = request.getParameter("name");
+                String description = request.getParameter("description");
+                BigDecimal price = new BigDecimal(
+                        request.getParameter("price"));
+                int stock = Integer.parseInt(request.getParameter("stock"));
+                PersistenceFacade.addProductType(
+                        name, description, price, stock, filename);
+                
+                //no errors found. change viewname for succesfull add
+                mav.setViewName("producer/dashboard/products_new_success.twig");
             } catch (IOException ex) {
                 Logger.getLogger(ProducerProductsController.class.getName()).
                         log(Level.SEVERE, null, ex);
-                errors.add(LocaleUtil.getProperties(request).get("ERROR_IOERROR"));
-            }
-        }
-
-        //persist new Product Type
-        if (errors.isEmpty()) {
-            try {
-                String name = request.getParameter("name");
-                String description = request.getParameter("description");
-                BigDecimal price = new BigDecimal(request.getParameter("price"));
-                int stock = Integer.parseInt(request.getParameter("stock"));
-                String filename = file.getOriginalFilename();
-                PersistenceFacade.addProductType(
-                        name, description, price, stock, filename);
-                //no errors found. change viewname for succesfull add
-                mav.setViewName("producer/dashboard/products_new_success.twig");
+                errors.add(LocaleUtil.getProperties(request).
+                        get("ERROR_IOERROR"));
             } catch (HibernateException ex) {
                 Logger.getLogger(ProducerShopsController.class.getName()).
                         log(Level.SEVERE, null, ex);
