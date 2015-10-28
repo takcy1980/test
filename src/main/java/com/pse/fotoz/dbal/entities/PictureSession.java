@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -20,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="picture_sessions")
-public class PictureSession implements HibernateEntity {
+public class PictureSession implements HibernateEntity, Comparable<PictureSession> {
     
     @Id
     @Column(name="id")
@@ -40,14 +42,17 @@ public class PictureSession implements HibernateEntity {
     
     @Basic
     @Column(name="title")
+    @Size(min = 1, message="{error_size_title}")
     private String title;
     
     @Basic
     @Column(name="description")
+    @Size(min = 1, message="{error_size_description}")
     private String description;
     
     @Basic
     @Column(name="public")
+    @NotNull(message="{error_notnull_public}")
     private boolean isPublic;
     
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permittedSessions")
@@ -115,5 +120,10 @@ public class PictureSession implements HibernateEntity {
 
     public void setPermittedAccounts(Set<CustomerAccount> permittedAccounts) {
         this.permittedAccounts = permittedAccounts;
+    }
+
+    @Override
+    public int compareTo(PictureSession ps) {
+        return ps.id - this.id;
     }
 }

@@ -6,11 +6,12 @@ import com.pse.fotoz.dbal.entities.CustomerAccount;
 import com.pse.fotoz.dbal.entities.Customer;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
+import com.pse.fotoz.dbal.entities.PictureSession;
 import com.pse.fotoz.dbal.entities.ProductType;
 import com.pse.fotoz.dbal.entities.Shop;
 import java.math.BigDecimal;
-import java.util.Map;
 import java.util.Optional;
+import javax.validation.ConstraintViolationException;
 
 /**
  * Facade abstracting the handling of common user actions.
@@ -155,4 +156,30 @@ public class PersistenceFacade {
 
             pt.persist();
     }    
+    
+    /**
+     * Adds a Picture Session to the system
+     * 
+     * @param shop Shop owning this picture session
+     * @param code unique code of picture session
+     * @param title title of picture session
+     * @param description description of picture session
+     * @param isPublic wether the session is public or not
+     * @throws HibernateException If a persistence error occured regardless of a
+     * correct input.
+     */
+    public static void addPictureSession(Shop shop, String code, 
+            String title, String description, boolean isPublic)
+            throws HibernateException {
+
+            PictureSession ps = new PictureSession();
+            ps.setShop(shop);
+            ps.setCode(code);
+            ps.setTitle(title);
+            ps.setDescription(description);
+            ps.setIsPublic(isPublic);
+            
+            ps.persist();
+    }    
+    
 }
