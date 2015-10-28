@@ -51,23 +51,24 @@
                         </thead>
                         <tbody>                     
                             {% for session in sessions %}
-                            <tr>                                    
-                                <td>
-                                    {{ session.title }}
-                                </td>
-                                <td>
-                                    {{ session.description }}
-                                </td>
-                                <td>
-                                    {% if session.isPublic %}
-                                        {{ labels.photographer_shop_sessions_table_ispublic_yes }}
-                                    {% else %}
-                                        {{ labels.photographer_shop_sessions_table_ispublic_no }}
-                                    {% endif %}
-                                </td>
-                            </tr>
+                                <tr>   
+                                    <td>
+                                        {{ session.title }}
+                                    </td>
+
+                                    <td>
+                                        {{ session.description }}
+                                    </td>
+                                    <td>
+                                        {% if session.isPublic %}
+                                            {{ labels.photographer_shop_sessions_table_ispublic_yes }}
+                                        {% else %}
+                                            {{ labels.photographer_shop_sessions_table_ispublic_no }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
                             {% endfor %}
-                        </tbody>
+                        </tbody>                        
                     </table>
                 </div>
             {% endif %}

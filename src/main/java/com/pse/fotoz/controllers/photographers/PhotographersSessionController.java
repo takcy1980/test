@@ -4,6 +4,7 @@ import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.*;
 import com.pse.fotoz.helpers.encryption.PictureSessionCodeGen;
+import com.pse.fotoz.helpers.forms.Parser;
 import com.pse.fotoz.helpers.forms.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.helpers.users.Users;
@@ -154,6 +155,37 @@ public class PhotographersSessionController {
             public String uri = "/photographers/shop/sessions";
             public String redirect = request.getRequestURL().toString();
         });
+
+        return mav;
+    }
+    
+    /**
+     * Displays a picture session.
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/session")
+    public ModelAndView showSession(HttpServletRequest request) {
+        ModelAndView mav = ModelAndViewBuilder.empty().
+                withProperties(request).
+                build();
+        
+        //@Todo catch nosuchelement exception
+        int id = Parser.parseInt(request.getParameter("id")).get();
+        Set<Picture> pictures = HibernateEntityHelper
+                .byId(PictureSession.class, id)
+                .get()
+                .getPictures();
+        
+        mav.addObject("pictures", pictures);
+        mav.addObject("page", new Object() {
+            public String lang = request.getSession().
+                    getAttribute("lang").toString();
+            public String uri = "/photographers/shop/sessions";
+            public String redirect = request.getRequestURL().toString();
+        });
+        mav.setViewName("photographers/shop/session.twig");
 
         return mav;
     }

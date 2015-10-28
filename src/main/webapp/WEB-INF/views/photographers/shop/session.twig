@@ -1,0 +1,35 @@
+{% extends "photographers/shop/index.twig" %}
+
+{% block heading %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{ labels.photographer_shop_index_item_sessions }}
+            </h1>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <p>
+                {{ labels.photographer_shop_sessions_body_message }}
+            </p>
+        </div>
+    </div>
+            
+    <div class="row">
+        <div class="col-lg-12">
+                {% for picture in pictures %}
+                    <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                        <a class="thumbnail" href="{{ picture.uri }}">
+                            <img class="img-responsive" alt="{{ picture.title }}" src="{{ picture.fileName }}">
+                        </a>
+                    </div>
+                {% else %}
+                    {{ labels.photographer_photopage_no_photos }}
+                {% endfor %}
+        </div>
+    </div>
+{% endblock %}
