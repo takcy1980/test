@@ -5,6 +5,10 @@
  */
 package com.pse.fotoz.helpers.Configuration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author René
@@ -24,20 +28,29 @@ public class ConfigurationHelper {
     }
 
     public static int getMaxmultipartsizeinkb() {
-        return ConfigurationManager.config.getInt("fileupload.maxmultipartsizeinkb");
+        return ConfigurationManager.config.
+                getInt("fileupload.maxmultipartsizeinkb");
     }
 
-    public static String[] getExtensionwhitelist() {
-        return ConfigurationManager.config.getStringArray("fileupload.extensionwhitelist");
+    public static List<String> getExtensionwhitelist() {
+        return Arrays.asList(ConfigurationManager.config.
+                getStringArray("fileupload.extensionwhitelist"));
     }
     
     //------filelocations-------
     
-        public static String getGeneralAssetLocation() {
-        return ConfigurationManager.config.getString("filelocations.generalassetlocation");
+    public static String getGeneralAssetLocation() {
+        return ConfigurationManager.config.
+                getString("filelocations.generalassetlocation");
     }
         
-                public static String getShopAssetLocation() {
-        return ConfigurationManager.config.getString("filelocations.savelocationshops");
+    public static String getShopAssetLocation() {
+        return ConfigurationManager.config.
+                getString("filelocations.savelocationshops");
+    }
+                
+    public static String getProductTypeAssetLocation() {
+        return ConfigurationManager.config.
+                getString("filelocations.savelocationproducttype");
     }
 }

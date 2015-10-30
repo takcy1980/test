@@ -6,7 +6,10 @@ import com.pse.fotoz.dbal.entities.CustomerAccount;
 import com.pse.fotoz.dbal.entities.Customer;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
+import com.pse.fotoz.dbal.entities.ProductType;
 import com.pse.fotoz.dbal.entities.Shop;
+import java.math.BigDecimal;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -127,4 +130,29 @@ public class PersistenceFacade {
         account.setCustomer(cus);
         account.persist();
     }
+    
+    /**
+     * Adds a Product Type to the system
+     * 
+     * @param name name of Product Type
+     * @param description description of Product Type
+     * @param price price excl. VAT of Product Type
+     * @param stock currect stock of Product Type
+     * @param filename filename of uploaded picture showing Product Type
+     * @throws HibernateException If a persistence error occured regardless of a
+     * correct input.
+     */
+    public static void addProductType(String name, String description,
+            BigDecimal price, int stock, String filename)
+            throws HibernateException {
+
+            ProductType pt = new ProductType();
+            pt.setName(name);
+            pt.setDescription(description);
+            pt.setPrice(price);
+            pt.setStock(stock);
+            pt.setFilename(filename);
+
+            pt.persist();
+    }    
 }

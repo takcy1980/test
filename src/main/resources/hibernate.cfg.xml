@@ -16,5 +16,7 @@
         <mapping class="com.pse.fotoz.dbal.entities.CustomerAccount"/>
         <mapping class="com.pse.fotoz.dbal.entities.ProducerAccount"/>
         <mapping class="com.pse.fotoz.dbal.entities.PictureSession"/>
+        <mapping class="com.pse.fotoz.dbal.entities.ProductType" />
+        
     </session-factory>
 </hibernate-configuration>
