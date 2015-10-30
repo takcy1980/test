@@ -9,14 +9,15 @@ var shopName = $('#hdnShopName').val();
 var sessionCode = $('#hdnSessionCode').val();
 
 var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-  url: "/app/photographers/shop/" + shopName + "/upload/" + sessionCode, // Set the url
+  url: "/app/photographers/shop/" + shopName + "/" + sessionCode + "/upload", // Set the url
   thumbnailWidth: 80,
   thumbnailHeight: 80,
   parallelUploads: 20,
   previewTemplate: previewTemplate,
   autoQueue: false, // Make sure the files aren't queued until manually added
   previewsContainer: "#previews", // Define the container to display the previews
-  clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+  clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+  acceptedFiles: "image/jpeg,image/png,image/gif,image/png"
 });
 
 myDropzone.on("addedfile", function(file) {

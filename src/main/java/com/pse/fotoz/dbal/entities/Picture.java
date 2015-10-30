@@ -5,6 +5,7 @@
  */
 package com.pse.fotoz.dbal.entities;
 
+import com.pse.fotoz.dbal.HibernateEntityHelper;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -27,7 +28,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "pictures")
-public class Picture implements HibernateEntity{
+public class Picture implements HibernateEntity {
 
     @Id
     @Column(name = "id")
@@ -35,9 +36,8 @@ public class Picture implements HibernateEntity{
     private int id;
 
     //TODO:pictures_high_res
-    
     @ManyToOne
-    @JoinColumn(name = "picture_session_id", nullable=false)
+    @JoinColumn(name = "picture_session_id", nullable = false)
     private PictureSession session;
 
     @Basic
@@ -55,7 +55,7 @@ public class Picture implements HibernateEntity{
     @Basic
     @Column(name = "title")
     private String title;
-    
+
     @Basic
     @Column(name = "description")
     private String description;
@@ -163,12 +163,46 @@ public class Picture implements HibernateEntity{
     public void setSubmissionDate(Date submissionDate) {
         this.submissionDate = submissionDate;
     }
-    
+
     public static enum Approved {
+
         YES, NO, PENDING
     }
+
     public String getURI() {
         return "/assets/common/img/" + this.fileName;
-                
+
     }
+
+    /**
+     * Checks if a filename already exists within the session
+     *
+     * @param fileName
+     * @param session
+     * @return true if filename exists within the given session
+     */
+    public static boolean doesFileNameExist(String fileName, PictureSession session) {
+
+        Long count = HibernateEntityHelper.all(Picture.class).
+                stream().
+                filter(s -> s.getFileName().equals(fileName)).
+                filter(s -> s.getSession().getId() == session.getId()).
+                count();
+
+        return count > 0;
+    }
+
+    public static Picture getByFileNameAndSession(String fileName, PictureSession session) {
+        Picture returnPic = null;
+
+        returnPic = HibernateEntityHelper.all(Picture.class).
+                stream().
+                filter(s -> s.getFileName().equals(fileName)).
+                filter(s -> s.getSession().getId() == session.getId()).
+                findAny().
+                orElse(null);
+
+        return returnPic;
+    }
+
 }

@@ -39,7 +39,7 @@ import java.util.Optional;
 @Controller
 public class PhotographerMultiFileUploadController {
 
-    @RequestMapping(method = RequestMethod.GET, path = "/photographers/shop/{shopName}/upload/{sessionCode}")
+    @RequestMapping(method = RequestMethod.GET, path = "/photographers/shop/{shopName}/{sessionCode}/upload")
     public ModelAndView doGet(HttpServletRequest request, HttpServletResponse response,
             @PathVariable String shopName, @PathVariable String sessionCode) {
 
@@ -66,19 +66,20 @@ public class PhotographerMultiFileUploadController {
         });
 
         //check voor bestaande shop/sessie en eigendom  + correcte login
-        //TODO: uservriendelijke errors(deze errors zouden normaliter niet voor moeten komen dus niet cruciaal hier)
         Shop shop = Shop.getShopByLogin(shopName);
         PictureSession session = PictureSession.getSessionByCode(sessionCode);
         if (shop == null || session == null) {
+            mav.addObject("error", labels.get("photographers_upload_error_wrongsessionorshop"));
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);//niet bestaande shop/sessie
         } else if (!checkCredentials(shop, session)) {
+            mav.addObject("error", labels.get("photographers_upload_error_wrongcredentials"));
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);//verkeerde credentials
         }
 
         return mav;
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/photographers/shop/{shopName}/upload/{sessionCode}")
+    @RequestMapping(method = RequestMethod.POST, path = "/photographers/shop/{shopName}/{sessionCode}/upload")
     public @ResponseBody
     String upload(MultipartHttpServletRequest request,
             HttpServletResponse response, @PathVariable String shopName, @PathVariable String sessionCode) {
@@ -131,6 +132,11 @@ public class PhotographerMultiFileUploadController {
     private boolean saveUpload(MultipartFile file, String title, PictureSession session) throws IOException {
         boolean returnVal = false;
         try {
+            //dubbele entry binnen de sessie weghalen: dubbele bestanden worden dus effectief steeds geupdate
+            if(Picture.doesFileNameExist(title, session)){
+                Picture p = Picture.getByFileNameAndSession(title, session);
+                p.delete();
+            }
             //dit weghalen indien dimensies niet nodig zijn
             BufferedImage image = ImageIO.read(file.getInputStream());
 
