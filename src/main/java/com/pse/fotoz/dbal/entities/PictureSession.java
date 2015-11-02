@@ -1,5 +1,6 @@
 package com.pse.fotoz.dbal.entities;
 
+import com.pse.fotoz.dbal.HibernateEntityHelper;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,40 +20,40 @@ import javax.persistence.Table;
  * @author Robert
  */
 @Entity
-@Table(name="picture_sessions")
+@Table(name = "picture_sessions")
 public class PictureSession implements HibernateEntity {
-    
+
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
+
     @ManyToOne
-    @JoinColumn(name="shop_id", nullable=false)
+    @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
-    
-    @OneToMany(mappedBy="session")
+
+    @OneToMany(mappedBy = "session")
     private Set<Picture> pictures;
 
     @Basic
-    @Column(name="code", nullable=false, unique=true)
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
-    
+
     @Basic
-    @Column(name="title")
+    @Column(name = "title")
     private String title;
-    
+
     @Basic
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
-    
+
     @Basic
-    @Column(name="public")
+    @Column(name = "public")
     private boolean isPublic;
-    
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permittedSessions")
     private Set<CustomerAccount> permittedAccounts;
-    
+
     public int getId() {
         return id;
     }
@@ -115,5 +116,21 @@ public class PictureSession implements HibernateEntity {
 
     public void setPermittedAccounts(Set<CustomerAccount> permittedAccounts) {
         this.permittedAccounts = permittedAccounts;
+    }
+
+    public static PictureSession getSessionByCode(String code) {
+        PictureSession returnSession = null;
+
+        returnSession = HibernateEntityHelper.all(PictureSession.class).
+                stream().
+                filter(s -> s.getCode().equals(code)).
+                findAny().
+                orElse(null);
+
+        return returnSession;
+    }
+
+    public boolean doesPictureSessionOwnPicture(Picture p) {
+        return (this.getId() == p.getSession().getId());
     }
 }
