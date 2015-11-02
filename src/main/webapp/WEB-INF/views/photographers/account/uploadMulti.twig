@@ -1,0 +1,110 @@
+{% extends "photographers/shop/index.twig" %}
+
+{% block title %}
+    {{ labels.photographers_upload_page_title}}
+{% endblock %}
+
+{% block more_js %}
+
+{% endblock %} 
+
+
+{% block heading %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Upload
+            </h1>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if error is not empty %}
+        <p class="error">{{ error }}</p>
+    {% else %}
+
+<link href="/assets/photographers/css/dropzone_photographer.css" rel="stylesheet"/>
+        <input type="hidden" value="{{ shopName }}" id="hdnShopName"/>
+        <input type="hidden" value="{{ sessionCode }}" id="hdnSessionCode"/>
+        <div class="container">
+            <blockquote>
+                <p>
+                    {{ labels.photographers_upload_intro_title}}
+                </p>
+                {{ labels.photographers_upload_intro_sub}}
+            </blockquote>
+
+            <br>
+            <div id="actions" class="row">
+
+                <div class="col-lg-7">
+                    <!-- The fileinput-button span is used to style the file input field as button -->
+                    <span class="btn btn-success fileinput-button">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span>{{ labels.photographers_upload_btn_addpic }}</span>
+                    </span>
+                    <button type="submit" class="btn btn-primary start">
+                        <i class="glyphicon glyphicon-upload"></i>
+                        <span>{{ labels.photographers_upload_btn_startupload }}</span>
+                    </button>
+                    <button type="reset" class="btn btn-warning cancel">
+                        <i class="glyphicon glyphicon-ban-circle"></i>
+                        <span>{{ labels.photographers_upload_btn_cancelupload }}</span>
+                    </button>
+                </div>
+
+                <div class="col-lg-5">
+                    <!-- The global file processing state -->
+                    <span class="fileupload-process">
+                        <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                        </div>
+                    </span>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+            <div class="table table-striped" class="files" id="previews">
+
+                <div id="template" class="file-row">
+                    <!-- This is used as the file preview template -->
+                    <div>
+                        <span class="preview"><img data-dz-thumbnail /></span>
+                    </div>
+                    <div>
+                        <p class="name" data-dz-name></p>
+                        <strong class="error text-danger" data-dz-errormessage></strong>
+                    </div>
+                    <div>
+                        <p class="size" data-dz-size></p>
+                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary start">
+                            <i class="glyphicon glyphicon-upload"></i>
+                            <span>{{ labels.photographers_upload_btn_startpic }}</span>
+                        </button>
+                        <button data-dz-remove class="btn btn-warning cancel">
+                            <i class="glyphicon glyphicon-ban-circle"></i>
+                            <span>{{ labels.photographers_upload_btn_cancelpic }}</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js"></script>
+        <script src="/assets/photographers/js/dropzone_init.js"></script>
+    {% endif %}
+{% endblock %}

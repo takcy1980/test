@@ -17,43 +17,43 @@ import javax.validation.constraints.Size;
  * @author Robert
  */
 @Entity
-@Table(name="photographers")
+@Table(name = "photographers")
 public class Photographer implements HibernateEntity {
-    
+
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
+
     @Basic
-    @Column(name="name")
+    @Column(name = "name")
     @Size(min = 1, max = 100, message = "{error_size_name}")
     private String name;
-    
+
     @Basic
-    @Column(name="address")
-    @Size(min=1, message = "{error_size_address}")
+    @Column(name = "address")
+    @Size(min = 1, message = "{error_size_address}")
     private String address;
-    
+
     @Basic
-    @Column(name="city")
-    @Size(min=1, message = "{error_size_city}")
+    @Column(name = "city")
+    @Size(min = 1, message = "{error_size_city}")
     private String city;
-    
+
     @Basic
-    @Column(name="phone")
-    @Size(min=1, max=40, message = "{error_size_phone}")
+    @Column(name = "phone")
+    @Size(min = 1, max = 40, message = "{error_size_phone}")
     private String phone;
-    
+
     @Basic
-    @Column(name="email")
-    @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
-        +"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
-        +"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
-             message="{error_pattern_email}")
+    @Column(name = "email")
+    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+            + "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+            + "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
+            message = "{error_pattern_email}")
     private String email;
-    
-    @OneToMany(mappedBy="photographer")
+
+    @OneToMany(mappedBy = "photographer")
     private Set<Shop> shops;
 
     public int getId() {
@@ -108,5 +108,14 @@ public class Photographer implements HibernateEntity {
         return shops;
     }
 
+    /**
+     * checks ownership
+     *
+     * @param s
+     * @return true if this photographer owns Shop
+     */
+    public boolean doesPhotographerOwnShop(Shop s) {
+        return (this.getId() == s.getPhotographer().getId());
+    }
 
 }
