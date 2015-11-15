@@ -51,6 +51,8 @@ public class CartHelper {
         entry.setType(productType);
         entry.setOptions(options);        
         entry.setAmount(amount);
+        entry.setTotalPrice(amount * ( productType.getPrice().doubleValue() + 
+                picture.getPrice().doubleValue() ));
         
         cart.addOrderEntry(entry);
     }
@@ -75,5 +77,18 @@ public class CartHelper {
         }
         
         return cart;       
+    }
+    
+    /**
+     * Resets the cart instance associated with the request.
+     * @param request
+     * @return 
+     */
+    public static Cart flushCart(HttpServletRequest request) {
+        Cart cart = new Cart();
+        
+        request.getSession().setAttribute("cart", cart);
+        
+        return cart;
     }
 }

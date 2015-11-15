@@ -50,11 +50,13 @@
                             </td>
                             <td style="width:80px;">
                                 <div class="form-group">
-                                    <input type="number" class="form-control" id="amount" name="amount" min="1" value="1"/>
+                                    <input type="hidden" name="picture_id" value="{{ picture.id }}" data-group="{{ loop.index }}"/>
+                                    <input type="hidden" name="product_type_id" value="{{ type.id }}" data-group="{{ loop.index }}"/>
+                                    <input type="number" class="form-control" id="amount" name="amount" min="1" value="1" data-group="{{ loop.index }}"/>
                                 </div>
                             </td>
                             <td>
-                                <div class="add-to-cart">
+                                <div class="add-to-cart" data-group="{{ loop.index }}">
                                     {{ labels.customer_shop_addtocart }}
                                 </div>
                             </td>

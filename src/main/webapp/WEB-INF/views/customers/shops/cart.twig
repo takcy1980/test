@@ -18,16 +18,19 @@
                             {% for entry in cart.order.entries %}
                                 <tr>                                    
                                     <td>
-                                        image
+                                        <img class="cart-display" src="/assets/shops/{{ entry.picture.session.shop.login }}/sessions/{{ entry.picture.session.id }}/{{ entry.picture.fileName }}"
                                     </td>
                                     <td>
-                                        type
+                                        {{ entry.picture.title }}
                                     </td>
                                     <td>
-                                        title
+                                        {{ entry.type.name }}
                                     </td>
                                     <td>
-                                        amount
+                                        &euro; {{ entry.totalPrice }}
+                                    </td>
+                                    <td style="width: 80px">
+                                        <input type="number" class="form-control" id="amount" name="amount" min="1" value="{{ entry.amount }}"/>
                                     </td>
                                 </tr>
                             {% endfor %}

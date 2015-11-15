@@ -1,6 +1,9 @@
 package com.pse.fotoz.dbal.entities;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Objects;
 import static java.util.stream.Collectors.toSet;
 import java.util.stream.Stream;
 
@@ -17,6 +20,7 @@ public class Cart implements Serializable {
      */
     public Cart() {
         this.order = new Order();
+        this.order.setEntries(new HashSet<>());
     }
 
     /**
@@ -32,9 +36,13 @@ public class Cart implements Serializable {
      * @param e the order entry.
      */
     public void addOrderEntry(OrderEntry e) {
+        Objects.requireNonNull(order.getEntries());
+        System.out.println();
         order.setEntries(
                 Stream.concat(
-                        order.getEntries().stream(), 
+                        order.
+                                getEntries().
+                                stream(), 
                         Stream.of(e)
                 ).
                 collect(toSet()));

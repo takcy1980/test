@@ -41,6 +41,11 @@ public class CustomerCartController {
         return mav;
     }
 
+    /**
+     * 
+     * @param request
+     * @return 
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/ajax/add")
     public ResponseEntity<String> addItemToCart(HttpServletRequest request) {
         try {
@@ -53,7 +58,7 @@ public class CustomerCartController {
             final int productTypeId = json.getInt("product_type_id");
             final int amount = json.getInt("amount");
             //@Issue product options not supported yet
-            ProductOption options = null;                
+            ProductOption options = null;
             Cart cart = CartHelper.getCurrentCart(request);
 
             CartHelper.addItemToCart(cart, pictureId, productTypeId, amount, 
