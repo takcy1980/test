@@ -1,5 +1,6 @@
 package com.pse.fotoz.dbal.entities;
 
+import com.pse.fotoz.dbal.HibernateEntityHelper;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -25,39 +26,39 @@ import javax.validation.constraints.Size;
 public class PictureSession implements HibernateEntity, Comparable<PictureSession> {
     
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
+
     @ManyToOne
-    @JoinColumn(name="shop_id", nullable=false)
+    @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
-    
-    @OneToMany(mappedBy="session")
+
+    @OneToMany(mappedBy = "session")
     private Set<Picture> pictures;
 
     @Basic
-    @Column(name="code", nullable=false, unique=true)
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
-    
+
     @Basic
     @Column(name="title")
     @Size(min = 1, message="{error_size_title}")
     private String title;
-    
+
     @Basic
     @Column(name="description")
     @Size(min = 1, message="{error_size_description}")
     private String description;
-    
+
     @Basic
     @Column(name="public")
     @NotNull(message="{error_notnull_public}")
     private boolean isPublic;
-    
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permittedSessions")
     private Set<CustomerAccount> permittedAccounts;
-    
+
     public int getId() {
         return id;
     }
