@@ -61,4 +61,15 @@ public class OwnershipHelper {
     public static boolean doesPhotographerOwnShopAndSession(Photographer photographer, Shop shop, PictureSession session){
         return (doesPhotographerOwnShop(photographer, shop) && doesShopOwnPictureSession(shop, session));
     }
+    
+    /**
+     * checks ownershio
+     * @param shop
+     * @param username
+     * @return true if logged in user owns this shop
+     */
+    public static boolean doesUserOwnShop(Shop shop, String username){
+        return shop.doesUserOwnShop(username);
+    }
+    
 }
