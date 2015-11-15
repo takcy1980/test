@@ -12,7 +12,9 @@ import com.pse.fotoz.properties.LocaleUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Controller;
@@ -123,10 +125,11 @@ public class PhotographersSessionController {
                 String description = request.getParameter("description");
                 boolean isPublic = Boolean.parseBoolean(request.getParameter("isPublic"));
 
+                //OPSCHONEN
                 //get shop
                 Shop shop = HibernateEntityHelper.find(Shop.class, "login",
                         Users.currentUsername().get())
-                        .get(0);
+                        .stream().findFirst().orElseThrow(()->new IllegalStateException());
 
                 //get code
                 String code = PictureSessionCodeGen.sessionCode(
