@@ -127,4 +127,21 @@ public class PictureSession implements HibernateEntity, Comparable<PictureSessio
     public int compareTo(PictureSession ps) {
         return ps.id - this.id;
     }
+    
+    public static PictureSession getSessionByCode(String code) {
+        PictureSession returnSession = null;
+
+        returnSession = HibernateEntityHelper.all(PictureSession.class).
+                stream().
+                filter(s -> s.getCode().equals(code)).
+                findAny().
+                orElse(null);
+
+        return returnSession;
+    }
+
+    public boolean doesPictureSessionOwnPicture(Picture p) {
+        return (this.getId() == p.getSession().getId());
+    }
+    
 }
