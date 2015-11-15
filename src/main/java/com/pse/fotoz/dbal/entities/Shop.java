@@ -134,6 +134,16 @@ public class Shop implements HibernateEntity {
     public Set<PictureSession> getSessions() {
         return sessions;
     }
+    
+    public Picture showcasePicture() {
+        return sessions.stream().
+                filter(s -> s.isPublic() && 
+                s.getPictures().stream().
+                        anyMatch(p -> !p.isHidden())).
+                findFirst().
+                flatMap(s -> s.getPictures().stream().findFirst()).
+                orElse(null);
+    }
 
     public static Shop getShopByID(int id) {
         Shop returnShop = null;

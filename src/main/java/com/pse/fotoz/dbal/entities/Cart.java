@@ -1,5 +1,6 @@
 package com.pse.fotoz.dbal.entities;
 
+import java.io.Serializable;
 import static java.util.stream.Collectors.toSet;
 import java.util.stream.Stream;
 
@@ -8,7 +9,7 @@ import java.util.stream.Stream;
  * Serves as a container for an order.
  * @author Robert
  */
-public class Cart {
+public class Cart implements Serializable {
     private final Order order;
 
     /**

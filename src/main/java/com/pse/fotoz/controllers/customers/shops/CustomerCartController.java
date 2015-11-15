@@ -40,7 +40,7 @@ public class CustomerCartController {
 
         return mav;
     }
-    
+
     @RequestMapping(method = RequestMethod.POST, value = "/ajax/add")
     public ResponseEntity<String> addItemToCart(HttpServletRequest request) {
         try {
