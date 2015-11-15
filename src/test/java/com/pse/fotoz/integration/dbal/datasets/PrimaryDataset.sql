@@ -104,4 +104,23 @@ INSERT INTO `shops` (`id`, `login`, `passwordHash`, `user_id`) VALUES
 (8, 'mooie-kiekjes', '1000:c9277e12463311a1d08cf156406f4e413e2e0c9e09e95af6:b01b17b6659be60fffdd27a59023a2f8c5497636170da7a6', 7),
 (10, 'willem-derijk', '1000:dbd10ae743009ae304bfd04596e18799ffc7fbe414eeaab4:cb17814333275c0d1a00bc65458a2361a43458316d854c8e', 9),
 (12, 'hans-groen', '1000:ff7764fa7abeffe2acb3b17df0c5dd2637610006b6fca588:bcd9640d93aa81ff414de538f16ba5c0b9909190d5d89b05', 11);
+
+
+--
+-- Truncate table before insert `product_types`
+--
+
+TRUNCATE TABLE `product_types`;
+--
+-- Dumping data for table `product_types`
+--
+
+INSERT INTO `product_types` (`id`, `description`, `filename`, `name`, `price`, `stock`) VALUES
+(1, 'Mok large, 30cl inhoud, wit', 'mok.jpg','Mok wit', 9.95, 100),
+(2, 'Tshirt one size fits all, wit', 'tshirt.jpg', 'Tshirt wit', 18.99, 50);
+
+
+--
+--set check foreign keys
+--
 SET FOREIGN_KEY_CHECKS=1;
