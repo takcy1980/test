@@ -2,15 +2,20 @@ package com.pse.fotoz.helpers.forms;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
+import com.pse.fotoz.dbal.HibernateSession;
 import com.pse.fotoz.dbal.entities.CustomerAccount;
 import com.pse.fotoz.dbal.entities.Customer;
 import com.pse.fotoz.dbal.entities.Photographer;
 import com.pse.fotoz.dbal.entities.Picture;
+import com.pse.fotoz.dbal.entities.PictureSession;
 import com.pse.fotoz.dbal.entities.ProductType;
 import com.pse.fotoz.dbal.entities.Shop;
 import java.math.BigDecimal;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.hibernate.Session;
 
 /**
  * Facade abstracting the handling of common user actions.
@@ -154,5 +159,31 @@ public class PersistenceFacade {
             pt.setFilename(filename);
 
             pt.persist();
-    }    
+    }
+    
+    public static boolean addPictureSessionCustomer(String code){
+             
+        
+        try {
+        PictureSession ses = HibernateEntityHelper.all(PictureSession.class).get(0);
+        Session session = HibernateSession.getInstance().newSession();
+        CustomerAccount acc = (CustomerAccount)session.createCriteria(CustomerAccount.class).list().get(0);
+        
+        System.out.println("GET");
+        Set<PictureSession> s = acc.getPermittedSessions();
+        s.add(ses);
+        System.out.println("ADD2");
+        acc.setPermittedSessions(s);
+
+//        session.saveOrUpdate(acc);
+        session.merge(acc);
+        
+//        acc.persist();
+        } catch (HibernateException ex) {
+            Logger.getLogger(PersistenceFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+    
 }
