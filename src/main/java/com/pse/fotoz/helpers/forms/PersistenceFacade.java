@@ -60,6 +60,20 @@ public class PersistenceFacade {
             picture.get().persist();
         }
     }
+    
+        public static void changePicturePrice(int pictureId, BigDecimal price) throws
+            HibernateException, IllegalArgumentException {
+        Optional<Picture> picture
+                = HibernateEntityHelper.byId(Picture.class, pictureId);
+
+        if (!picture.isPresent()) {
+            throw new IllegalArgumentException("Given id does not match any "
+                    + "picture.");
+        } else {
+            picture.get().setPrice(price);
+            picture.get().persist();
+        }
+    }
 
     /**
      * Adds a new shop to the system.

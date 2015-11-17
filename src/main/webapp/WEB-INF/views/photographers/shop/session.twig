@@ -1,0 +1,42 @@
+{% extends "photographers/shop/sessions.twig" %}
+
+
+{% block inner_content %}
+    <h1>
+        {{ session.title }}
+    </h1>
+
+    <p>
+        {{ session.description }}
+    </p>
+    {% for picture in session.pictures %}
+        <div class="col-sm-4 col-lg-4 col-md-4">
+            <div class="thumbnail">
+                <img src="/assets/shops/{{ shop.login }}/sessions/{{ session.id }}/{{ picture.fileName }}">
+                <div class="caption">
+                    <h4 class="pull-right">
+                        &euro; {{ picture.price }}
+                    </h4>
+                    <h4>
+                        <a href="#">
+                            {{ picture.title }}
+                        </a>
+                    </h4>
+                    <p>
+                        {{ picture.description }}
+                    </p>
+
+                    <p>
+                        change price:
+
+                        <input type="number" step="0.01" id="customer_phone" name="price" class="form-control">
+                        <button class="btn btn-lg btn-default btn-block" type="submit">
+                            Change
+                        </button>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
