@@ -47,7 +47,7 @@ public class CustomerCartController {
      * @return 
      */
     @RequestMapping(method = RequestMethod.POST, value = "/ajax/add")
-    public ResponseEntity<String> addItemToCart(HttpServletRequest request) {
+    public ResponseEntity<String> addItem(HttpServletRequest request) {
         try {
             String data = request.getReader().lines().
                     reduce("", (s1, s2) -> s1 + s2);
@@ -64,6 +64,49 @@ public class CustomerCartController {
             CartHelper.addItemToCart(cart, pictureId, productTypeId, amount, 
                     options);
         } catch (IOException | JSONException | IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).
+                    body("corrupt form data");
+        }
+
+        return ResponseEntity.ok().body("ok"); 
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/ajax/amount")
+    public ResponseEntity<String> updateItemAmount(HttpServletRequest request) {
+        try {
+            String data = request.getReader().lines().
+                    reduce("", (s1, s2) -> s1 + s2);
+
+            JSONObject json = new JSONObject(data);
+
+            final int entryId = json.getInt("entry_id");
+            final int amount = json.getInt("amount");
+            
+            Cart cart = CartHelper.getCurrentCart(request);
+
+            CartHelper.updateItemAmount(cart, entryId, amount);
+        } catch (IOException | JSONException | IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).
+                    body("corrupt form data");
+        }
+
+        return ResponseEntity.ok().body("ok"); 
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/ajax/remove")
+    public ResponseEntity<String> removeItem(HttpServletRequest request) {
+        try {
+            String data = request.getReader().lines().
+                    reduce("", (s1, s2) -> s1 + s2);
+
+            JSONObject json = new JSONObject(data);
+
+            final int entryId = json.getInt("entry_id");
+            
+            Cart cart = CartHelper.getCurrentCart(request);
+
+            CartHelper.removeItemFromCart(cart, entryId);
+        } catch (IOException | JSONException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).
                     body("corrupt form data");
         }

@@ -23,6 +23,11 @@ public class OrderEntry implements HibernateEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
+    /**
+     * Temporary identity value for when not (yet) persisted.
+     */
+    private int tempId;
+    
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
@@ -49,10 +54,29 @@ public class OrderEntry implements HibernateEntity {
 
     public int getId() {
         return id;
-    }
+    }   
 
     public void setId(int id) {
         this.id = id;
+    } 
+    
+    /**
+     * Gives the identity of this order entry.
+     * If this entry has not yet been assigned a persisted identity, it will
+     * instead provide a temporary identity, set through setTempId.
+     * @return Identity of this entry.
+     */
+    public int getTempId() {
+        return id == 0 ? tempId : id;
+    }
+    
+    /**
+     * Sets a temporary identity for this order entry.
+     * This identity should be unique within an order, this is unchecked.
+     * @param tempId The temporary identity.
+     */
+    public void setTempId(int tempId) {
+        this.tempId = tempId;
     }
 
     public Order getOrder() {
