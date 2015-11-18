@@ -10,11 +10,15 @@ import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.PictureSession;
 import com.pse.fotoz.dbal.entities.ProductType;
 import com.pse.fotoz.dbal.entities.Shop;
+import com.pse.fotoz.helpers.users.Users;
 import java.math.BigDecimal;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static java.util.stream.Collectors.toSet;
+import java.util.stream.Stream;
 import org.hibernate.Session;
 
 /**
@@ -161,29 +165,27 @@ public class PersistenceFacade {
             pt.persist();
     }
     
-    public static boolean addPictureSessionCustomer(String code){
-             
-        
-        try {
-        PictureSession ses = HibernateEntityHelper.all(PictureSession.class).get(0);
-        Session session = HibernateSession.getInstance().newSession();
-        CustomerAccount acc = (CustomerAccount)session.createCriteria(CustomerAccount.class).list().get(0);
-        
-        System.out.println("GET");
-        Set<PictureSession> s = acc.getPermittedSessions();
-        s.add(ses);
-        System.out.println("ADD2");
-        acc.setPermittedSessions(s);
+    /**
+     * @throws com.pse.fotoz.dbal.HibernateException
+     * @throws NoSuchElementException
+     * @pre Customer is logged in, session with code exists.
+     * @param code
+     */
+    public static void addPictureSessionCustomer(String code, CustomerAccount account)
+            throws HibernateException, NoSuchElementException {
 
-//        session.saveOrUpdate(acc);
-        session.merge(acc);
-        
-//        acc.persist();
-        } catch (HibernateException ex) {
-            Logger.getLogger(PersistenceFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return false;
+        PictureSession session = HibernateEntityHelper.
+                find(PictureSession.class, "code", code).stream().
+                findAny().
+                orElseThrow(() -> new NoSuchElementException("Picture session "
+                                + "does not exist."));
+
+        account.setPermittedSessions(Stream.concat(
+                account.getPermittedSessions().stream(),
+                Stream.of(session)).
+                collect(toSet()));
+
+        account.persist();
     }
     
 }
