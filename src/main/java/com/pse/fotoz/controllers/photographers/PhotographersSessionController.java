@@ -27,6 +27,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -52,7 +53,17 @@ public class PhotographersSessionController {
                 withProperties(request).
                 build();
 
+        mav.addObject("shopId", shopId);
+        mav.addObject("page", new Object() {
+            public String lang = request.getSession().
+                    getAttribute("lang").toString();
+            public String uri = "/photographers/shop/sessions";
+            public String redirect = request.getRequestURL().toString();
+        });
+        mav.setViewName("photographers/shop/sessions.twig");
+
         //get current shops sessions and sort by id
+        //redirects to public homepage in case of wrong user/shop combination
         try {
             Integer id = Parser.parseInt(shopId).orElse(null);
 
@@ -64,26 +75,11 @@ public class PhotographersSessionController {
                 Collections.sort(sessions);
                 mav.addObject("sessions", sessions);
             } else {
-                mav.addObject("error",
-                        LocaleUtil.getProperties(request)
-                        .get("ERROR_WRONG_CREDENTIALS"));
+                mav = new ModelAndView("redirect:/app/");
             }
         } catch (NullPointerException ex) {
-            Logger.getLogger(PhotographersSessionController.class.getName()).
-                    log(Level.SEVERE, null, ex);
-            mav.addObject("error",
-                    LocaleUtil.getProperties(request)
-                    .get("ERROR_PHOTOGRAPHER_NO_SHOP"));
+            mav = new ModelAndView("redirect:/app/");
         }
-
-        mav.addObject("shopId", shopId);
-        mav.addObject("page", new Object() {
-            public String lang = request.getSession().
-                    getAttribute("lang").toString();
-            public String uri = "/photographers/shop/sessions";
-            public String redirect = request.getRequestURL().toString();
-        });
-        mav.setViewName("photographers/shop/sessions.twig");
 
         return mav;
     }
@@ -99,10 +95,11 @@ public class PhotographersSessionController {
     public ModelAndView provideNewProductForm(
             @PathVariable("shopId") String shopId,
             HttpServletRequest request) {
+
         ModelAndView mav = ModelAndViewBuilder.empty().
                 withProperties(request).
                 build();
-        
+
         mav.addObject("shopId", shopId);
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
@@ -111,6 +108,19 @@ public class PhotographersSessionController {
             public String redirect = request.getRequestURL().toString();
         });
         mav.setViewName("photographers/shop/sessions_new.twig");
+
+        //check ownership and redirect in case of wrong user/shop combination
+        try {
+            Integer id = Parser.parseInt(shopId).orElse(null);
+            Shop shop = HibernateEntityHelper.byId(Shop.class, id)
+                    .orElse(null);
+            if (!(OwnershipHelper.doesUserOwnShop(shop,
+                    Users.currentUsername().orElse(null)))) {
+                mav = new ModelAndView("redirect:/app/");
+            }
+        } catch (NullPointerException ex) {
+            mav = new ModelAndView("redirect:/app/");
+        }
 
         return mav;
     }
@@ -122,6 +132,7 @@ public class PhotographersSessionController {
      * @param resultPicSession result of Validation of Picture Session
      * @param shopId shops id
      * @param request http request
+     * @param redirectAttributes attributes to be added to a redirect view
      * @return corresponding MAV depending on succes of creating Picture Session
      */
     @RequestMapping(method = RequestMethod.POST, value = "/new")
@@ -131,13 +142,10 @@ public class PhotographersSessionController {
             @Valid PictureSession newPicSession,
             BindingResult resultPicSession,
             @PathVariable("shopId") String shopId,
-            HttpServletRequest request) {
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes) {
 
-        ModelAndView mav = ModelAndViewBuilder.empty().
-                withProperties(request).
-                build();
-        mav.setViewName("photographers/shop/sessions_new.twig");
-
+        boolean sessionCreated = false;
         List<String> errors = new ArrayList<>();
 
         //check validation errors
@@ -157,38 +165,40 @@ public class PhotographersSessionController {
                 Shop shop = HibernateEntityHelper.byId(
                         Shop.class, id).orElse(null);
 
-                //get code
-                String code = PictureSessionCodeGen.sessionCode(
-                        shop.getId(),
-                        shop.getSessions().size());
+                //check ownership
+                if (OwnershipHelper.doesUserOwnShop(shop,
+                        Users.currentUsername().orElse(null))) {
+                    //get new session code
+                    String code = PictureSessionCodeGen.sessionCode(
+                            shop.getId(),
+                            shop.getSessions().size());
 
-                //persist new Picture Session
-                PersistenceFacade.addPictureSession(shop, code, title,
-                        description, isPublic);
+                    //persist new Picture Session
+                    PersistenceFacade.addPictureSession(shop, code, title,
+                            description, isPublic);
 
-                mav = new ModelAndView("redirect:/app/photographers/shop/" + shopId + "/sessions/");
+                    sessionCreated = true;
+                }
 
             } catch (HibernateException ex) {
                 Logger.getLogger(PhotographersSessionController.class.getName()).
                         log(Level.SEVERE, null, ex);
                 errors.add(LocaleUtil.getProperties(request).
                         get("ERROR_INTERNALDATABASEERROR"));
-            } catch (NullPointerException ex){
-                Logger.getLogger(PhotographersSessionController.class.getName()).
-                        log(Level.SEVERE, null, ex);
-                errors.add(LocaleUtil.getProperties(request).
-                        get("ERROR_PHOTOGRAPHER_NO_SHOP"));
+            } catch (NullPointerException ex) {
+                //non existing shop or user
+                //no action needed. redirect will take place.
             }
         }
 
-        mav.addObject("errors", errors);
-        mav.addObject("page", new Object() {
-            public String lang = request.getSession().
-                    getAttribute("lang").toString();
-            public String uri = "/photographers/shop/sessions";
-            public String redirect = request.getRequestURL().toString();
-        });
-
+        ModelAndView mav;
+        if (sessionCreated) {
+            mav = new ModelAndView("redirect:/app/photographers/shop/" + shopId + "/sessions/");
+        } else {
+            //in case of wrong ownership page will be redirected once more to /app/
+            redirectAttributes.addFlashAttribute("errors", errors);
+            mav = new ModelAndView("redirect:/app/photographers/shop/" + shopId + "/sessions/new");
+        }
         return mav;
     }
 
@@ -201,40 +211,13 @@ public class PhotographersSessionController {
      */
     @RequestMapping(value = "/{session}", method = RequestMethod.GET)
     public ModelAndView showPictureSession(@PathVariable("session") String sessionId,
-            HttpServletRequest request) {
+            HttpServletRequest request
+    ) {
 
         ModelAndView mav = ModelAndViewBuilder.empty().
                 withProperties(request).
                 build();
 
-        List<String> errors = new ArrayList<>();
-
-        //@ToDo
-        //add check for ownership
-        //create correct path to pictures
-        //create correct errors
-        //show more picture info
-        //show more session info (including session code)
-        try {
-            Integer id = Parser.parseInt(sessionId).orElse(null);
-
-            PictureSession session = HibernateEntityHelper.byId(
-                    PictureSession.class, id).orElse(null);
-
-            Set<Picture> pictures = session.getPictures();
-
-            String path = "/assets/shops/";
-
-            mav.addObject("pictures", pictures);
-
-        } catch (NullPointerException ex) {
-            Logger.getLogger(PhotographersSessionController.class.getName()).
-                    log(Level.SEVERE, null, ex);
-            errors.add(LocaleUtil.getProperties(request).
-                    get("ERROR_INTERNALDATABASEERROR"));
-        }
-
-        mav.addObject("errors", errors);
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
@@ -242,6 +225,28 @@ public class PhotographersSessionController {
             public String redirect = request.getRequestURL().toString();
         });
         mav.setViewName("photographers/shop/session.twig");
+
+        try {
+            Integer id = Parser.parseInt(sessionId).orElse(null);
+
+            PictureSession session = HibernateEntityHelper.byId(
+                    PictureSession.class, id).orElse(null);
+
+            //check ownership
+            if (OwnershipHelper.doesUserOwnShop(session.getShop(),
+                    Users.currentUsername().orElse(null))) {
+
+                Set<Picture> pictures = session.getPictures();
+                String path = "/assets/shops/";
+                mav.addObject("pictures", pictures);
+            } else {
+                mav = new ModelAndView("redirect:/app/");
+            }
+
+        } catch (NullPointerException ex) {
+            //non existing shop or user
+            mav = new ModelAndView("redirect:/app/");
+        }
 
         return mav;
     }
