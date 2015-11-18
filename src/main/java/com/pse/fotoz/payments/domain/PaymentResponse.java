@@ -8,9 +8,11 @@ package com.pse.fotoz.payments.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pse.fotoz.payments.domain.enums.*;
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
 
 /**
  *
@@ -18,7 +20,7 @@ import java.util.Map;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PaymentResult {
+public class PaymentResponse {
     private String id;
     private PaymentMode mode;
     private Date createdDatetime;
@@ -96,8 +98,8 @@ public class PaymentResult {
         return expiryPeriod;
     }
 
-    public void setExpiryPeriod(Duration expiryPeriod) {
-        this.expiryPeriod = expiryPeriod;
+    public void setExpiryPeriod(String expiryPeriod) throws DatatypeConfigurationException {
+        this.expiryPeriod = DatatypeFactory.newInstance().newDuration(expiryPeriod);
     }
 
     public BigDecimal getAmount() {
