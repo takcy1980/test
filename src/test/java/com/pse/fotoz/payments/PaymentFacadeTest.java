@@ -50,13 +50,13 @@ public class PaymentFacadeTest {
         payC.setDescription("description test");
         payC.setRedirectUrl("http://www.test.abc/redirecturlvanons");
         //payC.setWebhookUrl("http://www.test.abc/");
-        payC.setLocale(Locale.SPAIN);
+        payC.setLocale(Locale.GERMANY);
         
         PaymentFacade pmf  = new PaymentFacade();
        // pmf.setIsDebug(true);
         //pmf.setUseProxy(true);
         PaymentResponse result = pmf.CreatePayment(payC).get();
-        
+        PaymentResponse result2 = pmf.GetPayment(result.getId()).get();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

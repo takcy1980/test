@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -61,11 +62,11 @@ public class PaymentFacade {
     }
 
     private Optional<PaymentResponse> doRequest(Optional<PaymentRequest> payment, String paymentID) throws RestClientException {
-        String paymentGetUrl;
+        String restUrl;
         if (payment.isPresent()) {
-            paymentGetUrl = "https://api.mollie.nl/v1/payments";
+            restUrl = "https://api.mollie.nl/v1/payments";
         } else {
-            paymentGetUrl = "https://api.mollie.nl/v1/payments/" + paymentID;
+            restUrl = "https://api.mollie.nl/v1/payments/" + paymentID;
 
         }
 
@@ -74,7 +75,7 @@ public class PaymentFacade {
             System.setProperty("https.proxyHost", "127.0.0.1");
             System.setProperty("http.proxyPort", "8888");
             System.setProperty("https.proxyPort", "8888");
-            paymentGetUrl = "http://192.168.0.101:8080/v1/payments";
+            restUrl = "http://192.168.0.101:8080/v1/payments";
         }
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -94,11 +95,11 @@ public class PaymentFacade {
             if (payment.isPresent()) {
                 MultiValueMap<String, String> map = payment.get().toMap();
                 HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, httpHeaders);
-                response = restT.postForEntity(paymentGetUrl, request, PaymentResponse.class);
+                response = restT.postForEntity(restUrl, request, PaymentResponse.class);
 
             } else {
                 HttpEntity<HttpHeaders> request = new HttpEntity<>(httpHeaders);
-                response = restT.postForEntity(paymentGetUrl, request, PaymentResponse.class);
+                response = restT.exchange(restUrl, HttpMethod.GET, request, PaymentResponse.class);//getForObject ondersteund geen headers...handig
 
             }
 
