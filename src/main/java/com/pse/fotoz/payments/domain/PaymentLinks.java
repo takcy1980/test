@@ -8,7 +8,8 @@ package com.pse.fotoz.payments.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- *
+ * Mappes the links JSON object of the payment response from Mollie
+ * Contains links used for the payment
  * @author René
  */
 

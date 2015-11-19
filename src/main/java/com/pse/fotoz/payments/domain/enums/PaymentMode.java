@@ -8,7 +8,7 @@ package com.pse.fotoz.payments.domain.enums;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- *
+ *  Test or real payment
  * @author René
  */
 public enum PaymentMode {

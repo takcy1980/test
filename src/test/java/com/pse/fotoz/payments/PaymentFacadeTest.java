@@ -7,6 +7,7 @@ package com.pse.fotoz.payments;
 
 import com.pse.fotoz.payments.domain.PaymentRequest;
 import com.pse.fotoz.payments.domain.PaymentResponse;
+import com.pse.fotoz.payments.domain.enums.Locale;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import org.junit.After;
@@ -48,8 +49,13 @@ public class PaymentFacadeTest {
         payC.setAmount(10.12d);
         payC.setDescription("description test");
         payC.setRedirectUrl("http://www.test.abc/redirecturlvanons");
+        //payC.setWebhookUrl("http://www.test.abc/");
+        payC.setLocale(Locale.SPAIN);
         
-        PaymentResponse result = PaymentFacade.CreatePayment(payC);
+        PaymentFacade pmf  = new PaymentFacade();
+       // pmf.setIsDebug(true);
+        //pmf.setUseProxy(true);
+        PaymentResponse result = pmf.CreatePayment(payC).get();
         
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

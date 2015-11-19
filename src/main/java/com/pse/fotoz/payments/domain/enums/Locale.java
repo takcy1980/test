@@ -7,27 +7,27 @@ package com.pse.fotoz.payments.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/**
- * Payment statuses as defined by Mollie
- * @author René
- */
-public enum PaymentStatus {
 
-    OPEN("open"),
-    CANCELLED("cancelled"),
-    EXPIRED("expired"),
-    PENDING("pending"),
-    PAID("paid"),
-    PAIDOUT("paidout"),
-    REFUNDED("refunded"),
-    CHARGEDBACK("charged_back");
+/***
+ * Locales supported by Mollie
+ * @author René 
+ */
+public enum Locale {
+
+    GERMANY("de"),
+    ENGLAND("en"),
+    SPAIN("es"),
+    FRANCE("fr"),
+    BELGIUM("be"),
+    BELGIUM_FRENCH("be-fr"),
+    NETHERLANDS("nl");
 
     private String value;
 
-    private PaymentStatus(String value) {
+    private Locale(String value) {
         this.value = value;
     }
-    
+
     @JsonValue
     public String getValue() {
         return this.value;

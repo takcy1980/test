@@ -5,32 +5,33 @@
  */
 package com.pse.fotoz.payments.domain;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.pse.fotoz.payments.domain.enums.Locale;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 /**
- *
+ * Payment object for creating a new payment, see https://www.mollie.com/en/docs/reference/payments/create
  * @author René
  */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentRequest {
+
     @JsonSerialize(using = ToStringSerializer.class)
     private Double amount;
     private String description;
     private String redirectUrl;
-//    private String webhookUrl;
-//    private String method;
-//    private Map<String,String> metadata;
-//    private String locale;
+    private String webhookUrl; //optional
+    private String method;//optional
+    // ->deze vereist JSOn parsen + lelijke exception handling, is nog niet nodig voor ons project dus even geskipt
+    //private Map<String,String> metadata;//optional
+    private Locale locale;//optional
 
     public Double getAmount() {
         return amount;
@@ -39,8 +40,9 @@ public class PaymentRequest {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
+
     public void setAmount(int amount) {
-        this.amount= Double.valueOf(amount);
+        this.amount = Double.valueOf(amount);
     }
 
     public String getDescription() {
@@ -59,44 +61,57 @@ public class PaymentRequest {
         this.redirectUrl = redirectUrl;
     }
 
-//    public String getWebhookUrl() {
-//        return webhookUrl;
-//    }
-//
-//    public void setWebhookUrl(String webhookUrl) {
-//        this.webhookUrl = webhookUrl;
-//    }
-//
-//    public String getMethod() {
-//        return method;
-//    }
-//
-//    public void setMethod(String method) {
-//        this.method = method;
-//    }
-//
-//    public Map<String,String> getMetadata() {
-//        return metadata;
+    public Optional<String> getWebhookUrl() {
+        return Optional.ofNullable(this.webhookUrl);
+    }
+
+    public void setWebhookUrl(String webhookUrl) {
+        this.webhookUrl = webhookUrl;
+    }
+
+    public Optional<String> getMethod() {
+        return Optional.ofNullable(this.method);
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+//    public Optional<Map<String,String>> getMetadata() {
+//        return Optional.ofNullable(this.metadata);
 //    }
 //
 //    public void setMetadata(Map<String,String> metadata) {
 //        this.metadata = metadata;
 //    }
-//
-//    public String getLocale() {
-//        return locale;
-//    }
-//
-//    public void setLocale(String locale) {
-//        this.locale = locale;
-//    }
-    
-    public LinkedMultiValueMap<String, String> toMap() {
-        
-        ObjectMapper m = new ObjectMapper();
-    Map<String, List<String>> props = m.convertValue(this, Map.class);
-      LinkedMultiValueMap<String, String> mm = new LinkedMultiValueMap<>(props);
-    
-        return mm;
+
+    public Optional<Locale> getLocale() {
+        return Optional.ofNullable(this.locale);
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+    /***
+     * Used for creating a LinkedMultiValueMap, which is used by Resttemplate
+     * @return 
+     */
+    public LinkedMultiValueMap<String, String> toMap(){
+        //deze methode(objectmapper) is het mooiste, werkt perfect met een Map, alleen Jacksons Objectmapper en springs multivaluemap
+        //bijten elkaar op een vage wijze...geen elegantere oplossing nog kunnen vinden(mvm is nodig voor resttamplate), evt reflection?
+//        ObjectMapper m = new ObjectMapper();
+//        Map<String, List<String>> props = m.convertValue(this, Map.class);
+//        LinkedMultiValueMap<String, String> mm = new LinkedMultiValueMap<>(props);
+
+        //ObjectMapper m = new ObjectMapper();
+        LinkedMultiValueMap<String, String> returnMap = new LinkedMultiValueMap<>();
+        returnMap.add("amount", this.getAmount().toString());
+        returnMap.add("description", this.getDescription());
+        returnMap.add("redirectUrl", this.getRedirectUrl());
+        if(this.getWebhookUrl().isPresent()) {returnMap.add("webhookUrl", this.getWebhookUrl().toString()); }
+        if(this.getMethod().isPresent()) {returnMap.add("method", this.getMethod().toString()); }
+        //if(this.getMetadata().isPresent()) {returnMap.add("metadata", m.writeValueAsString(this.getMetadata())); }
+        if(this.getLocale().isPresent()) {returnMap.add("locale", this.getLocale().get().getValue()); }
+        return returnMap;
     }
 }

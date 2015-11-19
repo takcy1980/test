@@ -8,7 +8,7 @@ package com.pse.fotoz.payments.domain.enums;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- *
+ * Payment methods supported by Mollie(when Mollie select screen is not used)
  * @author René
  */
 public enum PaymentMethod {

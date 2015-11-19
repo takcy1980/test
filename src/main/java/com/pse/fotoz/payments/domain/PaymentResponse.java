@@ -15,7 +15,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 
 /**
- *
+ * Payment object for getting a  payment, see https://www.mollie.com/en/docs/reference/payments/get
  * @author René
  */
 
