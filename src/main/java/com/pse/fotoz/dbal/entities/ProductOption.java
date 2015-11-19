@@ -54,6 +54,11 @@ public class ProductOption implements HibernateEntity {
         this.labels = labels;
     }
     
+    /**
+     * Provides an internationalized label of the color of this option.
+     * @pre Labels must have been set (using setLabels).
+     * @return Internationalized label of the color of this option
+     */
     public String getColorLabel() {
         switch (color) {
             case COLOR:
@@ -67,6 +72,11 @@ public class ProductOption implements HibernateEntity {
         }
     }
     
+    /**
+     * Provides the file name of the image representing the different color 
+     * options.
+     * @return The file name.
+     */
     public String getColorImage() {
         switch (color) {
             case COLOR:

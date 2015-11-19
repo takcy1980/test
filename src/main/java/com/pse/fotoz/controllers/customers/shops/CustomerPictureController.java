@@ -2,9 +2,9 @@ package com.pse.fotoz.controllers.customers.shops;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.entities.Picture;
+import com.pse.fotoz.dbal.entities.ProductOption;
 import com.pse.fotoz.dbal.entities.ProductOption.ColorOption;
 import com.pse.fotoz.dbal.entities.ProductType;
-import com.pse.fotoz.helpers.forms.ColorOptionWrapper;
 import com.pse.fotoz.helpers.forms.Parser;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.helpers.users.Users;
@@ -90,9 +90,13 @@ public class CustomerPictureController {
         List<ProductType> types = HibernateEntityHelper.
                 all(ProductType.class);
         
-        List<ColorOptionWrapper> colorOptions = Stream.of(ColorOption.values()).
-                map(o -> ColorOptionWrapper.of(o, 
-                        LocaleUtil.getProperties(request))).
+        List<ProductOption> colorOptions = Stream.of(ColorOption.values()).
+                map(c -> { 
+                    ProductOption result = new ProductOption();
+                    result.setColor(c);
+                    result.setLabels(LocaleUtil.getProperties(request));
+                    return result;
+                }).
                 collect(toList());
         
         mav.addObject("types", types);
