@@ -54,7 +54,7 @@
                                             </b>
                                         </p>
                                         <p>
-                                            &euro; {{ entry.picture.price }}
+                                            &euro; {{ entry.picture.price | numberformat("#.##") }}
                                         </p>
                                     </td>
                                     <td>
@@ -70,7 +70,7 @@
                                             </b>
                                         </p>
                                         <p>
-                                            &euro; {{ entry.type.price }}
+                                            &euro; {{ entry.type.price | numberformat("#.##") }}
                                         </p>
                                     </td>
                                     <td>
@@ -91,7 +91,11 @@
                                         <input type="number" class="form-control cart-product-amount" id="amount" name="amount" min="1" value="{{ entry.amount }}"/>
                                     </td>
                                     <td>
-                                        &euro; {{ entry.totalPrice }}
+                                        &euro; {{ entry.totalPrice | numberformat("#.##") }}
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="entry_id" value="{{ entry.id }}"/>
+                                        <i class="fa fa-ban cart-remove-item pointer"></i>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -104,7 +108,9 @@
                                     </b>
                                 </td>
                                 <td>
-                                    &euro; {{ cart.priceSum }}
+                                    &euro; {{ cart.priceSum | numberformat("#.##") }}
+                                </td>
+                                <td>
                                 </td>
                             </tr>
                         </tbody>

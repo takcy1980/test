@@ -17,3 +17,5 @@ img.cart-picture {max-width: 200px;}
 .cart-product-amount {margin: 0 20px; width: 60px;}
 
 img.cart-right-arrow {width: 130px; margin-top: 30px;}
+
+.pointer {cursor: pointer;}

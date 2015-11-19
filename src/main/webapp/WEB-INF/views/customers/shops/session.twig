@@ -14,7 +14,7 @@
                 <img src="/assets/shops/{{ shop.login }}/sessions/{{ session.id }}/{{ picture.fileName }}">
                 <div class="caption">
                     <h4 class="pull-right">
-                        &euro; {{ picture.price }}
+                        &euro; {{ picture.price | numberformat("#.##") }}
                     </h4>
                     <h4>
                         <a href="/app/customers/pictures/{{ picture.id }}">

@@ -48,7 +48,7 @@ public class CartHelper {
                 max((i1, i2) -> Integer.compare(i1, i2)).
                 map(i -> i + 1).
                 orElse(0);
-        System.out.println(entryTempId);
+        
         OrderEntry entry = new OrderEntry();
         
         entry.setTempId(entryTempId);
@@ -86,6 +86,8 @@ public class CartHelper {
                         + "present in cart."));
         
         entry.setAmount(amount);
+        entry.setTotalPrice(amount * ( entry.getType().getPrice().doubleValue() + 
+                entry.getPicture().getPrice().doubleValue() ));
     }
     
     /**
