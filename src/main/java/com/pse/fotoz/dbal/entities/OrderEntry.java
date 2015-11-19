@@ -41,7 +41,7 @@ public class OrderEntry implements HibernateEntity {
     private ProductType type;
     
     @ManyToOne
-    @JoinColumn(name = "customer_account")
+    @JoinColumn(name = "product_options")
     private ProductOption options;
     
     @Basic

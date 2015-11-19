@@ -12,10 +12,12 @@ import com.pse.fotoz.helpers.encryption.PasswordHash;
 import com.pse.fotoz.helpers.forms.DoesNotExist;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -131,8 +133,8 @@ public class Shop implements HibernateEntity {
         this.photographer = photographer;
     }
 
-    public Set<PictureSession> getSessions() {
-        return sessions;
+    public List<PictureSession> getSessions() {
+        return sessions.stream().sorted().collect(toList());
     }
     
     public Picture showcasePicture() {
