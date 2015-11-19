@@ -1,4 +1,7 @@
 $(function() {
+    /**
+     * Handles user request to add an item to the cart.
+     */
     $('.add-to-cart').click(function() {        
         var picture_id = $('form#add_to_cart').
                 find('input[name="picture_id"]').val();
@@ -22,16 +25,25 @@ $(function() {
             });
     });
     
+    /**
+     * Allows users to select specific options.
+     */
     $('.product-display').click(function() {
         $(this).siblings('.product-display').removeClass('selected');
         $(this).addClass('selected');
     });
     
+    /**
+     * Allows users to select specific options.
+     */
     $('.color-display').click(function() {
         $(this).siblings('.color-display').removeClass('selected');
         $(this).addClass('selected');
     });
     
+    /**
+     * Handles user request to change the amount of an item in the cart.
+     */
     $('.cart-product-amount').change(function() {
         var amount = $(this).val();
         var entry_id = $(this).siblings('input[name="entry_id"]').val();
@@ -46,6 +58,9 @@ $(function() {
             });
     });
     
+    /**
+     * Handles user request to remove an item from the cart.
+     */
     $('.cart-remove-item').click(function() {
         var entry_id = $(this).siblings('input[name="entry_id"]').val();
         
