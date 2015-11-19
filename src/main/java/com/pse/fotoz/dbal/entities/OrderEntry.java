@@ -1,6 +1,5 @@
 package com.pse.fotoz.dbal.entities;
 
-import java.util.Map;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;

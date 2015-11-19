@@ -2,7 +2,6 @@ package com.pse.fotoz.controllers.customers.shops;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.entities.Picture;
-import com.pse.fotoz.dbal.entities.ProductOption;
 import com.pse.fotoz.dbal.entities.ProductOption.ColorOption;
 import com.pse.fotoz.dbal.entities.ProductType;
 import com.pse.fotoz.helpers.forms.ColorOptionWrapper;

@@ -1,6 +1,5 @@
 package com.pse.fotoz.dbal.entities;
 
-import com.pse.fotoz.helpers.forms.ColorOptionWrapper;
 import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
