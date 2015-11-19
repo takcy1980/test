@@ -4,6 +4,7 @@ import com.pse.fotoz.dbal.entities.Cart;
 import com.pse.fotoz.dbal.entities.ProductOption;
 import com.pse.fotoz.helpers.forms.CartHelper;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
+import static com.pse.fotoz.properties.LocaleUtil.getProperties;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONException;
@@ -26,6 +27,9 @@ public class CustomerCartController {
                     build();
         
         Cart cart = CartHelper.getCurrentCart(request);
+        
+        cart.getOrder().getEntries().stream().
+                forEach(e -> e.getOptions().setLabels(getProperties(request)));
         
         mav.addObject("cart", cart);
         
@@ -57,8 +61,10 @@ public class CustomerCartController {
             final int pictureId = json.getInt("picture_id");
             final int productTypeId = json.getInt("product_type_id");
             final int amount = json.getInt("amount");
-            //@Issue product options not supported yet
-            ProductOption options = null;
+            final String color = json.getString("color");
+            ProductOption options = new ProductOption();            
+            options.setColor(ProductOption.ColorOption.valueOf(color));
+            
             Cart cart = CartHelper.getCurrentCart(request);
 
             CartHelper.addItemToCart(cart, pictureId, productTypeId, amount, 

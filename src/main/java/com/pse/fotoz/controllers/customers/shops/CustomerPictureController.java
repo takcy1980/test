@@ -3,12 +3,17 @@ package com.pse.fotoz.controllers.customers.shops;
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.ProductOption;
+import com.pse.fotoz.dbal.entities.ProductOption.ColorOption;
 import com.pse.fotoz.dbal.entities.ProductType;
+import com.pse.fotoz.helpers.forms.ColorOptionWrapper;
 import com.pse.fotoz.helpers.forms.Parser;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.helpers.users.Users;
+import com.pse.fotoz.properties.LocaleUtil;
 import java.util.List;
 import java.util.Optional;
+import static java.util.stream.Collectors.toList;
+import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,13 +71,19 @@ public class CustomerPictureController {
     @RequestMapping(value = "/{picture}/order", method = RequestMethod.GET)
         public ModelAndView displayPictureOrder(
             @PathVariable("picture") String pictureid,
-            HttpServletRequest request) {
+            final HttpServletRequest request) {
         ModelAndView mav = displayPictureDetail(pictureid, request);
         
         List<ProductType> types = HibernateEntityHelper.
                 all(ProductType.class);
         
+        List<ColorOptionWrapper> colorOptions = Stream.of(ColorOption.values()).
+                map(o -> ColorOptionWrapper.of(o, 
+                        LocaleUtil.getProperties(request))).
+                collect(toList());
+        
         mav.addObject("types", types);
+        mav.addObject("colors", colorOptions);
         
         if (!mav.getViewName().startsWith("redirect:")) {
             mav.setViewName("customers/pictures/picture_order.twig");

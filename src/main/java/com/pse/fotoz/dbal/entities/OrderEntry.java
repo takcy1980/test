@@ -1,5 +1,6 @@
 package com.pse.fotoz.dbal.entities;
 
+import java.util.Map;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +27,7 @@ public class OrderEntry implements HibernateEntity {
     /**
      * Temporary identity value for when not (yet) persisted.
      */
-    private int tempId;
+    private transient int tempId;
     
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -52,22 +53,18 @@ public class OrderEntry implements HibernateEntity {
     @Column(name = "total_price")
     private double totalPrice;
 
-    public int getId() {
-        return id;
-    }   
-
-    public void setId(int id) {
-        this.id = id;
-    } 
-    
     /**
      * Gives the identity of this order entry.
      * If this entry has not yet been assigned a persisted identity, it will
      * instead provide a temporary identity, set through setTempId.
      * @return Identity of this entry.
      */
-    public int getTempId() {
+    public int getId() {
         return id == 0 ? tempId : id;
+    }   
+
+    public void setId(int id) {
+        this.id = id;
     }
     
     /**
@@ -125,7 +122,5 @@ public class OrderEntry implements HibernateEntity {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
-    }
-    
-    
+    }   
 }

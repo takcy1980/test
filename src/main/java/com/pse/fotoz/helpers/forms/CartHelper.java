@@ -44,10 +44,11 @@ public class CartHelper {
                         + "does not exist."));
         
         int entryTempId = cart.getOrder().getEntries().stream().
-                map(e -> e.getTempId()).
+                map(e -> e.getId()).
                 max((i1, i2) -> Integer.compare(i1, i2)).
+                map(i -> i + 1).
                 orElse(0);
-        
+        System.out.println(entryTempId);
         OrderEntry entry = new OrderEntry();
         
         entry.setTempId(entryTempId);

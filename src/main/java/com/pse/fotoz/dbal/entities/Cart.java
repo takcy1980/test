@@ -26,4 +26,10 @@ public class Cart implements Serializable {
     public Order getOrder() {
         return order;
     }
+    
+    public double getPriceSum() {
+        return order.getEntries().stream().
+                map(e -> e.getTotalPrice()).
+                reduce(0d, (d1, d2) -> d1 + d2);
+    }
 }

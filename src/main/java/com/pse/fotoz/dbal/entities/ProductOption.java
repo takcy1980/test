@@ -1,6 +1,7 @@
 package com.pse.fotoz.dbal.entities;
 
 import com.pse.fotoz.helpers.forms.ColorOptionWrapper;
+import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -39,6 +40,8 @@ public class ProductOption implements HibernateEntity {
     @Column(name = "height")
     private int height;
     
+    private transient Map<String, String> labels;
+    
     public int getId() {
         return id;
     }
@@ -47,14 +50,31 @@ public class ProductOption implements HibernateEntity {
         return color;
     }
     
+    public void setLabels(Map<String, String> labels) {
+        this.labels = labels;
+    }
+    
     public String getColorLabel() {
         switch (color) {
             case COLOR:
-                return "color_options_color";
+                return labels.get("color_options_color");
             case GRAYSCALE:
-                return "color_options_grayscale";
+                return labels.get("color_options_grayscale");
             case SEPIA:
-                return "color_options_sepia";
+                return labels.get("color_options_sepia");
+            default:
+                return null;
+        }
+    }
+    
+    public String getColorImage() {
+        switch (color) {
+            case COLOR:
+                return "color.jpg";
+            case GRAYSCALE:
+                return "grayscale.jpg";
+            case SEPIA:
+                return "sepia.jpg";
             default:
                 return null;
         }

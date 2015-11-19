@@ -1,6 +1,19 @@
 img.picture-detail {max-width: 100%;}
-img.product-display {max-height: 100px;}
-img.cart-display {max-width: 200px;}
+img.product-display {max-height: 100px; margin-bottom: 10px;}
+img.cart-picture {max-width: 200px;}
 
-.add-to-cart {cursor: pointer;  height: 30px; background-color: #222; color: white; display: inline; padding: 10px;}
+.add-to-cart {float: left; cursor: pointer; background-color: #222; color: white; display: inline; padding: 6px;}
 .add-to-cart:hover {text-decoration: none; color: white;}
+
+.product-option {padding: 10px; cursor: pointer;}
+.product-option.selected, .product-option:hover {background-image: url('/assets/customers/img/checkmark.jpg'); background-size: 70px; background-repeat: no-repeat; background-position: 65% 10%;}
+.product-option:not(.selected) img {opacity: 0.7;}
+
+.product-amount {width: 65px; float: left; margin-right: 40px;}
+
+.cart-image-wrapper {width: 160px; height: 140px; overflow: hidden; margin-bottom: 10px;}
+.cart-image-wrapper img {max-width: 200px;}
+
+.cart-product-amount {margin: 0 20px; width: 60px;}
+
+img.cart-right-arrow {width: 130px; margin-top: 30px;}
