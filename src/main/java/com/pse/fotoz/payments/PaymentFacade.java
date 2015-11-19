@@ -33,18 +33,16 @@ public class PaymentFacade {
 
     private boolean isDebug;
     private boolean useProxy;
-
-    public PaymentResponse GetPayment(String id) {
-        Map<String, String> variables = new HashMap<String, String>(3);
-        variables.put("id", id);
-
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-        headers.add("Authorization", "Bearer " + "1234");
-
-        String PaymentGetUrl = "https://api.mollie.nl/v1/payments/{id}";
-        RestTemplate restT = new RestTemplate();
-
-        return null;
+    /***
+     * Gets an already present payment
+     * @param id Mollie id of the payment
+     * @return the response object, can be empty
+     * @throws RestClientException in case of malformed requests(incorrect
+     * request data gives 422, server unreachable, etc)
+     */
+    public Optional<PaymentResponse> GetPayment(String id) throws RestClientException {
+       Optional<PaymentRequest> op  = Optional.empty();
+        return this.doRequest(op, id);
 
     }
 
@@ -58,7 +56,18 @@ public class PaymentFacade {
      * request data gives 422, server unreachable, etc)
      */
     public Optional<PaymentResponse> CreatePayment(PaymentRequest payment) throws RestClientException {
-        String paymentGetUrl = "https://api.mollie.nl/v1/payments";
+        return this.doRequest(Optional.of(payment), null);
+
+    }
+
+    private Optional<PaymentResponse> doRequest(Optional<PaymentRequest> payment, String paymentID) throws RestClientException {
+        String paymentGetUrl;
+        if (payment.isPresent()) {
+            paymentGetUrl = "https://api.mollie.nl/v1/payments";
+        } else {
+            paymentGetUrl = "https://api.mollie.nl/v1/payments/" + paymentID;
+
+        }
 
         if (this.useProxy) {
             System.setProperty("http.proxyHost", "127.0.0.1");
@@ -82,15 +91,23 @@ public class PaymentFacade {
         }
         ResponseEntity<PaymentResponse> response;
         try {
-            MultiValueMap<String, String> map = payment.toMap();
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, httpHeaders);
-            response = restT.postForEntity(paymentGetUrl, request, PaymentResponse.class);
+            if (payment.isPresent()) {
+                MultiValueMap<String, String> map = payment.get().toMap();
+                HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, httpHeaders);
+                response = restT.postForEntity(paymentGetUrl, request, PaymentResponse.class);
+
+            } else {
+                HttpEntity<HttpHeaders> request = new HttpEntity<>(httpHeaders);
+                response = restT.postForEntity(paymentGetUrl, request, PaymentResponse.class);
+
+            }
+
         } catch (RestClientException e) {
             throw e;
         }
 
         return Optional.ofNullable(response.getBody());
-
+ 
     }
 
     /**
