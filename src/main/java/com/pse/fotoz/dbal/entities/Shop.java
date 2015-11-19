@@ -137,6 +137,11 @@ public class Shop implements HibernateEntity {
         return sessions.stream().sorted().collect(toList());
     }
     
+    /**
+     * Finds a picture to display as representative of this shop.
+     * This is a non-hidden picture that belongs to a public session.
+     * @return p such that p in sessions and p not hidden and p.session public.
+     */
     public Picture showcasePicture() {
         return sessions.stream().
                 filter(s -> s.isPublic() && 

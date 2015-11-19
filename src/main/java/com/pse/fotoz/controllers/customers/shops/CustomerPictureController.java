@@ -22,12 +22,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
+ * Controller handling the display of picture pages.
  * @author Robert
  */
 @Controller
 @RequestMapping("/customers/pictures/")
 public class CustomerPictureController {
+    
+    /**
+     * Displays a detailed page of a picture.
+     * @param pictureid The identity of the picture.
+     * @param request The associated request.
+     * @return View from "customers/pictures/picture_detail.twig".
+     */
     @RequestMapping(value = "/{picture}", method = RequestMethod.GET)
     public ModelAndView displayPictureDetail(
             @PathVariable("picture") String pictureid,
@@ -68,6 +75,13 @@ public class CustomerPictureController {
         }
     }
     
+    /**
+     * Displays a page to allow the user to order a picture (add to the 
+     * shopping cart).
+     * @param pictureid The identity of the picture.
+     * @param request The associated request.
+     * @return View of "customers/pictures/picture_order.twig".
+     */
     @RequestMapping(value = "/{picture}/order", method = RequestMethod.GET)
         public ModelAndView displayPictureOrder(
             @PathVariable("picture") String pictureid,

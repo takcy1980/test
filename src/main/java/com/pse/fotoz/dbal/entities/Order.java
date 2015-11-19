@@ -14,7 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- *
+ * Entity describing an order of one or more items (OrderEntries).
+ * An order is associated to a customer account.
  * @author Robert
  */
 @Entity

@@ -16,10 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Controller handling the display and CRUD operations on the shopping cart.
+ * @author Robert
+ */
 @Controller
 @RequestMapping("/customers/cart")
 public class CustomerCartController {
- 
+
+    /**
+     * Displays the contents of their shopping cart to the user.
+     * @param request The associated request.
+     * @return View from "customers/shops/cart.twig".
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView displayCart(HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -46,9 +55,24 @@ public class CustomerCartController {
     }
 
     /**
-     * 
-     * @param request
-     * @return 
+     * Ajax endpoint method to add an item to the cart.
+     * The following fields are required to process a request:
+     * <ul>
+     * <li>
+     * picture_id : the identity of the picture (Picture::getId).
+     * </li>
+     * <li>
+     * product_type_id : the identity of the product type (ProductType::getId).
+     * </li>
+     * <li>
+     * amount : the amount of the given item are to be added.
+     * </li>
+     * <li>
+     * color : the color option for the item (COLOR | GRAYSCALE | SEPIA).
+     * </li>
+     * </ul>
+     * @param request The associated request.
+     * @return 502 if the request cannot be processed, 200 otherwise.
      */
     @RequestMapping(method = RequestMethod.POST, value = "/ajax/add")
     public ResponseEntity<String> addItem(HttpServletRequest request) {
@@ -77,6 +101,20 @@ public class CustomerCartController {
         return ResponseEntity.ok().body("ok"); 
     }
     
+    /**
+     * Ajax endpoint method to update the amount of a given item in the cart.
+     * The following fields are required to process a request:
+     * <ul>
+     * <li>
+     * entry_id : The identity of the item entry (OrderEntry::getId).
+     * </li>
+     * <li>
+     * amount : The amount to update to (&gt; 0).
+     * </li>
+     * </ul>
+     * @param request The associated request.
+     * @return 502 if the request cannot be processed, 200 otherwise.
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/ajax/amount")
     public ResponseEntity<String> updateItemAmount(HttpServletRequest request) {
         try {
@@ -99,6 +137,17 @@ public class CustomerCartController {
         return ResponseEntity.ok().body("ok"); 
     }
     
+    /**
+     * Ajax endpoint method to remove a given item from the cart.
+     * The following fields are required to process a request:
+     * <ul>
+     * <li>
+     * entry_id : The identity of the item entry (OrderEntry::getId).
+     * </li>
+     * </ul>
+     * @param request The associated request.
+     * @return 502 if the request cannot be processed, 200 otherwise.
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/ajax/remove")
     public ResponseEntity<String> removeItem(HttpServletRequest request) {
         try {

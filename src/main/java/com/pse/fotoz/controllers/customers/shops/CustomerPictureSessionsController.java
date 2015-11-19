@@ -18,16 +18,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
+ * Controller displaying picture sessions.
  * @author Robert
  */
 @Controller
 @RequestMapping("/customers/shops/{shop}/sessions/")
 public class CustomerPictureSessionsController {
     
+    /**
+     * Displays the pictures of a given session.
+     * @param shopname The login name of the associated shop.
+     * @param sessionid The identity of the session.
+     * @param request The associated request.
+     * @return View of "customers/shops/session.twig".
+     */
     @RequestMapping(value = "/{session}", method = RequestMethod.GET)
     public ModelAndView displayPictureSessions(@PathVariable("shop") 
-            String shopid, @PathVariable("session") String sessionid,
+            String shopname, @PathVariable("session") String sessionid,
             HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
                     withProperties(request).
@@ -43,7 +50,7 @@ public class CustomerPictureSessionsController {
         mav.setViewName("customers/shops/session.twig");
         
         Optional<Shop> shop = HibernateEntityHelper.find(Shop.class, 
-                "login", shopid).stream()
+                "login", shopname).stream()
                 .findAny();
         
         int sessionId = Parser.parseInt(sessionid).

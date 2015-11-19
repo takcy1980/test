@@ -12,7 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- *
+ * Entity describing the various options that can be associated with a picture.
+ * Currently it only supports the color edition of a picture.
  * @author Robert
  */
 @Entity

@@ -13,6 +13,11 @@ import org.hibernate.Session;
 public interface HibernateEntity extends Serializable, 
         Comparable<HibernateEntity> {
     
+    /**
+     * Each entity should be identifiable by this field.
+     * Should serve as a primary key in the data structure.
+     * @return The identity of this entity.
+     */
     abstract public int getId();
     
     /**

@@ -12,7 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- *
+ * Entity describing an item of an order.
+ * It currently encompasses a picture, options associated to that picture,
+ * an amount and total price of this entry.
  * @author Robert
  */
 @Entity

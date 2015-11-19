@@ -27,6 +27,11 @@ public class Cart implements Serializable {
         return order;
     }
     
+    /**
+     * Provides the sum of all prices of entries in this cart.
+     * This is the amount billed were the user placing this order.
+     * @return Total price of all items in this cart.
+     */
     public double getPriceSum() {
         return order.getEntries().stream().
                 map(e -> e.getTotalPrice()).
