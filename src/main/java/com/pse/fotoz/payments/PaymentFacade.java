@@ -6,6 +6,8 @@
 package com.pse.fotoz.payments;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.pse.fotoz.helpers.Configuration.ConfigurationHelper;
+import com.pse.fotoz.helpers.Configuration.ConfigurationManager;
 import com.pse.fotoz.payments.domain.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,9 +66,9 @@ public class PaymentFacade {
     private Optional<PaymentResponse> doRequest(Optional<PaymentRequest> payment, String paymentID) throws RestClientException {
         String restUrl;
         if (payment.isPresent()) {
-            restUrl = "https://api.mollie.nl/v1/payments";
+            restUrl = ConfigurationHelper.getMolliePaymentPostUrl();
         } else {
-            restUrl = "https://api.mollie.nl/v1/payments/" + paymentID;
+            restUrl = ConfigurationHelper.getMolliePaymentGetUrl() + paymentID;
 
         }
 
@@ -79,7 +81,7 @@ public class PaymentFacade {
         }
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", "Bearer " + "test_J297CVyPcaRM5s9UJQxDBFQQGh8VU7");
+        httpHeaders.add("Authorization", ConfigurationHelper.getMollieTestApiKey());
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         RestTemplate restT = new RestTemplate();

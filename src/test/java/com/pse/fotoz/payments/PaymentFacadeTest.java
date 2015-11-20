@@ -5,6 +5,7 @@
  */
 package com.pse.fotoz.payments;
 
+import com.pse.fotoz.helpers.Configuration.ConfigurationHelper;
 import com.pse.fotoz.payments.domain.PaymentRequest;
 import com.pse.fotoz.payments.domain.PaymentResponse;
 import com.pse.fotoz.payments.domain.enums.Locale;
@@ -44,6 +45,8 @@ public class PaymentFacadeTest {
 
     @Test
     public void testCreatePayment() {
+        String s2 = ConfigurationHelper.getMolliePaymentGetUrl();
+        String s = ConfigurationHelper.getGeneralAssetLocation();
         
         PaymentRequest payC = new PaymentRequest();
         payC.setAmount(10.12d);
