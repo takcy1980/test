@@ -1,0 +1,29 @@
+{% extends "customers/shops/index.twig" %}
+
+{% block content %}
+    <div class="container">
+            <div class="col-md-6">
+                <h2>
+                    {{ picture.title }}
+                </h2>
+
+                <img class="picture-detail" src="/assets/shops/{{ picture.session.shop.login }}/sessions/{{ picture.session.id }}/{{ picture.fileName }}">
+
+
+            </div>
+
+            <div class="col-md-6">
+                <p>
+                    &euro; {{ picture.price }}
+                </p>
+                <p>
+                    {{ picture.description }}
+                </p>
+
+                <a href="/app/customers/pictures/{{ picture.id }}/order" class="to-order">
+                    {{ labels.customer_shop_toorder }}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -9,7 +9,13 @@
 
     <link href="/assets/common/css/bootstrap/sb-admin/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
 
-    <link href="/assets/customers/css/shop-homepage.css" rel="stylesheet">
+    <link href="/assets/customers/css/shop-homepage.css" rel="stylesheet"/>
+    
+    <link href="/assets/customers/css/default.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block more_js %}
+    <script src="/assets/customers/js/default.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -31,7 +37,7 @@
                 <ul class="nav navbar-nav navbar-left">
 
                     <li><a href="/app/"><i class="fa fa-home"></i> Home</a></li>
-
+                    <li><a href="/app/customers/cart"><i class="fa fa-shopping-cart"></i> {{ labels.customer_cart_cart }}</a></li>
                 </ul> 
 
 

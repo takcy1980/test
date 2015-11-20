@@ -5,7 +5,6 @@
  */
 package com.pse.fotoz.helpers.Configuration;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
