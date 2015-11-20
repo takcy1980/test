@@ -9,7 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
 /**
- *
+ * Currency conversion endpoint using the fixer.io API (https://api.fixer.io/).
  * @author Robert
  */
 public class FixerIo {
@@ -18,6 +18,14 @@ public class FixerIo {
     
     private static JSONObject latestRates;
     
+    /**
+     * Gives the current exchange rates for currencies in JSON format.
+     * Uses the fixer.io API (https://api.fixer.io/).
+     * The exchange rates are cached for one day.
+     * @return Current exchange rates for currencies.
+     * @throws com.pse.fotoz.remote.ws.FixerIo.ServiceUnavailableException if
+     * there was an error obtaining or parsing the data from the remote source.
+     */
     public static JSONObject getRates() throws ServiceUnavailableException {
         if (latestRates == null) {
             refresh();
@@ -38,6 +46,11 @@ public class FixerIo {
         return latestRates.getJSONObject("rates");
     }
 
+    /**
+     * Refreshes the exchange rate by making a new call to the web service.
+     * @throws com.pse.fotoz.remote.ws.FixerIo.ServiceUnavailableException if
+     * there was an error obtaining or parsing the data from the remote source.
+     */
     private static void refresh() throws ServiceUnavailableException {
         try {
             latestRates = new JSONObject(IOUtils.toString(new URL(endpoint)));
@@ -47,6 +60,9 @@ public class FixerIo {
         }
     }
 
+    /**
+     * Exception describing the unavailability of this service.
+     */
     public static class ServiceUnavailableException extends Exception {
 
         public ServiceUnavailableException(String message) {
