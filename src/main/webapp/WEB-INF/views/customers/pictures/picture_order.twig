@@ -1,0 +1,71 @@
+{% extends "customers/shops/index.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    {{ picture.title }}
+                </h2>
+
+                <img class="picture-detail" src="/assets/shops/{{ picture.session.shop.login }}/sessions/{{ picture.session.id }}/{{ picture.fileName }}">
+
+                <p>
+                    &euro; {{ picture.price }}
+                </p>
+                <p>
+                    {{ picture.description }}
+                </p>
+            </div>
+        </div>
+                
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    {{ labels.customer_shop_products }}
+                </h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for type in types %}
+                        <tr>
+                        <form>
+                            <td>
+                                {{ type.name }}
+                            </td>
+                            <td>
+                                {{ type.description }}
+                            </td>
+                            <td>
+                                <img class="product-display" src="/assets/products/img/{{ type.filename }}"/>                                
+                            </td>
+                            <td>
+                                &euro; {{ type.price }}
+                            </td>
+                            <td style="width:80px;">
+                                <div class="form-group">
+                                    <input type="hidden" name="picture_id" value="{{ picture.id }}" data-group="{{ loop.index }}"/>
+                                    <input type="hidden" name="product_type_id" value="{{ type.id }}" data-group="{{ loop.index }}"/>
+                                    <input type="number" class="form-control" id="amount" name="amount" min="1" value="1" data-group="{{ loop.index }}"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="add-to-cart" data-group="{{ loop.index }}">
+                                    {{ labels.customer_shop_addtocart }}
+                                </div>
+                            </td>
+                        </form>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

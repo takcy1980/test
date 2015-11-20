@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 10, 2015 at 07:06 PM
+-- Generation Time: Oct 21, 2015 at 04:27 PM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 USE fotoz;
@@ -21,10 +21,36 @@ SET time_zone = "+00:00";
 
 TRUNCATE TABLE `customers`;
 --
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `address`, `city`, `email`, `name`, `phone`) VALUES
+(1, NULL, NULL, NULL, 'Jan Maas', NULL);
+
+--
 -- Truncate table before insert `customer_accounts`
 --
 
 TRUNCATE TABLE `customer_accounts`;
+--
+-- Dumping data for table `customer_accounts`
+--
+
+INSERT INTO `customer_accounts` (`id`, `login`, `passwordHash`, `user_id`) VALUES
+(1, 'jan_maas', '1000:bf9932d804a83b7ab8ec5114148325454326a195e8929064:af32e38733dfafd21a9ce2c2402933e942af17f1dd6d8c02', 1);
+
+--
+-- Truncate table before insert `customer_permissions`
+--
+
+TRUNCATE TABLE `customer_permissions`;
+--
+-- Dumping data for table `customer_permissions`
+--
+
+INSERT INTO `customer_permissions` (`customer_account_id`, `picture_session_id`) VALUES
+(1, 4);
+
 --
 -- Truncate table before insert `photographers`
 --

@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static java.util.stream.Collectors.toSet;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -132,6 +133,16 @@ public class Shop implements HibernateEntity {
 
     public Set<PictureSession> getSessions() {
         return sessions;
+    }
+    
+    public Picture showcasePicture() {
+        return sessions.stream().
+                filter(s -> s.isPublic() && 
+                s.getPictures().stream().
+                        anyMatch(p -> !p.isHidden())).
+                findFirst().
+                flatMap(s -> s.getPictures().stream().findFirst()).
+                orElse(null);
     }
 
     public static Shop getShopByID(int id) {

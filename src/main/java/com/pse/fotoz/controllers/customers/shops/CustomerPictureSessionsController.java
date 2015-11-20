@@ -2,6 +2,7 @@ package com.pse.fotoz.controllers.customers.shops;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.entities.CustomerAccount;
+import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.PictureSession;
 import com.pse.fotoz.dbal.entities.Shop;
 import com.pse.fotoz.helpers.forms.Parser;
@@ -35,7 +36,7 @@ public class CustomerPictureSessionsController {
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
-            public String uri = "/customers/shops/";
+            public String uri = "/customers/shops/" + sessionid + "/";
             public String redirect = request.getRequestURL().toString();
         });
         

@@ -1,5 +1,6 @@
-/* 
-    Created on : Sep 17, 2015, 9:57:37 AM
-    Author     : Robert
-*/
+img.picture-detail {max-width: 100%;}
+img.product-display {max-height: 100px;}
+img.cart-display {max-width: 200px;}
 
+.add-to-cart {cursor: pointer;  height: 30px; background-color: #222; color: white; display: inline; padding: 10px;}
+.add-to-cart:hover {text-decoration: none; color: white;}
