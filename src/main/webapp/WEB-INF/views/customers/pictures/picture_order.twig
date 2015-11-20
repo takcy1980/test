@@ -1,0 +1,82 @@
+{% extends "customers/shops/index.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    {{ picture.title }}
+                </h2>
+
+                <img class="picture-detail" src="/assets/shops/{{ picture.session.shop.login }}/sessions/{{ picture.session.id }}/{{ picture.fileName }}">
+
+                <p>
+                    &euro; {{ picture.price }}
+                </p>
+                <p>
+                    {{ picture.description }}
+                </p>
+            </div>
+        </div>
+                
+        <form id="add_to_cart">
+            <input type="hidden" name="picture_id" value="{{ picture.id }}"/>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>
+                        {{ labels.customer_shop_products }}
+                    </h2>
+
+                    {% for type in types %}
+                        <div class="col-md-4 product-display product-option {% if loop.index == 0 %} selected {% endif %}">
+                            <input type="hidden" name="product_id" value="{{ type.id }}"/>
+                            <img class="product-display" src="/assets/products/img/{{ type.filename }}"/>
+                            <p>
+                                <b>
+                                    {{ type.name }}
+                                </b>
+                            </p>
+                            <p>
+                                {{ type.description }}
+                            </p>
+                            <p>
+                                &euro; {{ type.price }}
+                            </p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>
+                        {{ labels.customer_shop_colors }}
+                    </h2>
+
+                    {% for color in colors %}
+                        <div class="col-md-4 color-display product-option {% if loop.index == 0 %} selected {% endif %}">
+                            <input type="hidden" name="color" value="{{ color.color }}"/>
+                            <img class="product-display" src="/assets/customers/img/{{ color.colorImage }}"/>
+                            <p>
+                                <b>
+                                    {{ color.colorLabel }}
+                                </b>
+                            </p>
+                        </div>  
+                    {% endfor %}
+
+                    <h2>
+                        Kies uw aantal
+                    </h2>
+                    <div>
+                        <input type="number" class="form-control product-amount" id="amount" name="amount" min="1" value="1"/>
+
+                        <div class="add-to-cart">
+                            {{ labels.customer_shop_addtocart }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -9,6 +9,8 @@ import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.PictureSession;
 import com.pse.fotoz.dbal.entities.Shop;
+import com.pse.fotoz.helpers.Authentication.LoginHelper;
+import com.pse.fotoz.helpers.Authentication.OwnershipHelper;
 import com.pse.fotoz.helpers.Configuration.ConfigurationHelper;
 import com.pse.fotoz.properties.LocaleUtil;
 import java.awt.image.BufferedImage;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -24,13 +27,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-import com.pse.fotoz.helpers.Authentication.OwnershipHelper;
-import com.pse.fotoz.helpers.Authentication.LoginHelper;
-import java.util.Optional;
 
 /**
  *
