@@ -5,6 +5,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
 /**
@@ -39,8 +40,7 @@ public class FixerIo {
 
     private static void refresh() throws ServiceUnavailableException {
         try {
-            latestRates = new JSONObject(new URL(endpoint).
-                    getContent().toString());
+            latestRates = new JSONObject(IOUtils.toString(new URL(endpoint)));
         } catch (IOException ex) {
             throw new ServiceUnavailableException("Service is "
                     + "unavailable.");

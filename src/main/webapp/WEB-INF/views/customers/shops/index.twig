@@ -15,6 +15,8 @@
 {% endblock %}
 
 {% block more_js %}
+    <script src="/assets/common/js/js.cookie.js"></script>
+    <script src="/assets/common/js/jquery.format-1.3.min.js"></script>
     <script src="/assets/customers/js/default.js"></script>
 {% endblock %}
 
@@ -36,8 +38,34 @@
 
                 <ul class="nav navbar-nav navbar-left">
 
-                    <li><a href="/app/"><i class="fa fa-home"></i> Home</a></li>
-                    <li><a href="/app/customers/cart"><i class="fa fa-shopping-cart"></i> {{ labels.customer_cart_cart }}</a></li>
+                    <li>
+                        <a href="/app/">
+                            <i class="fa fa-home"></i> 
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/app/customers/cart">
+                            <i class="fa fa-shopping-cart"></i> 
+                            {{ labels.customer_cart_cart }}
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="fa fa-eur"></i>
+                            {{ labels.customer_index_currency }}:                    
+                        </a>
+                    </li>
+                    <li>
+                        <select class="currency-select form-control" id="sel1">
+                            <option {% if cookies.currency equals "EUR" %} selected="selected" {% endif %}>
+                                EUR
+                            </option>
+                            <option {% if cookies.currency equals "GBP" %} selected="selected" {% endif %}>
+                                GBP
+                            </option>
+                        </select>
+                    </li>
                 </ul> 
 
 

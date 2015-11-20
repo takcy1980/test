@@ -2,7 +2,12 @@ package com.pse.fotoz.helpers.mav;
 
 import com.pse.fotoz.properties.LocaleUtil;
 import java.util.Map;
+import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toMap;
+import java.util.stream.Stream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -31,6 +36,30 @@ public class ModelAndViewBuilder {
         }
             
         blueprint.addObject("labels", labels);
+        
+        return this;
+    }
+    
+    /**
+     * Adds cookies to the blueprint.
+     * Provides default cookie for "currency":"EUR" if not exists.
+     * @param request The associated request.
+     * @param response The associated response.
+     * @return Builder containing cookies.
+     */
+    public ModelAndViewBuilder withCookies(HttpServletRequest request, 
+            HttpServletResponse response) {        
+//        if (Stream.of(request.getCookies()).
+//                noneMatch(c -> c.getName().equals("currency"))) {
+//            response.addCookie(new Cookie("currency", "EUR"));
+//        }
+//        for (Cookie cookie : request.getCookies()) {
+//            System.out.println(cookie.getName() + cookie.getValue());
+//        }
+        Map<String, String> cookies = Stream.of(request.getCookies()).
+                collect(toMap(c -> c.getName(), c -> c.getValue()));
+        
+        blueprint.addObject("cookies", cookies);
         
         return this;
     }
