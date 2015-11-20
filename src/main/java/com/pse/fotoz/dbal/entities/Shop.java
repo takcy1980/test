@@ -12,10 +12,11 @@ import com.pse.fotoz.helpers.encryption.PasswordHash;
 import com.pse.fotoz.helpers.forms.DoesNotExist;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static java.util.stream.Collectors.toList;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -130,8 +131,23 @@ public class Shop implements HibernateEntity {
         this.photographer = photographer;
     }
 
-    public Set<PictureSession> getSessions() {
-        return sessions;
+    public List<PictureSession> getSessions() {
+        return sessions.stream().sorted().collect(toList());
+    }
+    
+    /**
+     * Finds a picture to display as representative of this shop.
+     * This is a non-hidden picture that belongs to a public session.
+     * @return p such that p in sessions and p not hidden and p.session public.
+     */
+    public Picture showcasePicture() {
+        return sessions.stream().
+                filter(s -> s.isPublic() && 
+                s.getPictures().stream().
+                        anyMatch(p -> !p.isHidden())).
+                findFirst().
+                flatMap(s -> s.getPictures().stream().findFirst()).
+                orElse(null);
     }
 
     public static Shop getShopByID(int id) {
