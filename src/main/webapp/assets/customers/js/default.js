@@ -72,4 +72,22 @@ $(function() {
                 window.location.replace("/app/customers/cart");
             });
     });
+    
+    /**
+     * Handles user request to commit an order.
+     */
+    $('.commit-order').click(function() {
+        $.post( "/app/customers/cart/ajax/commit")
+                .done(function(data) {
+                    var order_id = JSON.parse(data)["order_id"];
+                    window.location.replace("/app/payment/pay/" + order_id);
+                })
+                .fail(function(data) {
+                    if (data.status === 403) {
+                        window.location.replace("/login");
+                    } else {
+                        window.location.reload();
+                    }
+                });
+    });
 });

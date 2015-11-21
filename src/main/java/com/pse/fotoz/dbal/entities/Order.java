@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Entity describing an order of one or more items (OrderEntries).
@@ -36,6 +38,7 @@ public class Order implements HibernateEntity {
     private OrderStatus status;
     
     @OneToMany(mappedBy="order")
+    @Cascade({CascadeType.SAVE_UPDATE})
     private Set<OrderEntry> entries;
 
     public int getId() {

@@ -2,8 +2,8 @@ img.picture-detail {max-width: 100%;}
 img.product-display {max-height: 100px; margin-bottom: 10px;}
 img.cart-picture {max-width: 200px;}
 
-.add-to-cart {float: left; cursor: pointer; background-color: #222; color: white; display: inline; padding: 6px;}
-.add-to-cart:hover {text-decoration: none; color: white;}
+.cart-button {float: left; cursor: pointer; background-color: #222; color: white; display: inline; padding: 6px;}
+.cart-button:hover {text-decoration: none; color: white;}
 
 .product-option {padding: 10px; cursor: pointer;}
 .product-option.selected, .product-option:hover {background-image: url('/assets/customers/img/checkmark.jpg'); background-size: 70px; background-repeat: no-repeat; background-position: 65% 10%;}
