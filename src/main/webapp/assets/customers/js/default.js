@@ -1,4 +1,49 @@
 $(function() {
+    
+    if (Cookies.get('currency') !== "EUR" && 
+            Cookies.get('currency') !== "GBP") {
+        Cookies.set("currency", "EUR");
+    }
+    
+    /**
+     * Performs currency conversion on page load.
+     */
+    if (Cookies.get('currency') !== "EUR") {
+        var cookie = Cookies.get('currency');        
+        
+        $.get('/app/services/currency/rates', function(data) {
+            var rate = data[cookie];
+            
+            $('span.currency-convertable').each(function() {
+                var conversion = $.format.
+                        number(parseFloat($(this).html()) * rate, '#,##0.00');
+                $(this).html(conversion);
+            });
+            
+            $('span.currency-sign-convertable').each(function() {
+                switch (Cookies.get('currency')) {
+                    case "EUR":
+                        $(this).html('&euro;');
+                        break;
+                    case "GBP":
+                        $(this).html('&pound;');
+                        break;
+                    default:
+                        $(this).html('&euro;');
+                        break;
+                }
+            });
+        });
+    }
+    
+    /**
+     * Handles requests to change the currency.
+     */
+    $('.currency-select').change(function() {
+        Cookies.set('currency', $(this).val());        
+        location.reload();
+    });
+    
     /**
      * Handles user request to add an item to the cart.
      */
