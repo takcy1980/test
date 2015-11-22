@@ -116,14 +116,10 @@ public class PhotographerSessionController {
 
         } catch (HibernateException ex) {
             errors.add(ex.toString());
-        } catch (NumberFormatException ex) {
+        } catch (NumberFormatException | javax.validation.ConstraintViolationException ex) {
+            Logger.getLogger(PhotographerSessionController.class.getName()).log(Level.SEVERE, null, ex);
             errors.add(LocaleUtil.getErrorProperties(request).
-                        get("error_dot_comma"));
-        } catch (javax.validation.ConstraintViolationException ex) {
-            //errors.add("negative not allowed");
-            errors.add(LocaleUtil.getErrorProperties(request).
-                        get("error_decimal_price"));
-           
+                    get("error_decimal_price"));
         }
 
         mav.addObject("page", new Object() {
@@ -161,22 +157,4 @@ public class PhotographerSessionController {
 
     }
 
-//     @RequestMapping(value = "/{session}", method = RequestMethod.POST)
-//      public ResponseEntity UpdatePriceForm(HttpServletRequest request)
-//      {
-//          double price = Double.parseDouble(request.getParameter("price")) ;
-//          int pictureId = Integer.parseInt(request.getParameter("picture_id"));
-//          
-//          
-//        try {
-//            PersistenceFacade.changePicturePrice(pictureId, BigDecimal.valueOf(price));
-//        } catch (HibernateException | IllegalArgumentException ex) {
-//            Logger.getLogger(PhotographerSessionController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        return new ResponseEntity(HttpStatus.OK);
-//        
-//       
-//          
-//      }
 }
