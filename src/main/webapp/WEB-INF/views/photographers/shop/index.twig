@@ -30,7 +30,7 @@
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <a class="navbar-brand" href="/app/photographers/shop">Fotograaf </a>
+                <a class="navbar-brand" href="/app/photographers/shop">{{username}} </a>
             </div>
             
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
@@ -40,7 +40,7 @@
                         <a href="/app/photographers/shop"><i class="fa fa-fw fa-dashboard"></i> Fotograaf Dashboard</a>
                     </li>
                     <li {% if page.uri equals "/photographers/account/photos" %}  class="active" {% endif %} >
-                        <a href="/app//photographers/account/photos"><i class="fa fa-fw fa-shopping-cart"></i> Fotos</a>
+                        <a href="/app/photographers/shop/{{ shop.login }}"><i class="fa fa-fw fa-shopping-cart"></i> Fotos</a>
                     </li>
 
                     <li>    
