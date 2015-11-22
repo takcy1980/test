@@ -102,8 +102,8 @@ public class CustomerLoginController {
         String name = request.getParameter("login");
         String password = request.getParameter("password");
 
-        List<CustomerAccount> accounts
-                = HibernateEntityHelper.all(CustomerAccount.class);
+        List<CustomerAccount> accounts = HibernateEntityHelper.
+                all(CustomerAccount.class);
 
         mav.setViewName("common/error/505.jsp");
 
@@ -134,7 +134,8 @@ public class CustomerLoginController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/new")
     public ModelAndView handleNewCustomerForm(
-            @ModelAttribute(value = "newCustomerAcc") @Valid CustomerAccount newCustomerAcc,
+            @ModelAttribute(value = "newCustomerAcc") 
+            @Valid CustomerAccount newCustomerAcc,
             BindingResult resultCustomerAcc,
             @ModelAttribute(value = "newCustomer") @Valid Customer newCustomer,
             BindingResult resultCustomer,
@@ -156,8 +157,8 @@ public class CustomerLoginController {
 
         //Check of chosen login is unique
         String login = request.getParameter("login");
-        if (!(HibernateEntityHelper.find(CustomerAccount.class, "login", login)
-                .isEmpty())) {
+        if (!HibernateEntityHelper.find(CustomerAccount.class, "login", login)
+                .isEmpty()) {
             errors.add(LocaleUtil.getProperties(request).
                     get("ERROR_CUSTOMER_NEWACCOUNT_LOGINALREADYEXISTS"));
         }

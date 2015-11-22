@@ -32,7 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class CustomerAccountPictureSessionsController {
 
     /**
-     * Displays all picture sessions a customer is permitted to view
+     * Displays all picture sessions a customer is permitted to view.
      * 
      * @param request
      * @param response
@@ -53,26 +53,26 @@ public class CustomerAccountPictureSessionsController {
             public String redirect = request.getRequestURL().toString();
         });
 
-        CustomerAccount user = Users.currentUserAccount().
-                orElseThrow(
-                        () -> new IllegalStateException("Logged in user not present "
-                                + "in database."));
+        if (Users.currentUserAccount().isPresent()) {
+            CustomerAccount user = Users.currentUserAccount().get();
+            List<PictureSession> sessions = HibernateEntityHelper.
+                    all(PictureSession.class).stream().
+                    filter(s -> s.getPermittedAccounts().stream().
+                            anyMatch(a -> a.getId() == user.getId())).
+                    collect(toList());
 
-        List<PictureSession> sessions
-                = HibernateEntityHelper.all(PictureSession.class).stream().
-                filter(s -> s.getPermittedAccounts().stream().
-                        anyMatch(a -> a.getId() == user.getId())).
-                collect(toList());
+            mav.addObject("sessions", sessions);
 
-        mav.addObject("sessions", sessions);
-
-        mav.setViewName("customers/account/sessions_overview.twig");
+            mav.setViewName("customers/account/sessions_overview.twig");
+        } else {
+            mav.setViewName("redirect:/login");
+        }
 
         return mav;
     }
 
     /**
-     * Adds a picture session to the sessions a customer is allowed to view
+     * Adds a picture session to the sessions a customer is allowed to view.
      * 
      * @param request
      * @param response
@@ -85,40 +85,41 @@ public class CustomerAccountPictureSessionsController {
                 withProperties(request).
                 withCookies(request,response).
                 build();
-
-        CustomerAccount customer = Users.currentUserAccount().
-                orElseThrow(
-                        () -> new IllegalStateException("Logged in user not "
-                                + " present in database."));
         
-        //add the picturesession to permitted sessions of customer 
-        //and retrieve any errors
-        List<String> errors = new ArrayList<>();
-        errors = addPermittedSession(
-                request, request.getParameter("code"), customer);
-
-        List<PictureSession> sessions
-                = HibernateEntityHelper.all(PictureSession.class).stream().
-                filter(s -> s.getPermittedAccounts().stream().
-                        anyMatch(a -> a.getId() == customer.getId())).
-                collect(toList());
-
-        mav.addObject("sessions", sessions);
-        mav.addObject("errors", errors);
-
-        mav.setViewName("customers/account/sessions_overview.twig");
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
             public String uri = "/customers/account/sessions";
             public String redirect = request.getRequestURL().toString();
         });
+        
+        if (Users.currentUserAccount().isPresent()) {
+            CustomerAccount customer = Users.currentUserAccount().get();
+            
+            List<String> errors = addPermittedSession(
+                request, request.getParameter("code"), customer);
+
+            //add the picturesession to permitted sessions of customer 
+            //and retrieve any errors
+            List<PictureSession> sessions = HibernateEntityHelper.
+                    all(PictureSession.class).stream().
+                    filter(s -> s.getPermittedAccounts().stream().
+                            anyMatch(a -> a.getId() == customer.getId())).
+                    collect(toList());
+
+            mav.addObject("sessions", sessions);
+            mav.addObject("errors", errors);
+
+            mav.setViewName("customers/account/sessions_overview.twig");
+        } else {
+            mav.setViewName("redirect:/login");
+        }
 
         return mav;
     }
 
     /**
-     * Adds a picture session to the sessions a customer is allowed to view
+     * Adds a picture session to the sessions a customer is allowed to view.
      * 
      * @param request
      * @param code unique code of session to be added
@@ -129,19 +130,19 @@ public class CustomerAccountPictureSessionsController {
     public ModelAndView addPictureSessionViaURL(HttpServletRequest request,
             @PathVariable String code,
             RedirectAttributes redirectAttributes) {
+        if (Users.currentUserAccount().isPresent()) {
+            CustomerAccount user = Users.currentUserAccount().get();
+            redirectAttributes.addFlashAttribute(
+                "errors", addPermittedSession(request, code, user));
         
-        CustomerAccount customer = Users.currentUserAccount().
-                orElseThrow(() -> new IllegalStateException("Logged in user not "
-                                + "present in database."));
-        
-        redirectAttributes.addFlashAttribute(
-                "errors", addPermittedSession(request, code, customer));
-        
-        return new ModelAndView("redirect:/app/customers/account/sessions/");
+            return new ModelAndView("redirect:/app/customers/account/sessions/");
+        } else {
+            return new ModelAndView("redirect:/login");
+        }
     }
 
     /**
-     * Adds a picture session to the sessions a customer is allowed to view
+     * Adds a picture session to the sessions a customer is allowed to view.
      * 
      * @param request
      * @param code unique code of picture session to be added
@@ -149,7 +150,7 @@ public class CustomerAccountPictureSessionsController {
      * @return List of errors occured while adding permitted picture session, 
      * empty when added succesfully
      */
-    public List<String> addPermittedSession(HttpServletRequest request, 
+    private List<String> addPermittedSession(HttpServletRequest request, 
             String code,
             CustomerAccount customer) {
         

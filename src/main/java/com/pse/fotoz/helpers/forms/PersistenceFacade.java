@@ -21,6 +21,7 @@ import java.util.stream.Stream;
  * @author Robert
  */
 public class PersistenceFacade {
+    
     /**
      * Approves a specific picture.
      * @param pictureId The identity of the picture
@@ -31,8 +32,8 @@ public class PersistenceFacade {
      */
     public static void approvePicture(int pictureId) throws
             HibernateException, IllegalArgumentException {
-        Optional<Picture> picture
-                = HibernateEntityHelper.byId(Picture.class, pictureId);
+        Optional<Picture> picture = HibernateEntityHelper.
+                byId(Picture.class, pictureId);
 
         if (!picture.isPresent()) {
             throw new IllegalArgumentException("Given id does not match any "
@@ -53,8 +54,8 @@ public class PersistenceFacade {
      */
     public static void rejectPicture(int pictureId) throws
             HibernateException, IllegalArgumentException {
-        Optional<Picture> picture
-                = HibernateEntityHelper.byId(Picture.class, pictureId);
+        Optional<Picture> picture = HibernateEntityHelper.
+                byId(Picture.class, pictureId);
 
         if (!picture.isPresent()) {
             throw new IllegalArgumentException("Given id does not match any "
@@ -165,12 +166,13 @@ public class PersistenceFacade {
      * If the picturesession already is in permitted sessions of customer 
      * nothing happens.
      * 
+     * @pre Customer is logged in, session with code exists.
+     * @param account
+     * @param code
      * @throws com.pse.fotoz.dbal.HibernateException
      * @throws NoSuchElementException when picturesession 
      * with corresponding code doesn't exist
      * 
-     * @pre Customer is logged in, session with code exists.
-     * @param code
      */
     public static void addPermittedSession(String code, CustomerAccount account)
             throws HibernateException, NoSuchElementException {
