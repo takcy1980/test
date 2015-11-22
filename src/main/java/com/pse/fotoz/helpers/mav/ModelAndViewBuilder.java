@@ -52,16 +52,13 @@ public class ModelAndViewBuilder {
     public ModelAndViewBuilder withCookies(HttpServletRequest request,
             HttpServletResponse response) {
         
-        Map<String, String> cookies;
-
-        if (request.getCookies() == null) {
-            cookies = new HashMap<>();
-        } else {
-            cookies = Stream.of(request.getCookies()).
+        try{
+            Map<String, String> cookies = Stream.of(request.getCookies()).
                     collect(toMap(c -> c.getName(), c -> c.getValue()));
+            blueprint.addObject("cookies", cookies);
+        } catch (NullPointerException ex){
+            blueprint.addObject("cookies", new HashMap<String, String>());
         }
-
-        blueprint.addObject("cookies", cookies);
 
         return this;
     }
