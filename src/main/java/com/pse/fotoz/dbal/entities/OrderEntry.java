@@ -11,7 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- *
+ * Entity describing an item of an order.
+ * It currently encompasses a picture, options associated to that picture,
+ * an amount and total price of this entry.
  * @author Robert
  */
 @Entity
@@ -22,6 +24,11 @@ public class OrderEntry implements HibernateEntity {
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    
+    /**
+     * Temporary identity value for when not (yet) persisted.
+     */
+    private transient int tempId;
     
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -36,7 +43,7 @@ public class OrderEntry implements HibernateEntity {
     private ProductType type;
     
     @ManyToOne
-    @JoinColumn(name = "customer_account")
+    @JoinColumn(name = "product_options")
     private ProductOption options;
     
     @Basic
@@ -47,12 +54,27 @@ public class OrderEntry implements HibernateEntity {
     @Column(name = "total_price")
     private double totalPrice;
 
+    /**
+     * Gives the identity of this order entry.
+     * If this entry has not yet been assigned a persisted identity, it will
+     * instead provide a temporary identity, set through setTempId.
+     * @return Identity of this entry.
+     */
     public int getId() {
-        return id;
-    }
+        return id == 0 ? tempId : id;
+    }   
 
     public void setId(int id) {
         this.id = id;
+    }
+    
+    /**
+     * Sets a temporary identity for this order entry.
+     * This identity should be unique within an order, this is unchecked.
+     * @param tempId The temporary identity.
+     */
+    public void setTempId(int tempId) {
+        this.tempId = tempId;
     }
 
     public Order getOrder() {
@@ -101,7 +123,5 @@ public class OrderEntry implements HibernateEntity {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
-    }
-    
-    
+    }   
 }

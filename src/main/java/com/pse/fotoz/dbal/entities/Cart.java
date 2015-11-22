@@ -1,14 +1,14 @@
 package com.pse.fotoz.dbal.entities;
 
-import static java.util.stream.Collectors.toSet;
-import java.util.stream.Stream;
+import java.io.Serializable;
+import java.util.HashSet;
 
 /**
  * Class describing a shopping cart.
  * Serves as a container for an order.
  * @author Robert
  */
-public class Cart {
+public class Cart implements Serializable {
     private final Order order;
 
     /**
@@ -16,38 +16,7 @@ public class Cart {
      */
     public Cart() {
         this.order = new Order();
-    }
-
-    /**
-     * Creates a cart containing a given order.
-     * @param order the order
-     */
-    public Cart(Order order) {
-        this.order = order;
-    }
-    
-    /**
-     * Adds an order entry to this cart.
-     * @param e the order entry.
-     */
-    public void addOrderEntry(OrderEntry e) {
-        order.setEntries(
-                Stream.concat(
-                        order.getEntries().stream(), 
-                        Stream.of(e)
-                ).
-                collect(toSet()));
-    }
-    
-    /**
-     * Removes an order entry from this cart.
-     * @param e the order entry
-     */
-    public void removeOrderEntry(OrderEntry e) {
-        order.setEntries(
-                order.getEntries().stream().
-                        filter(e2 -> !e.equals(e2)).
-                        collect(toSet()));
+        this.order.setEntries(new HashSet<>());
     }
     
     /**
@@ -56,5 +25,16 @@ public class Cart {
      */
     public Order getOrder() {
         return order;
+    }
+    
+    /**
+     * Provides the sum of all prices of entries in this cart.
+     * This is the amount billed were the user placing this order.
+     * @return Total price of all items in this cart.
+     */
+    public double getPriceSum() {
+        return order.getEntries().stream().
+                map(e -> e.getTotalPrice()).
+                reduce(0d, (d1, d2) -> d1 + d2);
     }
 }

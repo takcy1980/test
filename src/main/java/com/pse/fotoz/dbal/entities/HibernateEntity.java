@@ -10,8 +10,14 @@ import org.hibernate.Session;
  * Hibernate.
  * @author Robert
  */
-public interface HibernateEntity extends Serializable {
+public interface HibernateEntity extends Serializable, 
+        Comparable<HibernateEntity> {
     
+    /**
+     * Each entity should be identifiable by this field.
+     * Should serve as a primary key in the data structure.
+     * @return The identity of this entity.
+     */
     abstract public int getId();
     
     /**
@@ -42,5 +48,17 @@ public interface HibernateEntity extends Serializable {
         session.delete(this);
         session.getTransaction().commit();
         session.close();
+    }
+    
+    /**
+     * Default ordering on entities is done through comparing the identities.
+     * That is, for entities e1, e2, e1 &lt; e2 iff e1.getId() &lt; e2.getId().
+     * This means to provide determinism for iterating over collections.
+     * Entities that have a more semantic ordering should override this method.
+     * @see java.lang.Comparable
+     */    
+    @Override
+    public default int compareTo(HibernateEntity e) {
+        return e.getId() - getId();
     }
 }

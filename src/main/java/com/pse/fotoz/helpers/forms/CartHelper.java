@@ -6,7 +6,6 @@ import com.pse.fotoz.dbal.entities.OrderEntry;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.ProductOption;
 import com.pse.fotoz.dbal.entities.ProductType;
-import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -44,15 +43,61 @@ public class CartHelper {
                 orElseThrow(() -> new IllegalArgumentException("Product type "
                         + "does not exist."));
         
+        int entryTempId = cart.getOrder().getEntries().stream().
+                map(e -> e.getId()).
+                max((i1, i2) -> Integer.compare(i1, i2)).
+                map(i -> i + 1).
+                orElse(0);
+        
         OrderEntry entry = new OrderEntry();
         
+        entry.setTempId(entryTempId);
         entry.setOrder(cart.getOrder());
         entry.setPicture(picture);
         entry.setType(productType);
         entry.setOptions(options);        
         entry.setAmount(amount);
+        entry.setTotalPrice(amount * ( productType.getPrice().doubleValue() + 
+                picture.getPrice().doubleValue() ));
         
-        cart.addOrderEntry(entry);
+        cart.getOrder().getEntries().add(entry);
+    }
+    
+    /**
+     * Updates the amount for an entry within the order of a cart.
+     * @param cart The cart.
+     * @param entryId The id of the entry.
+     * @param amount The new amount.
+     * @throws IllegalArgumentException if the entry does not exist, or the
+     * amount is non-positive.
+     * @post Entry with entryId in cart has an amount of amount.
+     */
+    public static void updateItemAmount(Cart cart, int entryId, int amount) 
+            throws IllegalArgumentException {
+        if (amount < 1) {
+            throw new IllegalArgumentException("Non-positive amount of items "
+                    + "to add.");
+        }
+        
+        OrderEntry entry = cart.getOrder().getEntries().stream().
+                filter(e -> e.getId() == entryId).
+                findAny().
+                orElseThrow(() -> new IllegalArgumentException("Entry is not "
+                        + "present in cart."));
+        
+        entry.setAmount(amount);
+        entry.setTotalPrice(amount * ( entry.getType().getPrice().doubleValue() + 
+                entry.getPicture().getPrice().doubleValue() ));
+    }
+    
+    /**
+     * Removes an entry from the order of a cart.
+     * @param cart The cart.
+     * @param entryId The id of the entry.
+     * @post No entry with entryId exists in carts order.
+     */
+    public static void removeItemFromCart(Cart cart, int entryId) {
+       cart.getOrder().getEntries().removeIf(e -> e.getId() == entryId);
     }
     
     /**
@@ -75,5 +120,18 @@ public class CartHelper {
         }
         
         return cart;       
+    }
+    
+    /**
+     * Resets the cart instance associated with the request.
+     * @param request
+     * @return 
+     */
+    public static Cart flushCart(HttpServletRequest request) {
+        Cart cart = new Cart();
+        
+        request.getSession().setAttribute("cart", cart);
+        
+        return cart;
     }
 }

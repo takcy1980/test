@@ -1,5 +1,9 @@
 {% extends "customers/shops/index.twig" %}
 
+{% macro labels(key) %}
+    {{ labels.key }}
+{% endmacro %}
+
 {% block content %}
     <div class="container">
         <div class="row">
@@ -14,23 +18,101 @@
             {% else %}
                 <div class="table-responsive">            
                     <table class="table table-hover table-striped cart-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    {{ labels.customers_cart_picture }}
+                                </th>
+                                <th>                                    
+                                </th>
+                                <th>
+                                    {{ labels.customers_cart_product_type }}
+                                </th>
+                                <th>                                    
+                                </th>
+                                <th>
+                                    {{ labels.customers_cart_color }}
+                                </th>
+                                <th>
+                                    {{ labels.customers_cart_amount }}
+                                </th>
+                                <th>
+                                    {{ labels.customers_cart_price }}
+                                </th>
+                            </tr>
+                        </thead>
                         <tbody>
                             {% for entry in cart.order.entries %}
                                 <tr>                                    
                                     <td>
-                                        image
+                                        <div class="cart-image-wrapper">
+                                            <img class="cart-picture cart-image" src="/assets/shops/{{ entry.picture.session.shop.login }}/sessions/{{ entry.picture.session.id }}/{{ entry.picture.fileName }}"/>
+                                        </div>
+                                        <p>
+                                            <b>
+                                                {{ entry.picture.title }}
+                                            </b>
+                                        </p>
+                                        <p>
+                                            &euro; {{ entry.picture.price | numberformat("#.##") }}
+                                        </p>
                                     </td>
                                     <td>
-                                        type
+                                        <img class="cart-right-arrow" src="/assets/customers/img/arrow-right.png"/>
                                     </td>
                                     <td>
-                                        title
+                                        <div class="cart-image-wrapper">
+                                            <img class="cart-product-type cart-image" src="/assets/products/img/{{ entry.type.filename }}"/>
+                                        </div>
+                                        <p>
+                                            <b>
+                                                {{ entry.type.name }}
+                                            </b>
+                                        </p>
+                                        <p>
+                                            &euro; {{ entry.type.price | numberformat("#.##") }}
+                                        </p>
                                     </td>
                                     <td>
-                                        amount
+                                        <img class="cart-right-arrow" src="/assets/customers/img/arrow-right.png"/>
+                                    </td>
+                                    <td>
+                                        <div class="cart-image-wrapper">
+                                            <img class="cart-product-color cart-image" src="/assets/customers/img/{{ entry.options.colorImage }}"/>
+                                        </div>
+                                        <p>
+                                            <b>
+                                              {{ entry.options.colorLabel }}
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="entry_id" value="{{ entry.id }}"/>
+                                        <input type="number" class="form-control cart-product-amount" id="amount" name="amount" min="1" value="{{ entry.amount }}"/>
+                                    </td>
+                                    <td>
+                                        &euro; {{ entry.totalPrice | numberformat("#.##") }}
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="entry_id" value="{{ entry.id }}"/>
+                                        <i class="fa fa-ban cart-remove-item pointer"></i>
                                     </td>
                                 </tr>
                             {% endfor %}
+                            <tr>
+                                <td colspan="5">
+                                </td>
+                                <td>                                    
+                                    <b>
+                                        Totaal:
+                                    </b>
+                                </td>
+                                <td>
+                                    &euro; {{ cart.priceSum | numberformat("#.##") }}
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
