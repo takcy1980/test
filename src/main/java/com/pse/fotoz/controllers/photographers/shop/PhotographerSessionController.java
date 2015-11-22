@@ -11,10 +11,12 @@ import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.PictureSession;
 import com.pse.fotoz.dbal.entities.ProductType;
 import com.pse.fotoz.dbal.entities.Shop;
+import com.pse.fotoz.helpers.forms.MultipartFileValidator;
 import com.pse.fotoz.helpers.forms.Parser;
 import com.pse.fotoz.helpers.forms.PersistenceFacade;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.helpers.users.Users;
+import com.pse.fotoz.properties.LocaleUtil;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -98,23 +101,30 @@ public class PhotographerSessionController {
     @RequestMapping(value = "/{session}", method = RequestMethod.POST)
     @ResponseBody
     public ModelAndView UpdatePriceForm(@PathVariable("shop") String shopid, @PathVariable("session") String sessionid,
-            HttpServletRequest request ) {
+            HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
                 withProperties(request).
                 build();
 
-   
+        List<String> errors = new ArrayList<>();
 
-            try {
-                double price = Double.parseDouble(request.getParameter("price"));
-                int pictureId = Integer.parseInt(request.getParameter("picture_id"));
+        try {
+            double price = Double.parseDouble(request.getParameter("price"));
+            int pictureId = Integer.parseInt(request.getParameter("picture_id"));
 
-                PersistenceFacade.changePicturePrice(pictureId, BigDecimal.valueOf(price));
+            PersistenceFacade.changePicturePrice(pictureId, BigDecimal.valueOf(price));
 
-            } catch (HibernateException | IllegalArgumentException ex) {
-                Logger.getLogger(PhotographerSessionController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
+        } catch (HibernateException ex) {
+            errors.add(ex.toString());
+        } catch (NumberFormatException ex) {
+            errors.add(LocaleUtil.getErrorProperties(request).
+                        get("error_dot_comma"));
+        } catch (javax.validation.ConstraintViolationException ex) {
+            //errors.add("negative not allowed");
+            errors.add(LocaleUtil.getErrorProperties(request).
+                        get("error_decimal_price"));
+           
+        }
 
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
@@ -141,6 +151,8 @@ public class PhotographerSessionController {
                 filter(s -> s.getId() == sessionId).
                 findAny()
                 : Optional.empty();
+
+        mav.addObject("errors", errors);
 
         mav.addObject("shop", shop.get());
         mav.addObject("session", session.get());

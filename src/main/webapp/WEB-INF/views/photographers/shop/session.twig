@@ -41,10 +41,9 @@
                         <form class="form-signin" method="post" role="form">
                         change price:
                          
-                        <input type="hidden"  value ="{{session.id}}" id="session_id" name="session_id"
-                        <input type="hidden"  value ="{{shop.login}}" id="shop_login" name="shop_login">
+
                         <input type="hidden"  value ="{{picture.id}}" id="picture_id" name="picture_id">
-                        <input type="number" step="0.01" id="price" name="price" class="form-control">
+                        <input type="number" step="0.01" id="price" name="price" class="form-control" required autofocus>
                         <button class="btn btn-lg btn-default btn-block" type="submit">
                             Change
                         </button>
