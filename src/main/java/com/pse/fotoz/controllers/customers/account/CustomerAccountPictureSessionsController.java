@@ -35,6 +35,7 @@ public class CustomerAccountPictureSessionsController {
      * Displays all picture sessions a customer is permitted to view
      * 
      * @param request
+     * @param response
      * @return 
      */
     @RequestMapping(value = "/sessions", method = RequestMethod.GET)
@@ -74,12 +75,15 @@ public class CustomerAccountPictureSessionsController {
      * Adds a picture session to the sessions a customer is allowed to view
      * 
      * @param request
+     * @param response
      * @return 
      */
     @RequestMapping(value = "/sessions", method = RequestMethod.POST)
-    public ModelAndView addPictureSession(HttpServletRequest request) {
+    public ModelAndView addPictureSession(HttpServletRequest request, 
+            HttpServletResponse response) {
         ModelAndView mav = ModelAndViewBuilder.empty().
                 withProperties(request).
+                withCookies(request,response).
                 build();
 
         CustomerAccount customer = Users.currentUserAccount().
@@ -152,7 +156,7 @@ public class CustomerAccountPictureSessionsController {
         List<String> errors = new ArrayList<>();
 
         try {
-            PersistenceFacade.addPictureSessionCustomer(
+            PersistenceFacade.addPermittedSession(
                     code,
                     customer);
         } catch (NoSuchElementException ex) {
