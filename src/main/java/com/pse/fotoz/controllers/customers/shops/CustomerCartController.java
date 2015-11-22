@@ -7,6 +7,7 @@ import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import static com.pse.fotoz.properties.LocaleUtil.getProperties;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -27,13 +28,16 @@ public class CustomerCartController {
     /**
      * Displays the contents of their shopping cart to the user.
      * @param request The associated request.
+     * @param response The associated response.
      * @return View from "customers/shops/cart.twig".
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView displayCart(HttpServletRequest request) {
-        ModelAndView mav = ModelAndViewBuilder.empty().
-                    withProperties(request).
-                    build();
+    public ModelAndView displayCart(HttpServletRequest request, 
+            HttpServletResponse response) {
+        ModelAndView mav = ModelAndViewBuilder.empty().                
+                withProperties(request).
+                withCookies(request, response).
+                build();
         
         Cart cart = CartHelper.getCurrentCart(request);
         

@@ -8,6 +8,7 @@ import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.helpers.users.Users;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,15 +28,17 @@ public class CustomerPictureSessionsController {
      * @param shopname The login name of the associated shop.
      * @param sessionid The identity of the session.
      * @param request The associated request.
+     * @param response The associated response.
      * @return View of "customers/shops/session.twig".
      */
     @RequestMapping(value = "/{session}", method = RequestMethod.GET)
     public ModelAndView displayPictureSessions(@PathVariable("shop") 
             String shopname, @PathVariable("session") String sessionid,
-            HttpServletRequest request) {
-        ModelAndView mav = ModelAndViewBuilder.empty().
-                    withProperties(request).
-                    build();
+            HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = ModelAndViewBuilder.empty().                
+                withProperties(request).
+                withCookies(request, response).
+                build();
         
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
