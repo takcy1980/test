@@ -1,6 +1,8 @@
 package com.pse.fotoz.controllers.photographers.shop;
 
+import com.pse.fotoz.dbal.entities.Shop;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
+import com.pse.fotoz.helpers.users.Users;
 import com.pse.fotoz.properties.LocaleUtil;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
@@ -22,8 +24,14 @@ public class PhotographerShopController {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
             public String redirect = request.getRequestURL().toString();
-        });            
-
+        });
+        
+        Shop shop = Shop.getShopByLogin(Users.currentUsername().
+                orElseThrow(() -> new IllegalStateException("User should be "
+                        + "logged in.")));
+        
+        mav.addObject("shopId", shop.getId());
+        
         mav.setViewName("photographers/shop/index.twig");
 
         return mav;
@@ -46,6 +54,12 @@ public class PhotographerShopController {
         mav.addObject("error", 
                 "The login functionality is not yet implemented.");
 
+        Shop shop = Shop.getShopByLogin(Users.currentUsername().
+                orElseThrow(() -> new IllegalStateException("User should be "
+                        + "logged in.")));
+        
+        mav.addObject("shopId", shop.getId());
+        
         return mav;
     }
 }

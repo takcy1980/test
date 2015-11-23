@@ -15,6 +15,7 @@
         <!--<intercept-url pattern="/app/customers/login/**" access="hasRole('ROLE_CUSTOMER')" />-->
         <logout logout-url="/logout" logout-success-url="/app/logout"/>
         <csrf disabled="true"/>
+        <form-login default-target-url="/app/"/>
     </http>
     	
     <authentication-manager alias="authenticationManager">
