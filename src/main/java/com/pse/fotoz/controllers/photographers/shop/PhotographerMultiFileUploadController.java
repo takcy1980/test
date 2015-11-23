@@ -42,13 +42,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PhotographerMultiFileUploadController {
 
-    @RequestMapping(method = RequestMethod.GET, path = "/photographers/shop/{shopId}/sessions/{sessionCode}/upload")
+    @RequestMapping(method = RequestMethod.GET, path = "/photographers/shop/{shopName}/{sessionCode}/upload")
     public ModelAndView doGet(HttpServletRequest request, HttpServletResponse response,
             @PathVariable String shopName, @PathVariable String sessionCode) {
 
         ModelAndView mav = new ModelAndView();
         Map<String, String> labels;
-        mav.setViewName("/photographers/shop/uploadMulti.twig");
+        mav.setViewName("/photographers/account/uploadMulti.twig");
 
         try {
             labels = LocaleUtil.getProperties(
