@@ -1,4 +1,4 @@
-package com.pse.fotoz.controllers.photographers;
+package com.pse.fotoz.controllers.photographers.shop;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -42,17 +43,19 @@ public class PhotographersSessionController {
      *
      * @param shopId id of shop
      * @param request
+     * @param response
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView displaySessions(
             @PathVariable("shopId") String shopId,
-            HttpServletRequest request) {
+            HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mav = ModelAndViewBuilder.empty().
                 withProperties(request).
+                withCookies(request,response).
                 build();
-
+        
         mav.addObject("shopId", shopId);
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
@@ -62,7 +65,7 @@ public class PhotographersSessionController {
         });
         mav.setViewName("photographers/shop/sessions.twig");
 
-        //get current shops sessions and sort by id
+        //get current shops sessions
         //redirects to public homepage in case of wrong user/shop combination
         try {
             Integer id = Parser.parseInt(shopId).orElse(null);
@@ -71,13 +74,13 @@ public class PhotographersSessionController {
                     .orElse(null);
             if (OwnershipHelper.doesUserOwnShop(shop,
                     Users.currentUsername().orElse(null))) {
-                List<PictureSession> sessions = new ArrayList<>(shop.getSessions());
-                Collections.sort(sessions);
+                List<PictureSession> sessions = shop.getSessions();
                 mav.addObject("sessions", sessions);
             } else {
                 mav = new ModelAndView("redirect:/app/");
             }
         } catch (NullPointerException ex) {
+            //NullPointerException: wrong url
             mav = new ModelAndView("redirect:/app/");
         }
 
@@ -89,15 +92,17 @@ public class PhotographersSessionController {
      *
      * @param shopId
      * @param request
+     * @param response
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/new")
     public ModelAndView provideNewProductForm(
             @PathVariable("shopId") String shopId,
-            HttpServletRequest request) {
+            HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mav = ModelAndViewBuilder.empty().
                 withProperties(request).
+                withCookies(request,response).
                 build();
 
         mav.addObject("shopId", shopId);
@@ -119,6 +124,7 @@ public class PhotographersSessionController {
                 mav = new ModelAndView("redirect:/app/");
             }
         } catch (NullPointerException ex) {
+            //NullPointerException: wrong url
             mav = new ModelAndView("redirect:/app/");
         }
 
@@ -207,15 +213,16 @@ public class PhotographersSessionController {
      *
      * @param sessionId id of picture session to be shown
      * @param request
+     * @param response
      * @return
      */
     @RequestMapping(value = "/{session}", method = RequestMethod.GET)
     public ModelAndView showPictureSession(@PathVariable("session") String sessionId,
-            HttpServletRequest request
-    ) {
+            HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mav = ModelAndViewBuilder.empty().
                 withProperties(request).
+                withCookies(request,response).
                 build();
 
         mav.addObject("page", new Object() {

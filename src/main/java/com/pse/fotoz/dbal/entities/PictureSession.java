@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name="picture_sessions")
-public class PictureSession implements HibernateEntity, Comparable<PictureSession> {
+public class PictureSession implements HibernateEntity {
     
     @Id
     @Column(name = "id")
@@ -121,11 +121,6 @@ public class PictureSession implements HibernateEntity, Comparable<PictureSessio
 
     public void setPermittedAccounts(Set<CustomerAccount> permittedAccounts) {
         this.permittedAccounts = permittedAccounts;
-    }
-
-    @Override
-    public int compareTo(PictureSession ps) {
-        return ps.id - this.id;
     }
     
     public static PictureSession getSessionByCode(String code) {
