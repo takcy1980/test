@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                {{ labels.photographer_shop_index_item_sessions }}
+                {{ labels.photographer_shop_session_heading }} {{session.title}}
             </h1>
         </div>
     </div>
@@ -12,24 +12,50 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-lg-12">
-            <p>
-                {{ labels.photographer_shop_sessions_body_message }}
-            </p>
+        <div class="col-lg-12">         
+            <table class="table">
+                <tr>
+                    <th>{{ labels.photographer_shop_sessions_table_title }}</th>                                   
+                    <td>{{ session.title }}</td>
+                </tr>
+                <tr>
+                    <th>{{ labels.photographer_shop_sessions_table_description }}</th>
+                    <td>{{ session.description }}</td>
+                </tr>
+                <tr>
+                    <th>{{ labels.photographer_shop_sessions_table_ispublic }}</th>
+                    <td>
+                        {% if session.isPublic %}
+                            {{ labels.photographer_shop_sessions_table_ispublic_yes }}
+                        {% else %}
+                            {{ labels.photographer_shop_sessions_table_ispublic_no }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ labels.photographer_shop_sessions_table_code }}</th>
+                    <td>{{ session.code }}</td>
+                </tr>
+                <tr>
+                    <th>{{ labels.photographer_shop_sessions_table_url }}</th>
+                    <td> http://localhost:8080/app/customers/account/sessions/add/{{session.code}}</td>
+                </tr>
+            </table>
         </div>
     </div>
-            
+
     <div class="row">
         <div class="col-lg-12">
-                {% for picture in pictures %}
-                    <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                        <a class="thumbnail" href="{{ picture.uri }}">
-                            <img class="img-responsive" alt="{{ picture.title }}" src="{{ picture.fileName }}">
-                        </a>
-                    </div>
-                {% else %}
-                    {{ labels.photographer_photopage_no_photos }}
-                {% endfor %}
+            HIER KOMEN DE FOTOS    
+            {% for picture in pictures %}
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="{{ picture.uri }}">
+                        <img class="img-responsive" alt="{{ picture.title }}" src="{{ picture.fileName }}">
+                    </a>
+                </div>
+            {% else %}
+                {{ labels.photographer_photopage_no_photos }}
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

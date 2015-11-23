@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pse.fotoz.controllers.photographers;
+package com.pse.fotoz.controllers.photographers.shop;
 
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.Picture;
@@ -42,13 +42,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PhotographerMultiFileUploadController {
 
-    @RequestMapping(method = RequestMethod.GET, path = "/photographers/shop/{shopName}/{sessionCode}/upload")
+    @RequestMapping(method = RequestMethod.GET, path = "/photographers/shop/{shopId}/sessions/{sessionCode}/upload")
     public ModelAndView doGet(HttpServletRequest request, HttpServletResponse response,
             @PathVariable String shopName, @PathVariable String sessionCode) {
 
         ModelAndView mav = new ModelAndView();
         Map<String, String> labels;
-        mav.setViewName("/photographers/account/uploadMulti.twig");
+        mav.setViewName("/photographers/shop/uploadMulti.twig");
 
         try {
             labels = LocaleUtil.getProperties(

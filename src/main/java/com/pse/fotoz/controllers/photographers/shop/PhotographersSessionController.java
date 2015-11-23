@@ -211,13 +211,16 @@ public class PhotographersSessionController {
     /**
      * Displays a picture session.
      *
+     * @param shopId
      * @param sessionId id of picture session to be shown
      * @param request
      * @param response
      * @return
      */
     @RequestMapping(value = "/{session}", method = RequestMethod.GET)
-    public ModelAndView showPictureSession(@PathVariable("session") String sessionId,
+    public ModelAndView showPictureSession(
+            @PathVariable("shopId") String shopId,
+            @PathVariable("session") String sessionId,
             HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -225,6 +228,7 @@ public class PhotographersSessionController {
                 withCookies(request,response).
                 build();
 
+        mav.addObject("shopId", shopId);
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
@@ -243,9 +247,10 @@ public class PhotographersSessionController {
             if (OwnershipHelper.doesUserOwnShop(session.getShop(),
                     Users.currentUsername().orElse(null))) {
 
-                Set<Picture> pictures = session.getPictures();
-                String path = "/assets/shops/";
-                mav.addObject("pictures", pictures);
+                //add pictures and stuff
+                
+                mav.addObject("session", session);
+                
             } else {
                 mav = new ModelAndView("redirect:/app/");
             }

@@ -8,9 +8,10 @@
     <link href="/assets/common/css/default.css" rel="stylesheet"/>
     <link href="/assets/common/css/bootstrap/sb-admin/sb-admin.css" rel="stylesheet"/>
     <link href="/assets/common/css/bootstrap/sb-admin/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
-    <link href="/assets/producer/css/dashboard.css" rel="stylesheet"/>
+    <link href="/assets/photographers/css/dashboard.css" rel="stylesheet"/>
     
     <link rel="stylesheet" href="/assets/common/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+
 {% endblock %}
 
 {% block more_js %}
@@ -40,7 +41,7 @@
                         <a href="/app/photographers/shop"><i class="fa fa-fw fa-dashboard"></i>{{labels.photographer_shop_index_item_dashboard}}</a>
                     </li>
                     <li {% if page.uri equals "/photographers/account/photos" %}  class="active" {% endif %} >
-                        <a href="/app/photographers/shop/sessions"><i class="fa fa-fw fa-shopping-cart"></i>{{labels.photographer_shop_index_item_sessions}}</a>
+                        <a href="/app/photographers/shop/{{shopId}}/sessions"><i class="fa fa-fw fa-shopping-cart"></i>{{labels.photographer_shop_index_item_sessions}}</a>
                     </li>
 
                     <li>    

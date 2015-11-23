@@ -162,15 +162,13 @@ public class Shop implements HibernateEntity {
     }
 
     public static Shop getShopByLogin(String login) {
-        Shop returnShop = null;
-        
-        returnShop = HibernateEntityHelper.all(Shop.class).
+
+        return HibernateEntityHelper.all(Shop.class).
                 stream().
                 filter(s -> s.getLogin().equals(login)).
                 findAny().
-                get();
+                orElse(null);
 
-        return returnShop;
     }
     /**
      * checks ownership

@@ -32,51 +32,57 @@
         </div>
     {% endif %}
 
-        <div class="row">
-            <div class="col-lg-12">
-                {% if sessions is empty %}
-                    <p>
-                        {{ labels.photographer_shop_sessions_table_nocontent }}
-                    </p>
-                {% else %}
-                    <div class="table-responsive">            
-                        <table class="table table-hover table-striped submitted-photos-table">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        {{ labels.photographer_shop_sessions_table_title }}                                    
-                                    </th>
-                                    <th>
-                                        {{ labels.photographer_shop_sessions_table_description }}                                    
-                                    </th>
-                                    <th>
-                                        {{ labels.photographer_shop_sessions_table_ispublic }}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>                     
-                                {% for session in sessions %}
-                                    <tr>   
-                                        <td>
-                                            {{ session.title }}
-                                        </td>
+    <div class="row">
+        <div class="col-lg-12">
+            {% if sessions is empty %}
+                <p>
+                    {{ labels.photographer_shop_sessions_table_nocontent }}
+                </p>
+            {% else %}
+                <div>            
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="20%">
+                                    {{ labels.photographer_shop_sessions_table_title }}                                    
+                                </th>
+                                <th width="65%">
+                                    {{ labels.photographer_shop_sessions_table_description }}                                    
+                                </th>
+                                <th width="15%">
+                                    {{ labels.photographer_shop_sessions_table_ispublic }}
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
 
-                                        <td>
-                                            {{ session.description }}
-                                        </td>
-                                        <td>
-                                            {% if session.isPublic %}
-                                                {{ labels.photographer_shop_sessions_table_ispublic_yes }}
-                                            {% else %}
-                                                {{ labels.photographer_shop_sessions_table_ispublic_no }}
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>                        
-                        </table>
+                {% for session in sessions %}
+                    <div>
+                        <a href="/app/photographers/shop/{{shopId}}/sessions/{{session.id}}" class="sessions-link">
+                            <table class="table sessions-table">
+                                <tr>   
+                                    <td width="20%" style="border:none">
+                                        {{ session.title }}
+                                    </td>
+
+                                    <td width="65%" style="border:none">
+                                        {{ session.description }}
+                                    </td>
+                                    <td width="15%" style="border:none">
+                                        {% if session.isPublic %}
+                                            {{ labels.photographer_shop_sessions_table_ispublic_yes }}
+                                        {% else %}
+                                            {{ labels.photographer_shop_sessions_table_ispublic_no }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        </a>
                     </div>
-                {% endif %}
-            </div>
+
+                {% endfor %}
+            {% endif %}
         </div>
-        {% endblock %}
+    </div>
+{% endblock %}
