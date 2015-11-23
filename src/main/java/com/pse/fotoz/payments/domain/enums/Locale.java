@@ -7,10 +7,11 @@ package com.pse.fotoz.payments.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
-/***
+/**
+ * *
  * Locales supported by Mollie
- * @author René 
+ *
+ * @author René
  */
 public enum Locale {
 
@@ -32,4 +33,24 @@ public enum Locale {
     public String getValue() {
         return this.value;
     }
+
+//    public java.util.Locale toJavaLocale() {
+//        java.util.Locale returnLoc;
+//        switch (this) {
+//            case GERMANY:
+//                returnLoc = java.util.Locale.GERMAN;
+//                break;
+//                            case ENGLAND:
+//                returnLoc = java.util.Locale.ENGLISH;
+//                break;
+//                            case SPAIN:
+//                returnLoc = java.util.Locale.ENGLISH;
+//                            case GERMANY:
+//                //returnLoc = java.util.Locale.;
+//                break;
+//                break;
+//
+//        }
+//
+//    }
 }
