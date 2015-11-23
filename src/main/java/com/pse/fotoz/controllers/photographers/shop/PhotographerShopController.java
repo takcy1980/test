@@ -26,7 +26,10 @@ public class PhotographerShopController {
             public String redirect = request.getRequestURL().toString();
         });
         
-        Shop shop = Shop.getShopByLogin(Users.currentUsername().orElse(null));
+        Shop shop = Shop.getShopByLogin(Users.currentUsername().
+                orElseThrow(() -> new IllegalStateException("User should be "
+                        + "logged in.")));
+        
         mav.addObject("shopId", shop.getId());
         
         mav.setViewName("photographers/shop/index.twig");
@@ -51,7 +54,10 @@ public class PhotographerShopController {
         mav.addObject("error", 
                 "The login functionality is not yet implemented.");
 
-        Shop shop = Shop.getShopByLogin(Users.currentUsername().orElse(null));
+        Shop shop = Shop.getShopByLogin(Users.currentUsername().
+                orElseThrow(() -> new IllegalStateException("User should be "
+                        + "logged in.")));
+        
         mav.addObject("shopId", shop.getId());
         
         return mav;
