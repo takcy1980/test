@@ -2,8 +2,10 @@ package com.pse.fotoz.helpers.mav;
 
 import com.pse.fotoz.properties.LocaleUtil;
 import java.util.Map;
+import java.util.Optional;
 import static java.util.stream.Collectors.toMap;
 import java.util.stream.Stream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,7 +48,9 @@ public class ModelAndViewBuilder {
      */
     public ModelAndViewBuilder withCookies(HttpServletRequest request, 
             HttpServletResponse response) {
-        Map<String, String> cookies = Stream.of(request.getCookies()).
+        Map<String, String> cookies = Stream.of(
+                Optional.ofNullable(request.getCookies()).
+                        orElse(new Cookie[0])).
                 collect(toMap(c -> c.getName(), c -> c.getValue()));
         
         blueprint.addObject("cookies", cookies);
