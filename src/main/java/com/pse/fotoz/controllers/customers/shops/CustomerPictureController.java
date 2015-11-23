@@ -14,6 +14,7 @@ import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,15 +33,17 @@ public class CustomerPictureController {
      * Displays a detailed page of a picture.
      * @param pictureid The identity of the picture.
      * @param request The associated request.
+     * @param response The associated response.
      * @return View from "customers/pictures/picture_detail.twig".
      */
     @RequestMapping(value = "/{picture}", method = RequestMethod.GET)
     public ModelAndView displayPictureDetail(
             @PathVariable("picture") String pictureid,
-            HttpServletRequest request) {
-        ModelAndView mav = ModelAndViewBuilder.empty().
-                    withProperties(request).
-                    build();
+            HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = ModelAndViewBuilder.empty().                
+                withProperties(request).
+                withCookies(request, response).
+                build();
         
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
@@ -79,13 +82,14 @@ public class CustomerPictureController {
      * shopping cart).
      * @param pictureid The identity of the picture.
      * @param request The associated request.
+     * @param response The associated response.
      * @return View of "customers/pictures/picture_order.twig".
      */
     @RequestMapping(value = "/{picture}/order", method = RequestMethod.GET)
         public ModelAndView displayPictureOrder(
             @PathVariable("picture") String pictureid,
-            final HttpServletRequest request) {
-        ModelAndView mav = displayPictureDetail(pictureid, request);
+            final HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = displayPictureDetail(pictureid, request, response);
         
         List<ProductType> types = HibernateEntityHelper.
                 all(ProductType.class);

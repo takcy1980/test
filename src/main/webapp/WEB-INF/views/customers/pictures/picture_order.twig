@@ -11,7 +11,16 @@
                 <img class="picture-detail" src="/assets/shops/{{ picture.session.shop.login }}/sessions/{{ picture.session.id }}/{{ picture.fileName }}">
 
                 <p>
-                    &euro; {{ picture.price }}
+                    <span class="currency-sign-convertable">
+                        {% if cookie.currency equals "GBP" %}
+                            &pound;
+                        {% else %}
+                            &euro; 
+                        {% endif %}
+                    </span> 
+                    <span class="currency-convertable">
+                        {{ picture.price | numberformat("#.##") }}
+                    </span>
                 </p>
                 <p>
                     {{ picture.description }}
@@ -41,7 +50,16 @@
                                 {{ type.description }}
                             </p>
                             <p>
-                                &euro; {{ type.price }}
+                                <span class="currency-sign-convertable">
+                                    {% if cookie.currency equals "GBP" %}
+                                        &pound;
+                                    {% else %}
+                                        &euro; 
+                                    {% endif %}
+                                </span> 
+                                <span class="currency-convertable">
+                                    {{ type.price | numberformat("#.##") }}
+                                </span>
                             </p>
                         </div>
                     {% endfor %}

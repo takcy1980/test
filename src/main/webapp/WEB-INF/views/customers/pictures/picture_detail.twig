@@ -14,7 +14,16 @@
 
             <div class="col-md-6">
                 <p>
-                    &euro; {{ picture.price }}
+                    <span class="currency-sign-convertable">
+                        {% if cookie.currency equals "GBP" %}
+                            &pound;
+                        {% else %}
+                            &euro; 
+                        {% endif %}
+                    </span> 
+                    <span class="currency-convertable">
+                        {{ picture.price | numberformat("#.##") }}
+                    </span>
                 </p>
                 <p>
                     {{ picture.description }}
