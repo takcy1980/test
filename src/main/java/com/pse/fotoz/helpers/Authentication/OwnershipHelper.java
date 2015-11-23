@@ -5,7 +5,10 @@
  */
 package com.pse.fotoz.helpers.Authentication;
 
-import com.pse.fotoz.dbal.entities.*;
+import com.pse.fotoz.dbal.entities.Photographer;
+import com.pse.fotoz.dbal.entities.Picture;
+import com.pse.fotoz.dbal.entities.PictureSession;
+import com.pse.fotoz.dbal.entities.Shop;
 
 /**
  *

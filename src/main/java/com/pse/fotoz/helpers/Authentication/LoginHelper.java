@@ -6,7 +6,9 @@
 package com.pse.fotoz.helpers.Authentication;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
-import com.pse.fotoz.dbal.entities.*;
+import com.pse.fotoz.dbal.entities.CustomerAccount;
+import com.pse.fotoz.dbal.entities.ProducerAccount;
+import com.pse.fotoz.dbal.entities.Shop;
 import java.util.Optional;
 import org.springframework.security.core.context.SecurityContextHolder;
 

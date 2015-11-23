@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +19,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class CustomerShopsController {
  
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView displayShops(HttpServletRequest request) {
-        ModelAndView mav = ModelAndViewBuilder.empty().
-                    withProperties(request).
-                    build();
+    public ModelAndView displayShops(HttpServletRequest request, 
+            HttpServletResponse response) {
+        ModelAndView mav = ModelAndViewBuilder.empty().                
+                withProperties(request).
+                withCookies(request, response).
+                build();
         
         //find all shops that have at least one public session, of which there
         //exists at least one non-hidden picture.
@@ -50,9 +53,10 @@ public class CustomerShopsController {
     
     @RequestMapping(value = "/{shop}", method = RequestMethod.GET)
     public ModelAndView displayShopDetail(@PathVariable("shop") String shopid, 
-            HttpServletRequest request) {
+            HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = ModelAndViewBuilder.empty().
                     withProperties(request).
+                    withCookies(request, response).
                     build();
         
         mav.addObject("page", new Object() {

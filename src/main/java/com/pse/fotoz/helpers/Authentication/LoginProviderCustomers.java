@@ -4,7 +4,6 @@ package com.pse.fotoz.helpers.Authentication;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.entities.CustomerAccount;
-import com.pse.fotoz.dbal.entities.ProducerAccount;
 import com.pse.fotoz.helpers.encryption.PasswordHash;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;

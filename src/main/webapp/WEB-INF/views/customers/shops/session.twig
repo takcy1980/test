@@ -14,10 +14,19 @@
                 <img src="/assets/shops/{{ shop.login }}/sessions/{{ session.id }}/{{ picture.fileName }}">
                 <div class="caption">
                     <h4 class="pull-right">
-                        &euro; {{ picture.price }}
+                        <span class="currency-sign-convertable">
+                        {% if cookie.currency equals "GBP" %}
+                            &pound;
+                        {% else %}
+                            &euro; 
+                        {% endif %}
+                    </span> 
+                    <span class="currency-convertable">
+                        {{ picture.price | numberformat("#.##") }}
+                    </span>
                     </h4>
                     <h4>
-                        <a href="#">
+                        <a href="/app/customers/pictures/{{ picture.id }}">
                             {{ picture.title }}
                         </a>
                     </h4>
