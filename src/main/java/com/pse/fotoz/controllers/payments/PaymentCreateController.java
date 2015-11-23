@@ -32,6 +32,8 @@ public class PaymentCreateController {
                 .stream()
                 .filter(s -> s.getId() == Integer.parseInt(orderId))
                 .findAny();
+        
+        
 
         if (orderOpt.isPresent()) {
             Order order = orderOpt.get();
@@ -53,7 +55,7 @@ public class PaymentCreateController {
                     if (pmResponse.isPresent()) {
                         order.setMolliePaymentCreatedDate(pmResponse.get().getCreatedDatetime());
                         order.setMolliePaymentID(pmResponse.get().getId());
-                        order.setMolliePaymentMethod(pmResponse.get().getMethod());
+                        //order.setMolliePaymentMethod(pmResponse.get().getMethod());
                         order.setStatus(Order.OrderStatus.PLACED);
                         order.setMolliePaymentStatus(pmResponse.get().getStatus());
 
@@ -68,7 +70,7 @@ public class PaymentCreateController {
         }
 
         return new RedirectView(
-                getURLWithContextPath(request));
+                getURLWithContextPath(request) + "/");
     }
 
     public static String getURLWithContextPath(HttpServletRequest request) {
