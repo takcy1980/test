@@ -17,12 +17,11 @@ import org.springframework.web.servlet.LocaleResolver;
 public class CustomLocaleResolver implements LocaleResolver {
     
     @Override
-    public Locale resolveLocale(HttpServletRequest request) {
-        String lang = request.getSession().getAttribute("lang").toString();
-        
+    public Locale resolveLocale(HttpServletRequest request) {        
         try {
+            String lang = request.getSession().getAttribute("lang").toString();
             return LocaleUtil.getLocale(lang);
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException e) {
             return LocaleUtil.getLocale("nl");
         }
     }

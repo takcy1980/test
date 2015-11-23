@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pse.fotoz.controllers.photographers;
+package com.pse.fotoz.controllers.photographers.shop;
 
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.Picture;

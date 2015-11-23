@@ -14,15 +14,17 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author Robert
  */
 @Entity
-@Table(name = "picture_sessions")
+@Table(name="picture_sessions")
 public class PictureSession implements HibernateEntity {
-
+    
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,15 +42,18 @@ public class PictureSession implements HibernateEntity {
     private String code;
 
     @Basic
-    @Column(name = "title")
+    @Column(name="title")
+    @Size(min = 1, message="{error_size_title}")
     private String title;
 
     @Basic
-    @Column(name = "description")
+    @Column(name="description")
+    @Size(min = 1, message="{error_size_description}")
     private String description;
 
     @Basic
-    @Column(name = "public")
+    @Column(name="public")
+    @NotNull(message="{error_notnull_public}")
     private boolean isPublic;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permittedSessions")
@@ -117,7 +122,7 @@ public class PictureSession implements HibernateEntity {
     public void setPermittedAccounts(Set<CustomerAccount> permittedAccounts) {
         this.permittedAccounts = permittedAccounts;
     }
-
+    
     public static PictureSession getSessionByCode(String code) {
         PictureSession returnSession = null;
 
@@ -133,4 +138,5 @@ public class PictureSession implements HibernateEntity {
     public boolean doesPictureSessionOwnPicture(Picture p) {
         return (this.getId() == p.getSession().getId());
     }
+    
 }

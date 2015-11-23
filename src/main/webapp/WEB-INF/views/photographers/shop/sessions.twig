@@ -1,0 +1,88 @@
+{% extends "photographers/shop/index.twig" %}
+
+{% block heading %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{ labels.photographer_shop_index_item_sessions }}
+            </h1>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <p>
+                {{ labels.photographer_shop_sessions_body_message }}
+            </p>
+        </div>
+    </div>
+
+    {% if error is not empty %}
+        <p class="row aler alert-danger">{{ error }}</p>
+    {% else %}
+
+        <div class="row">
+            <div class="col-lg-12">
+                <a href="/app/photographers/shop/{{shopId}}/sessions/new" class="btn btn-default">
+                    {{ labels.photographer_shop_sessions_button_new }}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            {% if sessions is empty %}
+                <p>
+                    {{ labels.photographer_shop_sessions_table_nocontent }}
+                </p>
+            {% else %}
+                <div>            
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="20%">
+                                    {{ labels.photographer_shop_sessions_table_title }}                                    
+                                </th>
+                                <th width="65%">
+                                    {{ labels.photographer_shop_sessions_table_description }}                                    
+                                </th>
+                                <th width="15%">
+                                    {{ labels.photographer_shop_sessions_table_ispublic }}
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                {% for session in sessions %}
+                    <div>
+                        <a href="/app/photographers/shop/{{shopId}}/sessions/{{session.id}}" class="sessions-link">
+                            <table class="table sessions-table">
+                                <tr>   
+                                    <td width="20%" style="border:none">
+                                        {{ session.title }}
+                                    </td>
+
+                                    <td width="65%" style="border:none">
+                                        {{ session.description }}
+                                    </td>
+                                    <td width="15%" style="border:none">
+                                        {% if session.isPublic %}
+                                            {{ labels.photographer_shop_sessions_table_ispublic_yes }}
+                                        {% else %}
+                                            {{ labels.photographer_shop_sessions_table_ispublic_no }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        </a>
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

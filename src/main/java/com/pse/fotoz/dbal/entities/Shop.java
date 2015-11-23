@@ -162,22 +162,31 @@ public class Shop implements HibernateEntity {
     }
 
     public static Shop getShopByLogin(String login) {
-        Shop returnShop = null;
-        
-        returnShop = HibernateEntityHelper.all(Shop.class).
+
+        return HibernateEntityHelper.all(Shop.class).
                 stream().
                 filter(s -> s.getLogin().equals(login)).
                 findAny().
-                get();
+                orElse(null);
 
-        return returnShop;
     }
+    
     /**
-     * checks ownership
-     * @param s
+     * Checks ownership of a given picture session.
+     * @param session The given session.
      * @return true if this shop owns the session
      */
-    public boolean doesShopOwnPictureSession(PictureSession s){
-        return (this.getId() == s.getShop().getId());
+    public boolean doesShopOwnPictureSession(PictureSession session){
+        return (this.getId() == session.getShop().getId());
     }
+    
+    /**
+     * Checks ownership of this shop to a user with a given user name.
+     * @param username The given user name.
+     * @return true if logged in user owns this shop.
+     */
+    public boolean doesUserOwnShop(String username){
+        return this.login.equals(username);
+    }
+    
 }
