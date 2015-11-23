@@ -11,9 +11,7 @@ import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.helpers.users.Users;
 import com.pse.fotoz.properties.LocaleUtil;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Controller;
@@ -69,15 +67,14 @@ public class PhotographersSessionController {
         //redirects to public homepage in case of wrong user/shop combination
         try {
             Integer id = Parser.parseInt(shopId).orElse(null);
+            Shop shop = Shop.getShopByID(id);
 
-            Shop shop = HibernateEntityHelper.byId(Shop.class, id)
-                    .orElse(null);
             if (OwnershipHelper.doesUserOwnShop(shop,
                     Users.currentUsername().orElse(null))) {
                 List<PictureSession> sessions = shop.getSessions();
                 mav.addObject("sessions", sessions);
             } else {
-                mav = new ModelAndView("redirect:/app/");
+                mav = new ModelAndView("redirect:/login");
             }
         } catch (NullPointerException ex) {
             //NullPointerException: wrong url
@@ -117,11 +114,10 @@ public class PhotographersSessionController {
         //check ownership and redirect in case of wrong user/shop combination
         try {
             Integer id = Parser.parseInt(shopId).orElse(null);
-            Shop shop = HibernateEntityHelper.byId(Shop.class, id)
-                    .orElse(null);
+            Shop shop = Shop.getShopByID(id);
             if (!(OwnershipHelper.doesUserOwnShop(shop,
                     Users.currentUsername().orElse(null)))) {
-                mav = new ModelAndView("redirect:/app/");
+                mav = new ModelAndView("redirect:/login");
             }
         } catch (NullPointerException ex) {
             //NullPointerException: wrong url
@@ -168,8 +164,7 @@ public class PhotographersSessionController {
 
                 //get shop
                 Integer id = Parser.parseInt(shopId).orElse(null);
-                Shop shop = HibernateEntityHelper.byId(
-                        Shop.class, id).orElse(null);
+                Shop shop = Shop.getShopByID(id);
 
                 //check ownership
                 if (OwnershipHelper.doesUserOwnShop(shop,
@@ -247,12 +242,12 @@ public class PhotographersSessionController {
             if (OwnershipHelper.doesUserOwnShop(session.getShop(),
                     Users.currentUsername().orElse(null))) {
 
-                //add pictures and stuff
+                //TODO add pictures and stuff
                 
                 mav.addObject("session", session);
                 
             } else {
-                mav = new ModelAndView("redirect:/app/");
+                mav = new ModelAndView("redirect:/login");
             }
 
         } catch (NullPointerException ex) {
