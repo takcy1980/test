@@ -52,7 +52,7 @@ public class CustomerAccount implements HibernateEntity {
     @Size(min=4, message = "{error_size_password}")
     private String passwordHash;
     
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "customer_permissions", joinColumns = { 
                         @JoinColumn(name = "customer_account_id", 
                                 nullable = false, updatable = false)

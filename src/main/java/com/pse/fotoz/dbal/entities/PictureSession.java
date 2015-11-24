@@ -30,11 +30,11 @@ public class PictureSession implements HibernateEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
 
-    @OneToMany(mappedBy = "session")
+    @OneToMany(mappedBy = "session", fetch = FetchType.EAGER)
     private Set<Picture> pictures;
 
     @Basic
@@ -56,7 +56,7 @@ public class PictureSession implements HibernateEntity {
     @NotNull(message="{error_notnull_public}")
     private boolean isPublic;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permittedSessions")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "permittedSessions")
     private Set<CustomerAccount> permittedAccounts;
 
     public int getId() {
