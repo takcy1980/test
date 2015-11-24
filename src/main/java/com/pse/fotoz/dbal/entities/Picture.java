@@ -21,6 +21,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -62,6 +64,8 @@ public class Picture implements HibernateEntity {
 
     @Basic
     @Column(name = "price")
+    @NotNull(message="{error_decimal_price}")
+    @DecimalMin(value="0.01", message="{error_decimal_price}")
     private BigDecimal price;
 
     @Basic
