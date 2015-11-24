@@ -53,10 +53,10 @@ public class HibernateSession {
     }
     
     /**
-     * Starts and returns a new Hibernate session.
-     * @return New Hibernate session.
+     * Gives the default session
+     * @return Default session.
      */
-    public Session newSession() {
-        return sessionFactory.openSession();
+    public Session getSession() {
+        return sessionFactory.getCurrentSession();
     }
 }

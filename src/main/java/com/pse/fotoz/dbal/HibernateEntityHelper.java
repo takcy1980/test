@@ -25,7 +25,7 @@ public class HibernateEntityHelper {
      */
     public static <T extends HibernateEntity> List<T> all(Class<T> c) {        
         try {
-            Session session = HibernateSession.getInstance().newSession();
+            Session session = HibernateSession.getInstance().getSession();
             return session.createCriteria(c).list();
         } catch (HibernateException ex) {
             Logger.getLogger(HibernateEntityHelper.class.getName()).
@@ -46,8 +46,11 @@ public class HibernateEntityHelper {
     public static <T extends HibernateEntity> Optional<T> byId(Class<T> c, 
             int id) {
         try {
-            Session session = HibernateSession.getInstance().newSession();
-            return Optional.ofNullable(session.get(c, id));
+            Session session = HibernateSession.getInstance().getSession();
+            session.beginTransaction();
+            Optional<T> result = Optional.ofNullable(session.get(c, id));
+            session.getTransaction().commit();
+            return result;
         } catch (HibernateException ex) {
             Logger.getLogger(HibernateEntityHelper.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -66,7 +69,7 @@ public class HibernateEntityHelper {
     public static <T extends HibernateEntity> List<T> find(Class<T> c, 
             String fieldName, Object fieldValue) {
         try {
-            Criteria criteria = HibernateSession.getInstance().newSession().
+            Criteria criteria = HibernateSession.getInstance().getSession().
                     createCriteria(c);
             return criteria.add(Restrictions.eq(fieldName, fieldValue)).list();            
         } catch (HibernateException ex) {

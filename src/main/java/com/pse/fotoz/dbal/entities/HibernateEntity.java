@@ -27,12 +27,11 @@ public interface HibernateEntity extends Serializable,
      * entity
      */
     public default void persist() throws HibernateException {
-        final Session session = HibernateSession.getInstance().newSession();
+        final Session session = HibernateSession.getInstance().getSession();
         
         session.beginTransaction();
         session.saveOrUpdate(this);
         session.getTransaction().commit();
-        session.close();
     }
     
     /**
@@ -42,12 +41,11 @@ public interface HibernateEntity extends Serializable,
      * entity
      */
     public default void delete() throws HibernateException {
-        final Session session = HibernateSession.getInstance().newSession();
+        final Session session = HibernateSession.getInstance().getSession();
         
         session.beginTransaction();
         session.delete(this);
         session.getTransaction().commit();
-        session.close();
     }
     
     /**

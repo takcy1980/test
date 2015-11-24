@@ -13,4 +13,9 @@
         <savelocationshops>assets/shops</savelocationshops>
         <savelocationproducttype>assets/products/img</savelocationproducttype>
     </filelocations>
+    <mollie>
+        <paymentgeturl>https://api.mollie.nl/v1/payments/</paymentgeturl>
+        <paymentposturl>https://api.mollie.nl/v1/payments</paymentposturl>
+        <redirecturl>http://127.0.0.1/app/paymentdone</redirecturl>
+    </mollie>
 </config>

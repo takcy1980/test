@@ -27,10 +27,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 @ComponentScan(basePackages = {
-    "com.pse.fotoz.controllers.producer",
-    "com.pse.fotoz.controllers.customers",
-    "com.pse.fotoz.controllers.photographers",
-    "com.pse.fotoz.controllers.common"})
+    "com.pse.fotoz.controllers"})
+
 @EnableWebMvc
 public class MvcConfig extends WebMvcConfigurerAdapter {
 
@@ -50,7 +48,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
          Disables template caching, should be removed in a production environment
          */
         engine.setTemplateCache(null);
-        
+
         return engine;
     }
 
@@ -65,40 +63,37 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver commonsMultipartResolver = 
-                new CommonsMultipartResolver();
+        CommonsMultipartResolver commonsMultipartResolver
+                = new CommonsMultipartResolver();
         commonsMultipartResolver.setDefaultEncoding("utf-8");
         commonsMultipartResolver.setMaxUploadSize(50000000);
         return commonsMultipartResolver;
     }
-    
+
     @Bean(name = "messageSource")
-    public MessageSource messageSource()
-    {
-        ReloadableResourceBundleMessageSource bean = 
-                new ReloadableResourceBundleMessageSource();
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource bean
+                = new ReloadableResourceBundleMessageSource();
         bean.setBasename("classpath:properties/errormsg");
         bean.setDefaultEncoding("UTF-8");
         return bean;
     }
 
     @Bean(name = "validator")
-    public LocalValidatorFactoryBean validator()
-    {
+    public LocalValidatorFactoryBean validator() {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource());
         return bean;
     }
-        
+
     @Bean(name = "localeResolver")
-    public LocaleResolver localeResolver(){
+    public LocaleResolver localeResolver() {
         LocaleResolver loc = new CustomLocaleResolver();
         return loc;
     }
 
     @Override
-    public Validator getValidator()
-    {
+    public Validator getValidator() {
         return validator();
     }
 
