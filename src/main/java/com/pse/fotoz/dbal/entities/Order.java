@@ -49,9 +49,11 @@ public class Order implements HibernateEntity {
     private String molliePaymentID;
 
     @Column(name = "mollie_payment_status")
+    @Enumerated(EnumType.STRING)
     private PaymentStatus molliePaymentStatus;
 
     @Column(name = "mollie_payment_method")
+    @Enumerated(EnumType.STRING)
     private PaymentMethod molliePaymentMethod;
 
     @Column(name = "mollie_payment_created_date")

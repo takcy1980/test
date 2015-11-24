@@ -2,6 +2,7 @@ package com.pse.fotoz.controllers.payments;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
+import com.pse.fotoz.dbal.HibernateSession;
 import com.pse.fotoz.dbal.entities.Order;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
@@ -25,13 +26,9 @@ public class PaymentCreateController {
     public RedirectView createPayment(HttpServletRequest request,
             HttpServletResponse response, @PathVariable String orderId) {
 
-        //Geeft nullpointerexception met niet bestaand id?
-//            Optional<Order> orderOpt = HibernateEntityHelper.
-//                byId(Order.class, Integer.parseInt(orderId));
-        Optional<Order> orderOpt = HibernateEntityHelper.all(Order.class)
-                .stream()
-                .filter(s -> s.getId() == Integer.parseInt(orderId))
-                .findAny();
+            Optional<Order> orderOpt = HibernateEntityHelper.
+                byId(Order.class, Integer.parseInt(orderId));
+
         
         
 
@@ -58,11 +55,14 @@ public class PaymentCreateController {
                         //order.setMolliePaymentMethod(pmResponse.get().getMethod());
                         order.setStatus(Order.OrderStatus.PLACED);
                         order.setMolliePaymentStatus(pmResponse.get().getStatus());
+//                        order.getEntries().stream().
+//                                forEach(e -> Logger.getLogger(PaymentCreateController.class.getName()).log(Level.SEVERE, null, e.getId()));
 
-                        //order.persist();//HibernateException: Illegal attempt to associate a collection with two open sessions
+                      
+                        order.persist();//HibernateException: Illegal attempt to associate a collection with two open sessions
                         return new RedirectView(pmResponse.get().getLinks().getPaymentUrl());
                     }
-                } catch ( RestClientException ex) {
+                } catch ( RestClientException|HibernateException ex) {
                     Logger.getLogger(PaymentCreateController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 

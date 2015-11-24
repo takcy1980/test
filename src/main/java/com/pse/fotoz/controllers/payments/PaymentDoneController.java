@@ -34,13 +34,9 @@ public class PaymentDoneController {
                 withCookies(request, response).
                 build();
 
-        //Geeft nullpointerexception met niet bestaand id?
-//            Optional<Order> orderOpt = HibernateEntityHelper.
-//                byId(Order.class, Integer.parseInt(orderId));
-        Optional<Order> orderOpt = HibernateEntityHelper.all(Order.class)
-                .stream()
-                .filter(s -> s.getId() == Integer.parseInt(orderId))
-                .findAny();
+       
+            Optional<Order> orderOpt = HibernateEntityHelper.
+                byId(Order.class, Integer.parseInt(orderId));
 
         if (orderOpt.isPresent() && orderOpt.get().getMolliePaymentID() != null) {
             Order order = orderOpt.get();
@@ -58,14 +54,14 @@ public class PaymentDoneController {
                     order.setStatus(Order.OrderStatus.PLACED);
                     order.setMolliePaymentStatus(pmResponse.get().getStatus());
 
-                    //order.persist();//HibernateException: Illegal attempt to associate a collection with two open sessions
+                    order.persist();
                     if(pmResponse.get().getStatus() == PaymentStatus.PAID 
                             || pmResponse.get().getStatus() == PaymentStatus.PENDING){
                     mav.addObject("success", "success");
             }
 
                 }
-            } catch (RestClientException ex) {
+            } catch (RestClientException|HibernateException ex) {
                 Logger.getLogger(PaymentDoneController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
