@@ -48,7 +48,7 @@ public class HibernateEntityHelper {
         try {
             Session session = HibernateSession.getInstance().getSession();
             session.beginTransaction();
-            Optional<T> result = Optional.of(session.get(c, id));
+            Optional<T> result = Optional.ofNullable(session.get(c, id));
             session.getTransaction().commit();
             return result;
         } catch (HibernateException ex) {
