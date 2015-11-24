@@ -287,7 +287,7 @@ public class PhotographersSessionController {
         } catch (HibernateException ex) {
             errors.add(ex.toString());
         } catch (NumberFormatException | javax.validation.ConstraintViolationException ex) {
-            Logger.getLogger(PhotographerSessionController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PhotographersSessionController.class.getName()).log(Level.SEVERE, null, ex);
             errors.add(LocaleUtil.getErrorProperties(request).
                     get("error_decimal_price"));
         }

@@ -49,42 +49,6 @@ public class PhotographerShopController {
         return mav;
     }
 
-//    @RequestMapping(value = "/{shop}", method = RequestMethod.GET)
-//    public ModelAndView displayShopDetail(@PathVariable("shop") String shopid,
-//            HttpServletRequest request) {
-//        ModelAndView mav = ModelAndViewBuilder.empty().
-//                withProperties(request).
-//                build();
-//
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        String name = auth.getName(); //get logged in username
-//
-//        mav.addObject("username", name);
-//        mav.addObject("page", new Object() {
-//            public String lang = request.getSession().
-//                    getAttribute("lang").toString();
-//
-//            public String redirect = request.getRequestURL().toString();
-//        });
-//
-//        mav.setViewName("photographers/shop/sessions.twig");
-//
-//        Optional<Shop> shop = HibernateEntityHelper.find(Shop.class,
-//                "login", shopid).stream()
-//                .findAny();
-//
-//        if (shopid.equals(name)) {
-//            mav.addObject("shop", shop.get());
-//        } else {
-//            mav.addObject("error",
-//                    "This is not allowed");
-//        }
-//
-//        return mav;
-//
-//    }
-
-    
 
     /*
      @Issue 
