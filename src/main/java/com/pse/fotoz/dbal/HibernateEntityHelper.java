@@ -47,7 +47,7 @@ public class HibernateEntityHelper {
             int id) {
         try {
             Session session = HibernateSession.getInstance().newSession();
-            return Optional.of(session.get(c, id));
+            return Optional.ofNullable(session.get(c, id));
         } catch (HibernateException ex) {
             Logger.getLogger(HibernateEntityHelper.class.getName()).
                     log(Level.SEVERE, null, ex);
