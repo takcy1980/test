@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.pse.fotoz.payments.domain.enums.*;
 import java.util.Date;
+import javax.persistence.FetchType;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -40,7 +41,7 @@ public class Order implements HibernateEntity {
     @Column(name = "status")
     private OrderStatus status;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     @Cascade({CascadeType.SAVE_UPDATE})
     private Set<OrderEntry> entries;
 

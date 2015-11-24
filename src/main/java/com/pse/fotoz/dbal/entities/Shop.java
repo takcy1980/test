@@ -153,7 +153,7 @@ public class Shop implements HibernateEntity {
     public static Shop getShopByID(int id) {
         Shop returnShop = null;
         try {
-            Session session = HibernateSession.getInstance().newSession();
+            Session session = HibernateSession.getInstance().getSession();
             returnShop = (Shop) session.load(Shop.class, id);
         } catch (HibernateException ex) {
             Logger.getLogger(Shop.class.getName()).log(Level.SEVERE, null, ex);
