@@ -1,9 +1,11 @@
 package com.pse.fotoz.controllers.customers.shops;
 
+import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.Cart;
 import com.pse.fotoz.dbal.entities.ProductOption;
 import com.pse.fotoz.helpers.forms.CartHelper;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
+import com.pse.fotoz.helpers.users.Users;
 import static com.pse.fotoz.properties.LocaleUtil.getProperties;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
@@ -171,5 +173,42 @@ public class CustomerCartController {
         }
 
         return ResponseEntity.ok().body("ok"); 
+    }
+    
+    /**
+     * Ajax endpoint to commit an order.
+     * Commits the order to the database, such that one can proceed to payment.
+     * Returns the order identity of the created order.
+     * @param request The associated request.
+     * @return 403 if the user is not logged in, 400 if the cart is empty, 500
+     * on an internal error.
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/ajax/commit")
+    public ResponseEntity<String> commitOrder(HttpServletRequest request) {
+        Cart cart = CartHelper.getCurrentCart(request);
+        
+        if (!Users.currentUserAccount().isPresent()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).
+                    body("User must be logged in.");
+        }
+        
+        if (cart.getOrder().getEntries().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).
+                    body("Cart is empty.");
+        }
+        
+        try {
+            CartHelper.persistOrder(cart);
+            
+            int orderId = cart.getOrder().getId();
+            
+            CartHelper.flushCart(request);            
+        
+            return ResponseEntity.ok().body("{\"order_id\":" + orderId + "}");
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
+                    body("Database error.");
+        }
     }
 }
