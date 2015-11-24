@@ -173,7 +173,32 @@ public class PersistenceFacade {
             pt.setFilename(filename);
 
             pt.persist();
-    }
+    }    
+    
+    /**
+     * Adds a Picture Session to the system
+     * 
+     * @param shop Shop owning this picture session
+     * @param code unique code of picture session
+     * @param title title of picture session
+     * @param description description of picture session
+     * @param isPublic wether the session is public or not
+     * @throws HibernateException If a persistence error occured regardless of a
+     * correct input.
+     */
+    public static void addPictureSession(Shop shop, String code, 
+            String title, String description, boolean isPublic)
+            throws HibernateException {
+
+            PictureSession ps = new PictureSession();
+            ps.setShop(shop);
+            ps.setCode(code);
+            ps.setTitle(title);
+            ps.setDescription(description);
+            ps.setIsPublic(isPublic);
+            
+            ps.persist();
+    }    
     
     /**
      * Adds a picturesession to the permitted sessions of a customer. 

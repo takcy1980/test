@@ -1,0 +1,18 @@
+.language-bar-container {position: fixed; bottom: 0; z-index: 10000;}
+#wrapper {padding-bottom: 40px;}
+
+.fancybox-overlay {z-index: 10000 !important;}
+
+.sessions-table{margin:0;}
+.sessions-table:hover{background-color: #f5f5f5;}
+.sessions-link{text-decoration:inherit;color:inherit;}
+.sessions-link:hover{text-decoration:inherit;color:inherit;}
+
+.handler .fa-check {font-size: 60px; color: #098D39;}
+.handler .fa-ban {font-size: 20px; color: #961010;}
+.handler.reject-handler {position: relative; left: 40px; bottom: 10px;}
+
+.inline-block {display: inline-block;}
+.pointer {cursor: pointer;}
+
+.btn-default {background-color: #333; color: #FFF;}

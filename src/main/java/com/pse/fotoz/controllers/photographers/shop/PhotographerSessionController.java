@@ -44,117 +44,117 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author 310054544
  */
-@Controller
-@RequestMapping("photographers/shop/{shop}/sessions/")
+//@Controller
+//@RequestMapping("photographers/shop/{shop}/sessions/")
 public class PhotographerSessionController {
-
-    @RequestMapping(value = "/{session}", method = RequestMethod.GET)
-    public ModelAndView displayPictureSessions(@PathVariable("shop") String shopid, @PathVariable("session") String sessionid,
-            HttpServletRequest request) {
-        ModelAndView mav = ModelAndViewBuilder.empty().
-                withProperties(request).
-                build();
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName(); //get logged in username
-
-        mav.addObject("username", name);
-
-        mav.addObject("page", new Object() {
-            public String lang = request.getSession().
-                    getAttribute("lang").toString();
-            public String uri = "/photographers/shops/";
-            public String redirect = request.getRequestURL().toString();
-        });
-
-        mav.setViewName("photographers/shop/session.twig");
-
-        Optional<Shop> shop = HibernateEntityHelper.find(Shop.class,
-                "login", shopid).stream()
-                .findAny();
-
-        int sessionId = Parser.parseInt(sessionid).
-                orElse(Integer.MIN_VALUE);
-
-        final Integer userid = Users.currentUserAccount().
-                map(a -> a.getId()).
-                orElse(Integer.MIN_VALUE);
-
-        Optional<PictureSession> session = shop.isPresent()
-                ? shop.get().getSessions().stream().
-                filter(s -> s.getId() == sessionId).
-                findAny()
-                : Optional.empty();
-
-        if (shopid.equals(name)) {
-            mav.addObject("shop", shop.get());
-            mav.addObject("session", session.get());
-        } else {
-            mav.addObject("error",
-                    "This is not allowed");
-        }
-
-        return mav;
-
-    }
-
-    @RequestMapping(value = "/{session}", method = RequestMethod.POST)
-    @ResponseBody
-    public ModelAndView UpdatePriceForm(@PathVariable("shop") String shopid, @PathVariable("session") String sessionid,
-            HttpServletRequest request) {
-        ModelAndView mav = ModelAndViewBuilder.empty().
-                withProperties(request).
-                build();
-
-        List<String> errors = new ArrayList<>();
-
-        try {
-            double price = Double.parseDouble(request.getParameter("price"));
-            int pictureId = Integer.parseInt(request.getParameter("picture_id"));
-
-            PersistenceFacade.changePicturePrice(pictureId, BigDecimal.valueOf(price));
-
-        } catch (HibernateException ex) {
-            errors.add(ex.toString());
-        } catch (NumberFormatException | javax.validation.ConstraintViolationException ex) {
-            Logger.getLogger(PhotographerSessionController.class.getName()).log(Level.SEVERE, null, ex);
-            errors.add(LocaleUtil.getErrorProperties(request).
-                    get("error_decimal_price"));
-        }
-
-        mav.addObject("page", new Object() {
-            public String lang = request.getSession().
-                    getAttribute("lang").toString();
-
-            public String redirect = request.getRequestURL().toString();
-        });
-
-        mav.setViewName("photographers/shop/session.twig");
-
-        Optional<Shop> shop = HibernateEntityHelper.find(Shop.class,
-                "login", shopid).stream()
-                .findAny();
-
-        int sessionId = Parser.parseInt(sessionid).
-                orElse(Integer.MIN_VALUE);
-
-        final Integer userid = Users.currentUserAccount().
-                map(a -> a.getId()).
-                orElse(Integer.MIN_VALUE);
-
-        Optional<PictureSession> session = shop.isPresent()
-                ? shop.get().getSessions().stream().
-                filter(s -> s.getId() == sessionId).
-                findAny()
-                : Optional.empty();
-
-        mav.addObject("errors", errors);
-
-        mav.addObject("shop", shop.get());
-        mav.addObject("session", session.get());
-
-        return mav;
-
-    }
+//
+//    @RequestMapping(value = "/{session}", method = RequestMethod.GET)
+//    public ModelAndView displayPictureSessions(@PathVariable("shop") String shopid, @PathVariable("session") String sessionid,
+//            HttpServletRequest request) {
+//        ModelAndView mav = ModelAndViewBuilder.empty().
+//                withProperties(request).
+//                build();
+//
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String name = auth.getName(); //get logged in username
+//
+//        mav.addObject("username", name);
+//
+//        mav.addObject("page", new Object() {
+//            public String lang = request.getSession().
+//                    getAttribute("lang").toString();
+//            public String uri = "/photographers/shops/";
+//            public String redirect = request.getRequestURL().toString();
+//        });
+//
+//        mav.setViewName("photographers/shop/session.twig");
+//
+//        Optional<Shop> shop = HibernateEntityHelper.find(Shop.class,
+//                "login", shopid).stream()
+//                .findAny();
+//
+//        int sessionId = Parser.parseInt(sessionid).
+//                orElse(Integer.MIN_VALUE);
+//
+//        final Integer userid = Users.currentUserAccount().
+//                map(a -> a.getId()).
+//                orElse(Integer.MIN_VALUE);
+//
+//        Optional<PictureSession> session = shop.isPresent()
+//                ? shop.get().getSessions().stream().
+//                filter(s -> s.getId() == sessionId).
+//                findAny()
+//                : Optional.empty();
+//
+//        if (shopid.equals(name)) {
+//            mav.addObject("shop", shop.get());
+//            mav.addObject("session", session.get());
+//        } else {
+//            mav.addObject("error",
+//                    "This is not allowed");
+//        }
+//
+//        return mav;
+//
+//    }
+//
+//    @RequestMapping(value = "/{session}", method = RequestMethod.POST)
+//    @ResponseBody
+//    public ModelAndView UpdatePriceForm(@PathVariable("shop") String shopid, @PathVariable("session") String sessionid,
+//            HttpServletRequest request) {
+//        ModelAndView mav = ModelAndViewBuilder.empty().
+//                withProperties(request).
+//                build();
+//
+//        List<String> errors = new ArrayList<>();
+//
+//        try {
+//            double price = Double.parseDouble(request.getParameter("price"));
+//            int pictureId = Integer.parseInt(request.getParameter("picture_id"));
+//
+//            PersistenceFacade.changePicturePrice(pictureId, BigDecimal.valueOf(price));
+//
+//        } catch (HibernateException ex) {
+//            errors.add(ex.toString());
+//        } catch (NumberFormatException | javax.validation.ConstraintViolationException ex) {
+//            Logger.getLogger(PhotographerSessionController.class.getName()).log(Level.SEVERE, null, ex);
+//            errors.add(LocaleUtil.getErrorProperties(request).
+//                    get("error_decimal_price"));
+//        }
+//
+//        mav.addObject("page", new Object() {
+//            public String lang = request.getSession().
+//                    getAttribute("lang").toString();
+//
+//            public String redirect = request.getRequestURL().toString();
+//        });
+//
+//        mav.setViewName("photographers/shop/session.twig");
+//
+//        Optional<Shop> shop = HibernateEntityHelper.find(Shop.class,
+//                "login", shopid).stream()
+//                .findAny();
+//
+//        int sessionId = Parser.parseInt(sessionid).
+//                orElse(Integer.MIN_VALUE);
+//
+//        final Integer userid = Users.currentUserAccount().
+//                map(a -> a.getId()).
+//                orElse(Integer.MIN_VALUE);
+//
+//        Optional<PictureSession> session = shop.isPresent()
+//                ? shop.get().getSessions().stream().
+//                filter(s -> s.getId() == sessionId).
+//                findAny()
+//                : Optional.empty();
+//
+//        mav.addObject("errors", errors);
+//
+//        mav.addObject("shop", shop.get());
+//        mav.addObject("session", session.get());
+//
+//        return mav;
+//
+//    }
 
 }

@@ -3,6 +3,7 @@ package com.pse.fotoz.controllers.photographers.shop;
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.entities.Shop;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
+import com.pse.fotoz.helpers.users.Users;
 import com.pse.fotoz.properties.LocaleUtil;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
@@ -48,40 +49,40 @@ public class PhotographerShopController {
         return mav;
     }
 
-    @RequestMapping(value = "/{shop}", method = RequestMethod.GET)
-    public ModelAndView displayShopDetail(@PathVariable("shop") String shopid,
-            HttpServletRequest request) {
-        ModelAndView mav = ModelAndViewBuilder.empty().
-                withProperties(request).
-                build();
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName(); //get logged in username
-
-        mav.addObject("username", name);
-        mav.addObject("page", new Object() {
-            public String lang = request.getSession().
-                    getAttribute("lang").toString();
-
-            public String redirect = request.getRequestURL().toString();
-        });
-
-        mav.setViewName("photographers/shop/sessions.twig");
-
-        Optional<Shop> shop = HibernateEntityHelper.find(Shop.class,
-                "login", shopid).stream()
-                .findAny();
-
-        if (shopid.equals(name)) {
-            mav.addObject("shop", shop.get());
-        } else {
-            mav.addObject("error",
-                    "This is not allowed");
-        }
-
-        return mav;
-
-    }
+//    @RequestMapping(value = "/{shop}", method = RequestMethod.GET)
+//    public ModelAndView displayShopDetail(@PathVariable("shop") String shopid,
+//            HttpServletRequest request) {
+//        ModelAndView mav = ModelAndViewBuilder.empty().
+//                withProperties(request).
+//                build();
+//
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String name = auth.getName(); //get logged in username
+//
+//        mav.addObject("username", name);
+//        mav.addObject("page", new Object() {
+//            public String lang = request.getSession().
+//                    getAttribute("lang").toString();
+//
+//            public String redirect = request.getRequestURL().toString();
+//        });
+//
+//        mav.setViewName("photographers/shop/sessions.twig");
+//
+//        Optional<Shop> shop = HibernateEntityHelper.find(Shop.class,
+//                "login", shopid).stream()
+//                .findAny();
+//
+//        if (shopid.equals(name)) {
+//            mav.addObject("shop", shop.get());
+//        } else {
+//            mav.addObject("error",
+//                    "This is not allowed");
+//        }
+//
+//        return mav;
+//
+//    }
 
     
 
@@ -102,6 +103,12 @@ public class PhotographerShopController {
         mav.addObject("error",
                 "The login functionality is not yet implemented.");
 
+        Shop shop = Shop.getShopByLogin(Users.currentUsername().
+                orElseThrow(() -> new IllegalStateException("User should be "
+                        + "logged in.")));
+        
+        mav.addObject("shopId", shop.getId());
+        
         return mav;
     }
 }
