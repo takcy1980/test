@@ -35,7 +35,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author Gijs
  */
 @Controller
-@RequestMapping("/photographers/shop/{shop}/sessions")
+@RequestMapping("/photographers/shop/{shopName}/sessions")
 public class PhotographersSessionController {
 
     /**
@@ -48,7 +48,7 @@ public class PhotographersSessionController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView displaySessions(
-            @PathVariable("shop") String shopName,
+            @PathVariable("shopName") String shopName,
             HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -97,7 +97,7 @@ public class PhotographersSessionController {
      */
     @RequestMapping(method = RequestMethod.GET, value = "/new")
     public ModelAndView provideNewProductForm(
-            @PathVariable("shop") String shopName,
+            @PathVariable("shopName") String shopName,
             HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -147,7 +147,7 @@ public class PhotographersSessionController {
             @ModelAttribute(value = "newPicSession")
             @Valid PictureSession newPicSession,
             BindingResult resultPicSession,
-            @PathVariable("shop") String shopName,
+            @PathVariable("shopName") String shopName,
             HttpServletRequest request,
             RedirectAttributes redirectAttributes) {
 
@@ -216,10 +216,10 @@ public class PhotographersSessionController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/{session}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{sessionId}", method = RequestMethod.GET)
     public ModelAndView showPictureSession(
-            @PathVariable("shop") String shopName,
-            @PathVariable("session") String sessionId,
+            @PathVariable("shopName") String shopName,
+            @PathVariable("sessionId") String sessionId,
             HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mav = ModelAndViewBuilder.empty().
@@ -268,9 +268,9 @@ public class PhotographersSessionController {
     }
     
     
-    @RequestMapping(value = "/{session}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{sessionId}", method = RequestMethod.POST)
     @ResponseBody
-    public ModelAndView UpdatePriceForm(@PathVariable("shop") String shopid, @PathVariable("session") String sessionid,
+    public ModelAndView UpdatePriceForm(@PathVariable("shopName") String shopid, @PathVariable("sessionId") String sessionid,
             HttpServletRequest request) {
         ModelAndView mav = ModelAndViewBuilder.empty().
                 withProperties(request).
