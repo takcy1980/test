@@ -35,10 +35,6 @@ public class CustomerLoginController {
                 withProperties(request).
                 build();
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName(); //get logged in username
-
-        mav.addObject("username", name);
 
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
