@@ -1,6 +1,5 @@
 package com.pse.fotoz.controllers.common;
 
-import com.pse.fotoz.controllers.producer.*;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.properties.LocaleUtil;
 import javax.servlet.http.HttpServletRequest;
