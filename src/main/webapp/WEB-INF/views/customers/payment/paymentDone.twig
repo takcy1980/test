@@ -1,0 +1,26 @@
+{% extends "customers/shops/index.twig" %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% if success is not empty %}
+                    <h2>
+                        {{ labels.payment_done_success_title }} 
+                    </h2>
+                    <p>
+                        {{ labels.payment_done_success }}
+                    </p>
+                {% else %}
+                    <h2>
+                        {{ labels.payment_done_error_title }} 
+                    </h2>
+                    <p>
+                        {{ labels.payment_done_error }}
+                    </p> 
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

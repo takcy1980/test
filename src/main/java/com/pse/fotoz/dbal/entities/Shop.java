@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,7 +44,7 @@ public class Shop implements HibernateEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private Photographer photographer;
 
@@ -59,7 +60,7 @@ public class Shop implements HibernateEntity {
     @Size(min=4, message = "{error_size_password}")
     private String passwordHash;
 
-    @OneToMany(mappedBy = "shop")
+    @OneToMany(mappedBy = "shop", fetch = FetchType.EAGER)
     private Set<PictureSession> sessions;
 
     public int getId() {
@@ -153,7 +154,7 @@ public class Shop implements HibernateEntity {
     public static Shop getShopByID(int id) {
         Shop returnShop = null;
         try {
-            Session session = HibernateSession.getInstance().newSession();
+            Session session = HibernateSession.getInstance().getSession();
             returnShop = (Shop) session.load(Shop.class, id);
         } catch (HibernateException ex) {
             Logger.getLogger(Shop.class.getName()).log(Level.SEVERE, null, ex);

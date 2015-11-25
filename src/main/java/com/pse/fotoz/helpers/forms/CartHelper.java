@@ -1,11 +1,14 @@
 package com.pse.fotoz.helpers.forms;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
+import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.Cart;
+import com.pse.fotoz.dbal.entities.Order;
 import com.pse.fotoz.dbal.entities.OrderEntry;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.ProductOption;
 import com.pse.fotoz.dbal.entities.ProductType;
+import com.pse.fotoz.helpers.users.Users;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -51,7 +54,7 @@ public class CartHelper {
         
         OrderEntry entry = new OrderEntry();
         
-        entry.setTempId(entryTempId);
+        entry.setId(entryTempId);
         entry.setOrder(cart.getOrder());
         entry.setPicture(picture);
         entry.setType(productType);
@@ -98,6 +101,23 @@ public class CartHelper {
      */
     public static void removeItemFromCart(Cart cart, int entryId) {
        cart.getOrder().getEntries().removeIf(e -> e.getId() == entryId);
+    }
+    
+    /**
+     * Persists the order to the database.
+     * @pre Cart is not empty.
+     * @param cart The cart.
+     * @throws HibernateException On database error. 
+     */
+    public static void persistOrder(Cart cart) throws HibernateException {
+        cart.getOrder().setAccount(Users.currentUserAccount().get());
+        cart.getOrder().setStatus(Order.OrderStatus.PLACED);
+        cart.getOrder().getEntries().forEach(e -> e.setId(0));
+        cart.getOrder().getEntries().forEach(e -> e.setTotalPrice(
+                e.getAmount() * ( e.getType().getPrice().doubleValue() + 
+                e.getPicture().getPrice().doubleValue() )));
+        
+        cart.getOrder().persist();
     }
     
     /**

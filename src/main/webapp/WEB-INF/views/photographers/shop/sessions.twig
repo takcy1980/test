@@ -1,5 +1,6 @@
 {% extends "photographers/shop/index.twig" %}
 
+
 {% block heading %}
     <div class="row">
         <div class="col-lg-12">
@@ -25,7 +26,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <a href="/app/photographers/shop/{{shopId}}/sessions/new" class="btn btn-default">
+                <a href="/app/photographers/shop/{{shop.login}}/sessions/new" class="btn btn-default">
                     {{ labels.photographer_shop_sessions_button_new }}
                 </a>
             </div>
@@ -59,7 +60,7 @@
 
                 {% for session in sessions %}
                     <div>
-                        <a href="/app/photographers/shop/{{shopId}}/sessions/{{session.id}}" class="sessions-link">
+                        <a href="/app/photographers/shop/{{shop.login}}/sessions/{{session.id}}" class="sessions-link">
                             <table class="table sessions-table">
                                 <tr>   
                                     <td width="20%" style="border:none">
