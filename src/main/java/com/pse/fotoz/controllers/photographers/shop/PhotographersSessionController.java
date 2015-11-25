@@ -76,7 +76,7 @@ public class PhotographersSessionController {
                 List<PictureSession> sessions = shop.getSessions();
                 mav.addObject("sessions", sessions);
             } else {
-                mav = new ModelAndView("redirect:/login");
+                mav = new ModelAndView("redirect:/app/login");
             }
         } catch (NullPointerException ex) {
             //NullPointerException: wrong url
@@ -119,7 +119,7 @@ public class PhotographersSessionController {
             Shop shop = Shop.getShopByLogin(shopName);
             if (!(OwnershipHelper.doesUserOwnShop(shop,
                     Users.currentUsername().orElse(null)))) {
-                mav = new ModelAndView("redirect:/login");
+                mav = new ModelAndView("redirect:/app/login");
             }
         } catch (NullPointerException ex) {
             //NullPointerException: wrong url
@@ -252,7 +252,7 @@ public class PhotographersSessionController {
                     && OwnershipHelper.doesShopOwnPictureSession(shop, session)){          
                 mav.addObject("session", session);
             } else {
-                mav = new ModelAndView("redirect:/login");
+                mav = new ModelAndView("redirect:/app/login");
             }
 
         } catch (NullPointerException ex) {
