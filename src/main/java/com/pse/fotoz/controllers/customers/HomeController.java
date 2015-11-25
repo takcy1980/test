@@ -5,7 +5,10 @@
  */
 package com.pse.fotoz.controllers.customers;
 
+import com.pse.fotoz.dbal.entities.CustomerAccount;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
+import com.pse.fotoz.helpers.users.Users;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
@@ -33,8 +36,12 @@ public class HomeController {
         
          Authentication auth = SecurityContextHolder.getContext().getAuthentication();
          String name = auth.getName();
-
-        mav.addObject("username", name);
+        
+         if(!name.equals("anonymousUser"))
+         {
+             mav.addObject("username", name);
+         }
+                       
 
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
