@@ -13,11 +13,11 @@
 {% endblock %}
 
 {% block more_js %}
-    
-   
-     <script type="text/javascript" src="/assets/common/js/bootstrap/bootstrap.min.js"></script>
-  
- 
+
+
+    <script type="text/javascript" src="/assets/common/js/bootstrap/bootstrap.min.js"></script>
+
+
 {% endblock %}
 
 {% block body %}
@@ -37,24 +37,32 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                
+
                 <ul class="nav navbar-nav navbar-left">
-                    
+
                     <li><a href="/app/customers/shops"><i class="fa fa-camera"></i> {{ labels.home_photographer_shop }}</a></li>
-                    <li><a href="/app/customers/account/sessions"><i class="fa fa-picture-o"></i> {{ labels.home_customer_sessions }}</a></li>
-                    
+
+                    {% if username is not empty %}
+                        <li><a href="/app/customers/account/sessions"><i class="fa fa-picture-o"></i> {{ labels.home_customer_sessions }}</a></li>
+                        {% endif %}
+
                 </ul> 
 
                 <ul class="nav navbar-nav navbar-right">
 
 
 
-                    
+                    {% if username is empty %}
                         <li><a href="/app/customers/register"><i class="fa fa-sign-in"></i> {{ labels.home_signup }}</a></li>
 
                         <li><a href="/app/customers/login"><i class="fa fa-user"></i> {{ labels.home_login }}</a></li>
- 
+
+                    {% else %}
                         <li><a href="/logout"><i class="fa fa-sign-out"></i> {{ labels.home_logout }}</a></li>
+
+
+
+                    {% endif %}
 
                 </ul>
 
@@ -79,10 +87,15 @@
 
             <div class="col-md-3">
 
-                
+
+                {% if username is empty %}
                     <p class="lead">{{ labels.home_photo_producer }}</p>
 
-               
+                {% else %}
+                    <p class="lead">{{ labels.home_welcome_message }} {{username}} {{ labels.home_welcome_message2 }}</p>
+
+                {% endif %}
+
 
                 <div class="list-group">
                     <a href="#" class="list-group-item">Fotos Afdrukken</a>
@@ -208,7 +221,7 @@
                         <div class="ratings">
                             <p class="pull-right">6 reviews</p>
                             <p>
-                                 <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
                                 <span class="fa fa-star"></span>
                                 <span class="fa fa-star"></span>
                                 <span class="fa fa-star-o"></span>
