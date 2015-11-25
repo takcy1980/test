@@ -22,17 +22,13 @@ public class PhotographerShopController {
         
         String shopName = Users.currentUsername().orElse("");
 
-        mav.addObject("username", shopName);
+        mav.addObject("shopName", shopName);
         mav.addObject("page", new Object() {
 
             public String lang = request.getSession().
                     getAttribute("lang").toString();
             public String redirect = request.getRequestURL().toString();
         });
-
-        Shop shop = Shop.getShopByLogin(shopName);
-
-        mav.addObject("shop", shop);
 
         mav.setViewName("photographers/shop/index.twig");
 

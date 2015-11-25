@@ -56,7 +56,7 @@ public class PhotographersSessionController {
                 withCookies(request,response).
                 build();
         
-        mav.addObject("username", shopName);
+        mav.addObject("shopName", shopName);
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
@@ -75,7 +75,6 @@ public class PhotographersSessionController {
                     Users.currentUsername().orElse(null))) {
                 List<PictureSession> sessions = shop.getSessions();
                 mav.addObject("sessions", sessions);
-                mav.addObject("shop", shop);
             } else {
                 mav = new ModelAndView("redirect:/login");
             }
@@ -105,7 +104,7 @@ public class PhotographersSessionController {
                 withCookies(request,response).
                 build();
 
-       mav.addObject("username", shopName);
+       mav.addObject("shopName", shopName);
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
@@ -118,7 +117,6 @@ public class PhotographersSessionController {
         try {
             
             Shop shop = Shop.getShopByLogin(shopName);
-            mav.addObject("shop", shop);
             if (!(OwnershipHelper.doesUserOwnShop(shop,
                     Users.currentUsername().orElse(null)))) {
                 mav = new ModelAndView("redirect:/login");
@@ -229,7 +227,7 @@ public class PhotographersSessionController {
                 withCookies(request,response).
                 build();
 
-        mav.addObject("username", shopName);
+        mav.addObject("shopName", shopName);
         mav.addObject("page", new Object() {
             public String lang = request.getSession().
                     getAttribute("lang").toString();
@@ -253,7 +251,6 @@ public class PhotographersSessionController {
                     Users.currentUsername().orElse(null)) 
                     && OwnershipHelper.doesShopOwnPictureSession(shop, session)){          
                 mav.addObject("session", session);
-                mav.addObject("shop", shop);
             } else {
                 mav = new ModelAndView("redirect:/login");
             }
