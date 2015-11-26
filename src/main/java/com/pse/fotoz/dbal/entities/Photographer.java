@@ -4,6 +4,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,7 +54,7 @@ public class Photographer implements HibernateEntity {
             message = "{error_pattern_email}")
     private String email;
 
-    @OneToMany(mappedBy = "photographer")
+    @OneToMany(mappedBy = "photographer", fetch = FetchType.EAGER)
     private Set<Shop> shops;
 
     public int getId() {
