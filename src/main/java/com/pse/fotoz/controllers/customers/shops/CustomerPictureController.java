@@ -1,10 +1,12 @@
 package com.pse.fotoz.controllers.customers.shops;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
+import com.pse.fotoz.dbal.entities.CustomerAccount;
 import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.ProductOption;
 import com.pse.fotoz.dbal.entities.ProductOption.ColorOption;
 import com.pse.fotoz.dbal.entities.ProductType;
+import com.pse.fotoz.dbal.entities.filters.PictureFilters;
 import com.pse.fotoz.helpers.forms.Parser;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import com.pse.fotoz.helpers.users.Users;
@@ -62,7 +64,8 @@ public class CustomerPictureController {
         Optional<Picture> picture = HibernateEntityHelper.
                 byId(Picture.class, pictureidi);
         
-        boolean hasAccess = picture.map(p -> !p.isHidden()).orElse(false) ||
+        boolean hasAccess = picture.
+                map(p -> PictureFilters.isVisible().test(p)).orElse(false) ||
                 picture.map(p -> p.getSession().getPermittedAccounts().stream()
                         .anyMatch(c -> c.getId() == userid))
                         .orElse(false);
