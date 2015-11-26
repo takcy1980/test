@@ -129,7 +129,7 @@ $(function() {
                 })
                 .fail(function(data) {
                     if (data.status === 403) {
-                        window.location.replace("/login");
+                        window.location.replace("/app/login");
                     } else {
                         window.location.reload();
                     }
