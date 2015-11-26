@@ -2,6 +2,7 @@ package com.pse.fotoz.controllers.customers.shops;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.entities.Shop;
+import com.pse.fotoz.dbal.entities.filters.ShopFilters;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import java.util.List;
 import java.util.Optional;
@@ -24,18 +25,11 @@ public class CustomerShopsController {
         ModelAndView mav = ModelAndViewBuilder.empty().                
                 withProperties(request).
                 withCookies(request, response).
-                build();
+                build();        
         
-        //find all shops that have at least one public session, of which there
-        //exists at least one non-hidden picture.
         List<Shop> shops = HibernateEntityHelper.all(Shop.class).stream().
-                filter(shop -> shop.getSessions().stream().
-                        anyMatch(session -> session.isPublic() && 
-                                        session.getPictures().stream().
-                                                anyMatch(picture -> 
-                                                        !picture.isHidden()))).
+                filter(ShopFilters.isVisible()).
                 collect(toList());
-        
         
         mav.addObject("shops", shops);
         

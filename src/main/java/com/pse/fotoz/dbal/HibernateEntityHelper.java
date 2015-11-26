@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import static org.hibernate.criterion.CriteriaSpecification.DISTINCT_ROOT_ENTITY;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -29,7 +30,8 @@ public class HibernateEntityHelper {
         try {
             Session session = HibernateSession.getInstance().getSession();
             session.beginTransaction();
-            List<T> result = session.createCriteria(c).list();
+            List<T> result = session.createCriteria(c).
+                    setResultTransformer(DISTINCT_ROOT_ENTITY).list();
             session.getTransaction().commit();
             return result;
         } catch (HibernateException ex) {
