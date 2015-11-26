@@ -15,6 +15,10 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.pse.fotoz.payments.PaymentFacade;
 import com.pse.fotoz.payments.domain.PaymentRequest;
 import com.pse.fotoz.payments.domain.PaymentResponse;
+import com.pse.fotoz.payments.domain.enums.Locale;
+import com.pse.fotoz.properties.CustomLocaleResolver;
+import com.pse.fotoz.properties.LocaleUtil;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.web.client.RestClientException;
@@ -26,11 +30,8 @@ public class PaymentCreateController {
     public RedirectView createPayment(HttpServletRequest request,
             HttpServletResponse response, @PathVariable String orderId) {
 
-            Optional<Order> orderOpt = HibernateEntityHelper.
+        Optional<Order> orderOpt = HibernateEntityHelper.
                 byId(Order.class, Integer.parseInt(orderId));
-
-        
-        
 
         if (orderOpt.isPresent()) {
             Order order = orderOpt.get();
@@ -41,11 +42,17 @@ public class PaymentCreateController {
                 pmRequest.setDescription("Fotoz order " + orderId + ". Bedankt voor uw bestelling!");
                 pmRequest.setRedirectUrl(getURLWithContextPath(request) + "/payment/done/" + orderId);
 
-                //CustomLocaleResolver clr = new CustomLocaleResolver();
-                //Locale loc = clr.resolveLocale(request);
-                //if (loc == )
-                PaymentFacade pmf = new PaymentFacade();
+                CustomLocaleResolver clr = new CustomLocaleResolver();
+                java.util.Locale loc = clr.resolveLocale(request);
                 
+                if ("nl".equals(loc.getLanguage())) {
+                    pmRequest.setLocale(Locale.NETHERLANDS);
+                } else {
+                    pmRequest.setLocale(Locale.ENGLAND);
+                }
+
+                PaymentFacade pmf = new PaymentFacade();
+
                 try {
                     Optional<PaymentResponse> pmResponse = pmf.CreatePayment(pmRequest);
 
@@ -55,17 +62,14 @@ public class PaymentCreateController {
                         //order.setMolliePaymentMethod(pmResponse.get().getMethod());
                         order.setStatus(Order.OrderStatus.PLACED);
                         order.setMolliePaymentStatus(pmResponse.get().getStatus());
-//                        order.getEntries().stream().
-//                                forEach(e -> Logger.getLogger(PaymentCreateController.class.getName()).log(Level.SEVERE, null, e.getId()));
 
-                      
                         order.persist();//HibernateException: Illegal attempt to associate a collection with two open sessions
                         return new RedirectView(pmResponse.get().getLinks().getPaymentUrl());
                     }
-                } catch ( RestClientException|HibernateException ex) {
+                } catch (RestClientException | HibernateException ex) {
                     Logger.getLogger(PaymentCreateController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
         }
 
