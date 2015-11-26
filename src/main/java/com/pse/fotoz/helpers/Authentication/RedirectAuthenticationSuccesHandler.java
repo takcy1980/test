@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class RedirectAuthenticationSuccesHandler implements 
         AuthenticationSuccessHandler {
 
-    RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, 
