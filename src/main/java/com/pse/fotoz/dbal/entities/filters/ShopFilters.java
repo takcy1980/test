@@ -1,5 +1,6 @@
 package com.pse.fotoz.dbal.entities.filters;
 
+import com.pse.fotoz.dbal.entities.Picture;
 import com.pse.fotoz.dbal.entities.PictureSession;
 import com.pse.fotoz.dbal.entities.Shop;
 import java.util.function.Predicate;
@@ -19,7 +20,8 @@ public class ShopFilters {
         Predicate<PictureSession> isPublic = session -> session.isPublic();
         Predicate<PictureSession> hasPublicPicture = session -> 
                 session.getPictures().stream().
-                        anyMatch(picture -> !picture.isHidden());
+                        anyMatch(picture -> !picture.isHidden() && 
+                                picture.getApproved() == Picture.Approved.YES);
         
         return shop -> shop.getSessions().stream().
                 anyMatch(isPublic.and(hasPublicPicture));

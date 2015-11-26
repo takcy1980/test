@@ -31,9 +31,6 @@ public class CustomerShopsController {
                 filter(ShopFilters.isVisible()).
                 collect(toList());
         
-        System.out.println(HibernateEntityHelper.all(Shop.class));
-        System.out.println(shops);
-        
         mav.addObject("shops", shops);
         
         mav.addObject("page", new Object() {

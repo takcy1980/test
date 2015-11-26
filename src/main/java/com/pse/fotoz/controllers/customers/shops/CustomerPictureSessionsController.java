@@ -76,7 +76,7 @@ public class CustomerPictureSessionsController {
             return new ModelAndView("redirect:/app/customers/shops/");
         } else {
             List<Picture> visiblePictures = session.get().
-                    getPictures().stream().
+                    getPictures().stream().sorted().
                     filter(PictureFilters.isVisible()).
                     collect(toList());
             

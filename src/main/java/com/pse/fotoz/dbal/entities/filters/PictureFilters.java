@@ -2,6 +2,8 @@ package com.pse.fotoz.dbal.entities.filters;
 
 import com.pse.fotoz.dbal.entities.CustomerAccount;
 import com.pse.fotoz.dbal.entities.Picture;
+import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
@@ -19,7 +21,8 @@ public class PictureFilters {
     public static Predicate<Picture> isVisible() {
         return p -> !p.isHidden() && 
                 p.getApproved() == Picture.Approved.YES &&
-                p.getPrice().doubleValue() > 0;
+                Optional.ofNullable(p.getPrice()).
+                        orElse(BigDecimal.ZERO).doubleValue() > 0;
     }
     
     /**

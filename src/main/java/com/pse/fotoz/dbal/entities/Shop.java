@@ -142,12 +142,12 @@ public class Shop implements HibernateEntity {
      * @return p such that p in sessions and p not hidden and p.session public.
      */
     public Picture showcasePicture() {
-        return sessions.stream().
+        return sessions.stream().sorted().
                 filter(s -> s.isPublic() && 
                 s.getPictures().stream().
                         anyMatch(p -> !p.isHidden())).
                 findFirst().
-                flatMap(s -> s.getPictures().stream().findFirst()).
+                flatMap(s -> s.getPictures().stream().sorted().findFirst()).
                 orElse(null);
     }
 
