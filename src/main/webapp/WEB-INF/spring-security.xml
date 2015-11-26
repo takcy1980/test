@@ -15,7 +15,7 @@
         <intercept-url pattern="/app/customers/login/**" access="hasRole('ROLE_CUSTOMER')" />
         
         <form-login 
-            login-page="/app/login" 
+            login-page="/app/login"
             default-target-url="/app/" 
             authentication-failure-url="/app/login?error" 
             username-parameter="login_name"
@@ -28,7 +28,7 @@
     </http>
     	
     <beans:bean id="myAuthenticationSuccessHandler"
-        class="com.pse.fotoz.helpers.Authentication.myAuthenticationSuccesHandler" />
+        class="com.pse.fotoz.helpers.Authentication.RedirectAuthenticationSuccesHandler" />
         
     <authentication-manager alias="authenticationManager">
         <authentication-provider ref="authenticationProviderCustomers" />
