@@ -2,7 +2,7 @@ package com.pse.fotoz.controllers.customers.shops;
 
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.entities.Shop;
-import com.pse.fotoz.dbal.entities.filters.Filters;
+import com.pse.fotoz.dbal.entities.filters.ShopFilters;
 import com.pse.fotoz.helpers.mav.ModelAndViewBuilder;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +28,7 @@ public class CustomerShopsController {
                 build();        
         
         List<Shop> shops = HibernateEntityHelper.all(Shop.class).stream().
-                filter(Filters.isVisible()).
+                filter(ShopFilters.isVisible()).
                 collect(toList());
         
         System.out.println(HibernateEntityHelper.all(Shop.class));

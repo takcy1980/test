@@ -8,7 +8,7 @@
     <p>
         {{ session.description }}
     </p>
-    {% for picture in session.pictures %}
+    {% for picture in pictures %}
         <div class="col-sm-4 col-lg-4 col-md-4">
             <div class="thumbnail">
                 <img src="/assets/shops/{{ shop.login }}/sessions/{{ session.id }}/{{ picture.fileName }}">

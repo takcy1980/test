@@ -5,10 +5,10 @@ import com.pse.fotoz.dbal.entities.Shop;
 import java.util.function.Predicate;
 
 /**
- * Class prividing filters on entities.
+ * Class prividing filters on shops.
  * @author Robert
  */
-public class Filters {
+public class ShopFilters {
     
     /**
      * A shop is considered visible if it contains at least one picture session
