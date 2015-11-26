@@ -23,7 +23,7 @@ public class RedirectAuthenticationSuccesHandler implements
             HttpServletResponse response, Authentication authentication) throws 
             IOException, ServletException {
         if (request.getParameter("redirect") != null) {
-        redirectStrategy.sendRedirect(request, response, 
+            redirectStrategy.sendRedirect(request, response, 
                 request.getParameter("redirect"));
         } else {
             redirectStrategy.sendRedirect(request, response, "/app");
