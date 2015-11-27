@@ -16,6 +16,7 @@ import com.pse.fotoz.properties.LocaleUtil;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -150,7 +151,7 @@ public class PhotographerMultiFileUploadController {
             pic1.setFileName(file.getOriginalFilename());
 
             //pic1.setDescription(description);
-            //pic1.setPrice(new BigDecimal(10.75));
+            pic1.setPrice(new BigDecimal(0.01));
             pic1.setHidden(false);
             pic1.setApproved(Picture.Approved.PENDING);
             pic1.setSubmissionDate(new Date());
