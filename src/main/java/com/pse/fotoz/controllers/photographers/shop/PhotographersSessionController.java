@@ -3,6 +3,7 @@ package com.pse.fotoz.controllers.photographers.shop;
 import com.pse.fotoz.dbal.HibernateEntityHelper;
 import com.pse.fotoz.dbal.HibernateException;
 import com.pse.fotoz.dbal.entities.*;
+import com.pse.fotoz.dbal.entities.filters.PictureFilters;
 import com.pse.fotoz.helpers.Authentication.OwnershipHelper;
 import com.pse.fotoz.helpers.encryption.PictureSessionCodeGen;
 import com.pse.fotoz.helpers.forms.Parser;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static java.util.stream.Collectors.toList;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -249,8 +251,14 @@ public class PhotographersSessionController {
             //check ownership
             if (OwnershipHelper.doesUserOwnShop(shop,
                     Users.currentUsername().orElse(null)) 
-                    && OwnershipHelper.doesShopOwnPictureSession(shop, session)){          
+                    && OwnershipHelper.doesShopOwnPictureSession(shop, session)){
+                List<Picture> visiblePictures = session.
+                    getPictures().stream().sorted().
+                    filter(PictureFilters.isVisible()).
+                    collect(toList());
+                
                 mav.addObject("session", session);
+                mav.addObject("pictures", visiblePictures);
             } else {
                 mav = new ModelAndView("redirect:/app/login");
             }
