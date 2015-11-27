@@ -43,7 +43,8 @@ public class LoginController {
                     getAttribute("lang").toString();
             public String redirect = request.getRequestURL().toString();
         });
-
+        mav.addObject("redirect", request.getParameter("redirect"));
+        
         mav.setViewName("common/login/login.twig");
 
         return mav;
