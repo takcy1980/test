@@ -254,7 +254,6 @@ public class PhotographersSessionController {
                     && OwnershipHelper.doesShopOwnPictureSession(shop, session)){
                 List<Picture> visiblePictures = session.
                     getPictures().stream().sorted().
-                    filter(PictureFilters.isVisible()).
                     collect(toList());
                 
                 mav.addObject("session", session);

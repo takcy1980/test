@@ -45,7 +45,7 @@
         <p class="row alert alert-danger">{{ error }}</p>
     {% endif %}
     
-    <form class="form-signin"  action="/login" method="POST">
+    <form class="form-signin"  action="/login{% if redirect is not empty %}?redirect={{ redirect }}{%endif %}" method="POST">
         <h2 class="form-signin-heading">
             {{ labels.login_login_label }}:
         </h2>
