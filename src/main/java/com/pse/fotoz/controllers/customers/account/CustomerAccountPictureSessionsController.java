@@ -122,14 +122,17 @@ public class CustomerAccountPictureSessionsController {
      * Adds a picture session to the sessions a customer is allowed to view.
      * 
      * @param request
+     * @param response
      * @param code unique code of session to be added
      * @param redirectAttributes attributes to be added to redirect view
      * @return 
      */
     @RequestMapping(value = "/sessions/add/{code}", method = RequestMethod.GET)
     public ModelAndView addPictureSessionViaURL(HttpServletRequest request,
+            HttpServletResponse response,
             @PathVariable String code,
             RedirectAttributes redirectAttributes) {
+        
         if (Users.currentUserAccount().isPresent()) {
             CustomerAccount user = Users.currentUserAccount().get();
             redirectAttributes.addFlashAttribute(

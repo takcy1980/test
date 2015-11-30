@@ -13,6 +13,7 @@
         <intercept-url pattern="/app/producer/dashboard/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/app/photographers/shop/**" access="hasRole('ROLE_PHOTOGRAPHER')" />
         <intercept-url pattern="/app/customers/login/**" access="hasRole('ROLE_CUSTOMER')" />
+        <intercept-url pattern="/app/customers/account/**" access="hasRole('ROLE_CUSTOMER')" />
         
         <form-login 
             login-page="/app/login"
