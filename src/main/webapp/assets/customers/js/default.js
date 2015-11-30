@@ -6,7 +6,7 @@ $(function() {
     }
     
     /**
-     * Performs currency conversion on page load.
+     * Performs currency conversion and formatting on page load.
      */
     if (Cookies.get('currency') !== "EUR") {
         var cookie = Cookies.get('currency');        
@@ -15,8 +15,8 @@ $(function() {
             var rate = data[cookie];
             
             $('span.currency-convertable').each(function() {
-                var conversion = $.format.
-                        number(parseFloat($(this).html()) * rate, '#,##0.00');
+                var number = parseFloat($(this).html()) * rate;
+                var conversion = $.format.number(number, "#,##0.00");
                 $(this).html(conversion);
             });
             
@@ -33,6 +33,12 @@ $(function() {
                         break;
                 }
             });
+        });
+    } else {
+        $('span.currency-convertable').each(function() {
+            var number = parseFloat($(this).html());
+            var conversion = $.format.number(number, "#,##0.00");
+            $(this).html(conversion);
         });
     }
     
